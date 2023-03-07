@@ -1124,6 +1124,7 @@ STRING  : 'N'? '\'' (~'\'' | '\'\'')* '\'';
 BINARY:              '0' 'X' HEX_DIGIT*;
 FLOAT:               DEC_DOT_DEC;
 REAL:                (DECIMAL | DEC_DOT_DEC) ('E' [+-]? DEC_DIGIT+);
+VID:                 '%%' ( [A-Z_#$@0-9] | FullWidthLetter )* '%%';
 
 EQUAL:               '=';
 

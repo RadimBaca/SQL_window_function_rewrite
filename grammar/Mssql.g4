@@ -5650,6 +5650,7 @@ keyword
 id_
     : '<'?ID'>'?
     | '<'?TEMP_ID'>'?
+    | '<'?VID'>'?
     | '<'?DOUBLE_QUOTE_ID'>'?
     | '<'?DOUBLE_QUOTE_BLANK'>'?
     | '<'?SQUARE_BRACKET_ID'>'?

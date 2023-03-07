@@ -16,6 +16,13 @@ public class windowFunction {
     private ArrayList<ParserRuleContext> partitionByList = new ArrayList<ParserRuleContext>();
     private ArrayList<ParserRuleContext> orderByList = new ArrayList<ParserRuleContext>();
 
+    enum comparisonOperator {
+        LESS_THAN,
+        LESS_THAN_OR_EQUAL,
+        GREATER_THAN,
+        GREATER_THAN_OR_EQUAL
+    }
+
     public windowFunction() {
     }
 
@@ -79,48 +86,108 @@ public class windowFunction {
             if (partitionByList.size() > 0 || orderByList.size() > 0) {
                 builder.append(" WHERE ");
             }
-            for (int i = 0; i < partitionByList.size(); i++) {
-                if (i > 0) {
-                    builder.append(" AND ");
-                }
-                builder.append("winfun_subquery." + sqlUtil.getText(partitionByList.get(i)) + " = ");
-                builder.append("main_subquery." + sqlUtil.getText(partitionByList.get(i)));
+            if (partitionByList.size() > 0) {
+                buildPartitionByWhereCondition(builder);
             }
             if (orderByList.size() > 0) {
                 if (partitionByList.size() > 0) {
-                    builder.append(" AND ");
+                    builder.append(" AND (");
                 }
-                for (int i = 0; i < orderByList.size(); i++) {
-                    if (i > 0) {
-                        builder.append(" AND ");
-                    }
-                    if (range_row_frameBounds == "RANGE") {
-                        if (frameStart == "CURRENT") {
-                            // frame start is current row
-                            builder.append("(winfun_subquery." + sqlUtil.getText(orderByList.get(i)) + " >= ");
-                            builder.append("main_subquery." + sqlUtil.getText(orderByList.get(i))+ " OR ");
-                            builder.append("main_subquery." + sqlUtil.getText(orderByList.get(i)) + " IS NULL)");
-                        } else if (frameStart != "UNBOUNDED") {
-                            // frame start is a number
-                            builder.append("(winfun_subquery." + sqlUtil.getText(orderByList.get(i)) + " >= ");
-                            builder.append("main_subquery." + sqlUtil.getText(orderByList.get(i)) + " - " + frameStart+ " OR ");
-                            builder.append("main_subquery." + sqlUtil.getText(orderByList.get(i)) + " IS NULL)");
-                        }
-                        if (frameEnd == "CURRENT") {
-                            // frame end is current row
-                            builder.append("(winfun_subquery." + sqlUtil.getText(orderByList.get(i)) + " <= ");
-                            builder.append("main_subquery." + sqlUtil.getText(orderByList.get(i))+ " OR ");
-                            builder.append("winfun_subquery." + sqlUtil.getText(orderByList.get(i)) + " IS NULL)");
-                        } else if (frameEnd != "UNBOUNDED") {
-                            // frame end is a number
-                            builder.append("(winfun_subquery." + sqlUtil.getText(orderByList.get(i)) + " <= ");
-                            builder.append("main_subquery." + sqlUtil.getText(orderByList.get(i)) + " + " + frameEnd + " OR ");
-                            builder.append("winfun_subquery." + sqlUtil.getText(orderByList.get(i)) + " IS NULL)");
-                        }
-                    }
+                if (range_row_frameBounds == "RANGE") {
+                    comparisonOperator comparisonOp = comparisonOperator.LESS_THAN_OR_EQUAL;
+                    buildOrderByWhereCondition(builder, comparisonOp);
+                }
+                if (partitionByList.size() > 0) {
+                    builder.append(")");
                 }
             }
         }
         return builder.toString();
+    }
+
+    /**
+     * Builds the WHERE condition for the partition by clause
+     * @param builder
+     */
+    private void buildPartitionByWhereCondition(StringBuilder builder) {
+        for (int i = 0; i < partitionByList.size(); i++) {
+            if (i > 0) {
+                builder.append(" AND ");
+            }
+            builder.append("(winfun_subquery." + sqlUtil.getText(partitionByList.get(i)) + " = ");
+            builder.append("main_subquery." + sqlUtil.getText(partitionByList.get(i)) + " OR (");
+            builder.append("winfun_subquery." + sqlUtil.getText(partitionByList.get(i)) + " IS NULL AND ");
+            builder.append("main_subquery." + sqlUtil.getText(partitionByList.get(i)) + " IS NULL))");
+        }
+    }
+
+    /**
+     * Builds the WHERE condition for the order by clause
+     * @param builder
+     * @param comparisonOp
+     */
+    private void buildOrderByWhereCondition(StringBuilder builder, comparisonOperator comparisonOp) {
+        for (int i = 0; i < orderByList.size(); i++) {
+            if (i > 0) {
+                builder.append(" OR ");
+            }
+            builder.append("(");
+            for (int j = 0; j < i; j++) {
+                if (j > 0) {
+                    builder.append(" AND ");
+                }
+                builder.append("(");
+                builder.append("winfun_subquery." + sqlUtil.getText(orderByList.get(j)) + " = ");
+                builder.append("main_subquery." + sqlUtil.getText(orderByList.get(j)));
+                // NULL part
+                builder.append(" OR (");
+                builder.append("winfun_subquery." + sqlUtil.getText(orderByList.get(j)) + " IS NULL AND ");
+                builder.append("main_subquery." + sqlUtil.getText(orderByList.get(j)) + " IS NULL");
+                builder.append(")");
+
+                builder.append(")");
+            }
+            if (i > 0) {
+                builder.append(" AND ");
+            }
+            builder.append("(");
+            String comparisonOpString = chooseComparisonOp(comparisonOp, i == orderByList.size() - 1);
+            builder.append("winfun_subquery." + sqlUtil.getText(orderByList.get(i)) + comparisonOpString);
+            builder.append("main_subquery." + sqlUtil.getText(orderByList.get(i)));
+            // NULL part
+            builder.append(" OR (");
+            if (comparisonOpString.equals("<="))
+                builder.append("winfun_subquery." + sqlUtil.getText(orderByList.get(i)) + " IS NULL");
+            if (comparisonOpString.equals(">="))
+                builder.append("main_subquery." + sqlUtil.getText(orderByList.get(i)) + " IS NULL");
+            if (comparisonOpString.equals("<")) {
+                builder.append("winfun_subquery." + sqlUtil.getText(orderByList.get(i)) + " IS NULL AND ");
+                builder.append("main_subquery." + sqlUtil.getText(orderByList.get(i)) + " IS NOT NULL");
+            }
+            if (comparisonOpString.equals(">")) {
+                builder.append("winfun_subquery." + sqlUtil.getText(orderByList.get(i)) + " IS NOT NULL AND ");
+                builder.append("main_subquery." + sqlUtil.getText(orderByList.get(i)) + " IS NULL");
+            }
+            builder.append(")");
+
+            builder.append(")");
+            builder.append(")");
+        }
+    }
+
+    private String chooseComparisonOp(comparisonOperator comparisonOp, boolean isLast) {
+        if (isLast) {
+            if (comparisonOp == comparisonOperator.LESS_THAN || comparisonOp == comparisonOperator.LESS_THAN_OR_EQUAL) {
+                return "<=";
+            } else {
+                return ">=";
+            }
+        } else {
+            if (comparisonOp == comparisonOperator.LESS_THAN || comparisonOp == comparisonOperator.LESS_THAN_OR_EQUAL) {
+                return "<";
+            } else {
+                return ">";
+            }
+        }
     }
 }

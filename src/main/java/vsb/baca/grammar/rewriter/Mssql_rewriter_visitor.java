@@ -57,6 +57,7 @@ public class Mssql_rewriter_visitor<T> extends MssqlBaseVisitor<T> {
             windowFunction function = null;
             if (ctx.agg_func != null) {
                 String agg_fun = ctx.agg_func.getText().trim();
+                actualSelectCmd.addIntoSelectList_MainSubquery(ctx.all_distinct_expression());
                 function = new windowFunction(agg_fun, winFunAlias, ctx.all_distinct_expression(), ctx.getParent().getParent().getParent());
             }
             if (ctx.cnt != null) {
@@ -67,11 +68,12 @@ public class Mssql_rewriter_visitor<T> extends MssqlBaseVisitor<T> {
                     function = new windowFunction(agg_fun, winFunAlias, null, ctx.getParent().getParent().getParent());
                 }
             }
-            // collect partition by and order by expressions
+            // collect partition by expressions
             function.setRange_row_frameBounds("NONE");
             if (ctx.over_clause().expression_list() != null) {
                 sqlUtil.traverseTree(ctx.over_clause().expression_list(), Mssql.ExpressionContext.class, function.getPartitionByList());
             }
+            // collect order by expressions
             if (ctx.over_clause().order_by_clause() != null) {
                 sqlUtil.traverseTree(ctx.over_clause().order_by_clause(), Mssql.ExpressionContext.class, function.getOrderByList());
                 // implicit frame bounds settings
@@ -79,18 +81,35 @@ public class Mssql_rewriter_visitor<T> extends MssqlBaseVisitor<T> {
                 function.setFrameStart("UNBOUNDED");
                 function.setFrameEnd("CURRENT");
             }
+            // resolve frame bounds
             if (ctx.over_clause().row_or_range_clause() != null) {
                 function.setRange_row_frameBounds(ctx.over_clause().row_or_range_clause().getChild(0).getText().trim());
                 ArrayList<ParserRuleContext> frameBounds = new ArrayList<ParserRuleContext>();
                 sqlUtil.traverseTree(ctx.over_clause().row_or_range_clause(), Mssql.Window_frame_boundContext.class, frameBounds);
-                if (frameBounds.size() == 2) { // frame bounds are defined usign BETWEEN and AND
-
-                    // this adds the frame bounds to the main subquery select list - however the SQL Server supports just constants
-//                for (ParserRuleContext frameBound : frameBounds) {
-//                    actualSelectCmd.addIntoSelectList_MainSubquery(frameBound);
-//                }
-                    function.setFrameStart(((Mssql.Window_frame_boundContext) frameBounds.get(0)).window_frame_preceding().frame_start.getText().trim());
-                    function.setFrameEnd(((Mssql.Window_frame_boundContext) frameBounds.get(1)).window_frame_following().frame_start.getText().trim());
+                if (frameBounds.size() == 2) { // frame bounds are defined using BETWEEN X AND Y
+                    // this adds the frame bounds to the main subquery select list, the SQL Server supports just constants
+                    int i = 0;
+                    for (ParserRuleContext frameBound : frameBounds) {
+                        Mssql.Window_frame_boundContext startBound = ((Mssql.Window_frame_boundContext) frameBound);
+                        String stringBound = "";
+                        if (startBound.window_frame_preceding() != null) {
+                            if (startBound.window_frame_preceding().frame_start.getText().trim() != "UNBOUNDED" &&
+                                    startBound.window_frame_preceding().frame_start.getText().trim() != "CURRENT") {
+                                stringBound = "- " + startBound.window_frame_preceding().frame_start.getText().trim();
+                            } else {
+                                stringBound = startBound.window_frame_preceding().frame_start.getText().trim();
+                            }
+                        } else {
+                            assert startBound.window_frame_following() != null;
+                            stringBound = startBound.window_frame_following().frame_start.getText().trim();
+                        }
+                        if (i == 0) {
+                            function.setFrameStart(stringBound);
+                        } else {
+                            function.setFrameEnd(stringBound);
+                        }
+                        i++;
+                    }
                 } else { // frame bounds are defined using UNBOUNDED PRECEDING, CURRENT ROW
                     sqlUtil.traverseTree(ctx.over_clause().row_or_range_clause(), Mssql.Window_frame_extentContext.class, frameBounds);
                     if (frameBounds.size() == 1) { // frame bounds are defined using UNBOUNDED PRECEDING, CURRENT ROW
