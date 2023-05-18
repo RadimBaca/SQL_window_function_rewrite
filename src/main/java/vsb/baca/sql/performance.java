@@ -1,33 +1,25 @@
 package vsb.baca.sql;
 
-import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.*;
-import vsb.baca.grammar.*;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import vsb.baca.grammar.Mssql;
+import vsb.baca.grammar.Mssql_lexer;
 import vsb.baca.grammar.rewriter.*;
-import vsb.baca.sql.model.selectCmd;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-
 import java.sql.*;
 
-public class main {
+public class performance {
 
     private static String sql1 = "";
     private static String sql2 = "";
 
     public static void main(String[] args) throws Exception {
         // read SQL from input file
-        String fileName = "sql/unittests/input_agg_5.sql"; // change to the path and name of your input file
-        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
-        fileName = "sql/unittests/input_agg_4.sql";
-        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
-        fileName = "sql/unittests/input_agg_3.sql";
-        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
-        fileName = "sql/unittests/input_agg_2.sql";
-        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
-        fileName = "sql/unittests/input_agg_1.sql";
+        String fileName = "sql/tpc-ds/44.sql"; // change to the path and name of your input file
         checkCorrectness(testRewriteSqlInFile(fileName), fileName);
     }
 
@@ -65,7 +57,7 @@ public class main {
 
             // Connect to the database
             Connection conn = DriverManager.getConnection(
-                    "jdbc:sqlserver://bayer.cs.vsb.cz;instanceName=sqldb;databaseName=sqlbench_window", "sqlbench", "n3cUmubsbo");
+                    "jdbc:sqlserver://bayer.cs.vsb.cz;instanceName=sqldb;databaseName=tpcds", "sqlbench", "n3cUmubsbo");
 
             // execute rewritten SQL
             Statement stmt1 = conn.createStatement();
@@ -91,7 +83,7 @@ public class main {
                     return false;
                 }
                 for (int i = 1; i <= columnCount1; i++) {
-                    if (rs1.getInt(i) != rs2.getInt(i)) {
+                    if (rs1.getObject(i).toString() != rs2.getObject(i).toString()) {
                         System.out.println("Result set is different - " + fileName);
                         return false;
                     }

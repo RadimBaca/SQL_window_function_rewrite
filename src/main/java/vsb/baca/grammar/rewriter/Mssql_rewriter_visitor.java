@@ -1,11 +1,14 @@
 package vsb.baca.grammar.rewriter;
 
+
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.misc.Pair;
 import vsb.baca.grammar.Mssql;
 import vsb.baca.grammar.MssqlBaseVisitor;
+import vsb.baca.sql.model.Config;
 import vsb.baca.sql.model.selectCmd;
 import vsb.baca.sql.model.windowFunction;
+import vsb.baca.sql.model.predicate;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -14,9 +17,10 @@ public class Mssql_rewriter_visitor<T> extends MssqlBaseVisitor<T> {
     private selectCmd selectCmds;
     private Stack<selectCmd> selectCmdStack = new Stack<selectCmd>();
     private boolean is_window_function_element = false;
+    private Config config = new Config(Config.dbms.MSSQL, true); // TODO - external setup of dialect
 
     @Override public T visitSelect_statement(Mssql.Select_statementContext ctx) {
-        selectCmd selectCmd = new selectCmd(ctx.query_expression().query_specification());
+        selectCmd selectCmd = new selectCmd(ctx.query_expression().query_specification(), config);
         if (!selectCmdStack.empty()) {
             selectCmdStack.peek().addSubSelectCmd(selectCmd);
         }
@@ -38,8 +42,26 @@ public class Mssql_rewriter_visitor<T> extends MssqlBaseVisitor<T> {
         return item;
     }
 
-    @Override public T visitOrder_by_expression(Mssql.Order_by_expressionContext ctx) {
-        selectCmdStack.peek().addIntoSelectList_MainSubquery(ctx);
+    @Override public T visitPredicate(Mssql.PredicateContext ctx) {
+        // lets check whether the predicate contains an alias of some window function in subqueries
+        // and whether it is compared against a constant
+        try {
+            String left = ctx.expression(0).getText();
+            String right = ctx.expression(1).getText();
+            if (!sqlUtil.isNumber(left) && sqlUtil.isNumber(right)) {
+                int num = Integer.parseInt(right);
+                predicate p = new predicate(left, num, sqlUtil.getComparisonOperator(ctx.comparison_operator()));
+                selectCmdStack.peek().windowFunctionContainsAlias(p); // add predicate to the window function if it is relevant to it
+            }
+            if (sqlUtil.isNumber(left) && !sqlUtil.isNumber(right)) {
+                int num = Integer.parseInt(left);
+                predicate.comparisonOperator cmpOperator = sqlUtil.getComparisonOperator(ctx.comparison_operator());
+                predicate p = new predicate(right, num, cmpOperator);
+                selectCmdStack.peek().windowFunctionContainsAlias(p); // add predicate to the window function if it is relevant to it
+            }
+        } catch (Exception e) {
+
+        }
         return visitChildren(ctx);
     }
 
@@ -58,14 +80,14 @@ public class Mssql_rewriter_visitor<T> extends MssqlBaseVisitor<T> {
             if (ctx.agg_func != null) {
                 String agg_fun = ctx.agg_func.getText().trim();
                 actualSelectCmd.addIntoSelectList_MainSubquery(ctx.all_distinct_expression());
-                function = new windowFunction(agg_fun, winFunAlias, ctx.all_distinct_expression(), ctx.getParent().getParent().getParent());
+                function = new windowFunction(agg_fun, winFunAlias, ctx.all_distinct_expression(), ctx.getParent().getParent().getParent(), config);
             }
             if (ctx.cnt != null) {
                 String agg_fun = ctx.cnt.getText().trim();
                 if (ctx.all_distinct_expression() != null) {
-                    function = new windowFunction(agg_fun, winFunAlias, ctx.all_distinct_expression(), ctx.getParent().getParent().getParent());
+                    function = new windowFunction(agg_fun, winFunAlias, ctx.all_distinct_expression(), ctx.getParent().getParent().getParent(), config);
                 } else {
-                    function = new windowFunction(agg_fun, winFunAlias, null, ctx.getParent().getParent().getParent());
+                    function = new windowFunction(agg_fun, winFunAlias, null, ctx.getParent().getParent().getParent(), config);
                 }
             }
             // collect partition by expressions
@@ -75,7 +97,12 @@ public class Mssql_rewriter_visitor<T> extends MssqlBaseVisitor<T> {
             }
             // collect order by expressions
             if (ctx.over_clause().order_by_clause() != null) {
-                sqlUtil.traverseTree(ctx.over_clause().order_by_clause(), Mssql.ExpressionContext.class, function.getOrderByList());
+                ArrayList<ParserRuleContext> orderByList = new ArrayList<ParserRuleContext>();
+                sqlUtil.traverseTree(ctx.over_clause().order_by_clause(), Mssql.Order_by_expressionContext.class, orderByList);
+                for (ParserRuleContext orderBy : orderByList) {
+                    Mssql.Order_by_expressionContext orderByCtx = ((Mssql.Order_by_expressionContext) orderBy);
+                    function.addOrderByExpression(orderByCtx.expression(), orderByCtx.descending != null);
+                }
                 // implicit frame bounds settings
                 function.setRange_row_frameBounds("RANGE");
                 function.setFrameStart("UNBOUNDED");
@@ -93,9 +120,9 @@ public class Mssql_rewriter_visitor<T> extends MssqlBaseVisitor<T> {
                         Mssql.Window_frame_boundContext startBound = ((Mssql.Window_frame_boundContext) frameBound);
                         String stringBound = "";
                         if (startBound.window_frame_preceding() != null) {
-                            if (startBound.window_frame_preceding().frame_start.getText().trim() != "UNBOUNDED" &&
-                                    startBound.window_frame_preceding().frame_start.getText().trim() != "CURRENT") {
-                                stringBound = "- " + startBound.window_frame_preceding().frame_start.getText().trim();
+                            if (!startBound.window_frame_preceding().frame_start.getText().trim().equals("UNBOUNDED") &&
+                                    !startBound.window_frame_preceding().frame_start.getText().trim().equals("CURRENT")) {
+                                stringBound = "-" + startBound.window_frame_preceding().frame_start.getText().trim();
                             } else {
                                 stringBound = startBound.window_frame_preceding().frame_start.getText().trim();
                             }
@@ -113,7 +140,12 @@ public class Mssql_rewriter_visitor<T> extends MssqlBaseVisitor<T> {
                 } else { // frame bounds are defined using UNBOUNDED PRECEDING, CURRENT ROW
                     sqlUtil.traverseTree(ctx.over_clause().row_or_range_clause(), Mssql.Window_frame_extentContext.class, frameBounds);
                     if (frameBounds.size() == 1) { // frame bounds are defined using UNBOUNDED PRECEDING, CURRENT ROW
-                        function.setFrameStart(((Mssql.Window_frame_extentContext)frameBounds.get(0)).window_frame_preceding().frame_start.getText().trim());
+                        String frameStart = ((Mssql.Window_frame_extentContext)frameBounds.get(0)).window_frame_preceding().frame_start.getText().trim();
+                        if (sqlUtil.isNumber(frameStart)) {
+                            frameStart = "-" + frameStart;
+                        }
+                        function.setFrameStart(frameStart);
+
                         function.setFrameEnd("CURRENT");
                     } else {
                         throw new RuntimeException("Frame bounds are defined in an unsupported way.");
@@ -129,8 +161,59 @@ public class Mssql_rewriter_visitor<T> extends MssqlBaseVisitor<T> {
             for (ParserRuleContext expressionContext : function.getPartitionByList()) {
                 actualSelectCmd.addIntoSelectList_MainSubquery(expressionContext);
             }
-            for (ParserRuleContext expressionContext : function.getOrderByList()) {
+            for (Pair<ParserRuleContext,Boolean> expressionContext : function.getOrderByList()) {
+                actualSelectCmd.addIntoSelectList_MainSubquery(expressionContext.a);
+            }
+        }
+        return visitChildren(ctx);
+    }
+
+
+    /**
+     * Visit window function. We assume that window function has only attributes in over clause.
+     * @param ctx
+     * @return
+     */
+    @Override public T visitRanking_windowed_function(Mssql.Ranking_windowed_functionContext ctx) {
+        if (ctx.over_clause() != null) {
+            // push only window functions (with over clause)
+            selectCmd actualSelectCmd = selectCmdStack.peek();
+            ParserRuleContext aliasContext = (ParserRuleContext)ctx.getParent().getParent().getParent().getChild(1);
+            String winFunAlias = sqlUtil.getText(aliasContext).trim();
+            windowFunction function = null;
+            if (ctx.rank_fun != null) {
+                String rank_fun = ctx.rank_fun.getText().trim();
+                function = new windowFunction(rank_fun, winFunAlias, null, ctx.getParent().getParent().getParent(), config);
+            }
+            // collect partition by expressions
+            function.setRange_row_frameBounds("NONE");
+            if (ctx.over_clause().expression_list() != null) {
+                sqlUtil.traverseTree(ctx.over_clause().expression_list(), Mssql.ExpressionContext.class, function.getPartitionByList());
+            }
+            // collect order by expressions
+            if (ctx.over_clause().order_by_clause() != null) {
+                ArrayList<ParserRuleContext> orderByList = new ArrayList<ParserRuleContext>();
+                sqlUtil.traverseTree(ctx.over_clause().order_by_clause(), Mssql.Order_by_expressionContext.class, orderByList);
+                for (ParserRuleContext orderBy : orderByList) {
+                    Mssql.Order_by_expressionContext orderByCtx = ((Mssql.Order_by_expressionContext) orderBy);
+                    function.addOrderByExpression(orderByCtx.expression(), orderByCtx.descending != null);
+                }
+                // implicit frame bounds settings
+                function.setRange_row_frameBounds("RANGE");
+                function.setFrameStart("UNBOUNDED");
+                function.setFrameEnd("CURRENT");
+            }
+
+
+            actualSelectCmd.addWindowFunction(function);
+            actualSelectCmd.addIntoSelectList_Outer(aliasContext);
+            is_window_function_element = true;
+            // add partition by and order by expressions to the main subquery select list
+            for (ParserRuleContext expressionContext : function.getPartitionByList()) {
                 actualSelectCmd.addIntoSelectList_MainSubquery(expressionContext);
+            }
+            for (Pair<ParserRuleContext,Boolean> expressionContext : function.getOrderByList()) {
+                actualSelectCmd.addIntoSelectList_MainSubquery(expressionContext.a);
             }
         }
         return visitChildren(ctx);

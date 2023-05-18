@@ -1,9 +1,11 @@
 package vsb.baca.sql.model;
 
+import org.antlr.v4.runtime.misc.Pair;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import vsb.baca.grammar.Mssql;
 import vsb.baca.grammar.rewriter.sqlUtil;
+import vsb.baca.sql.model.predicate;
 
 import java.util.ArrayList;
 
@@ -11,18 +13,22 @@ public class selectCmd {
     private Mssql.Query_specificationContext querySpecification;
     private Mssql.Select_statementContext select_statement;
 
-    private ArrayList<ParserRuleContext> selectListElems = new ArrayList<ParserRuleContext>();
-    private ArrayList<ParserRuleContext> selectListElemsOfMainSubquery = new ArrayList<ParserRuleContext>();
+    private ArrayList<Pair<String, ParserRuleContext>> selectListElemsOuter = new ArrayList<Pair<String, ParserRuleContext>>(); // select list of the outer query
+    private ArrayList<Pair<String, ParserRuleContext>> selectListElemsOfMainSubquery = new ArrayList<Pair<String, ParserRuleContext>>(); // select list of the main subquery
+    private ArrayList<Pair<String, ParserRuleContext>> selectListElemsUnchanged = new ArrayList<Pair<String, ParserRuleContext>>(); // select list of the subqueries that do not have a window function
 
     private ArrayList<windowFunction> windowFunctions = new ArrayList<windowFunction>();
     private ArrayList<selectCmd> subSelectCmds = new ArrayList<selectCmd>();
+    private Config config;
 
-    public selectCmd() {
+    public selectCmd(Config config) {
+        this.config = config;
     }
 
-    public selectCmd(Mssql.Query_specificationContext querySpecification) {
+    public selectCmd(Mssql.Query_specificationContext querySpecification, Config config) {
         this.querySpecification = querySpecification;
         this.select_statement = (Mssql.Select_statementContext)querySpecification.getParent().getParent();
+        this.config = config;
     }
 
     public void addWindowFunction(windowFunction windowFunction) {
@@ -41,19 +47,35 @@ public class selectCmd {
         if (columnAliasContexts.size() > 0) {
             // if the expression has alias, then use only the alias in the select list of outer query
             Mssql.Column_aliasContext columnAliasContext = (Mssql.Column_aliasContext) columnAliasContexts.get(0);
-            this.selectListElems.add(columnAliasContext);
+            this.selectListElemsOuter.add(new Pair("main_subquery", columnAliasContext));
         } else {
-            this.selectListElems.add(selectListElem);
+            this.selectListElemsOuter.add(new Pair("main_subquery", selectListElem));
         }
+        // add into unchanged select list
+        this.selectListElemsUnchanged.add(new Pair(null, selectListElem));
+
         // into the main subquery, we add the full expression
         addIntoSelectList_MainSubquery(selectListElem);
     }
 
     public void addIntoSelectList_Outer(ParserRuleContext selectListElem) {
-        this.selectListElems.add(selectListElem);
+        this.selectListElemsOuter.add(new Pair(null, selectListElem));
     }
 
-
+    public boolean windowFunctionContainsAlias(predicate p) {
+        for (windowFunction windowFunction : windowFunctions) {
+            if (windowFunction.getWinFunAlias().equals(p.left)) {
+                windowFunction.addPredicate(p);
+                return true;
+            }
+        }
+        for (selectCmd subSelectCmd : subSelectCmds) {
+            if (subSelectCmd.windowFunctionContainsAlias(p)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * Method check whether the selectListElem expression is already in the subquery select list.
@@ -62,16 +84,16 @@ public class selectCmd {
      */
     public void addIntoSelectList_MainSubquery(ParserRuleContext selectListElem) {
         boolean isInSelectList = false;
-        for  (ParserRuleContext parserRuleContext : selectListElemsOfMainSubquery) {
-            String text1 = parserRuleContext.getText().trim();
-            String text2 = selectListElem.getText().trim();
+        String text2 = selectListElem.getText().trim();
+        for  (Pair<String, ParserRuleContext> parserRuleContext : selectListElemsOfMainSubquery) {
+            String text1 = parserRuleContext.b.getText().trim();
             if (text1.equals(text2)) { // expressions are compared by their text
                 isInSelectList = true;
                 break;
             }
         }
         if (!isInSelectList) {
-            this.selectListElemsOfMainSubquery.add(selectListElem);
+            this.selectListElemsOfMainSubquery.add(new Pair(null, selectListElem));
         }
     }
 
@@ -104,61 +126,70 @@ public class selectCmd {
         }
         String subqueryString = getTextWithoutWindowFun(querySpecification, false);
         builder.append(" SELECT ");
-        builder.append(getSelectListOfQuery());
+        builder.append(getSelectList(selectListElemsOuter));
         builder.append(" FROM (" + subqueryString + ") AS main_subquery");
         int counter = 1;
+        boolean has_remainder = false;
         for (windowFunction windowFunction : windowFunctions) {
-            builder.append(getWindowFunctionCrossApply(windowFunction, counter++, subqueryString));
+            builder.append(getWindowFunctionSubquery(windowFunction, counter++, subqueryString));
+            if (windowFunction.getRemainderEqualityCondition() != null)
+                has_remainder = true;
         }
         if (select_statement.select_order_by_clause() != null) {
             builder.append(" " + getTextWithoutWindowFun(select_statement.select_order_by_clause(), false));
         }
+        if (has_remainder) {
+            builder.append(" WHERE ");
+            int remainder_count = 0;
+            for (windowFunction windowFunction : windowFunctions) {
+                if (windowFunction.getRemainderEqualityCondition() != null) {
+                    if (remainder_count++ > 0) builder.append(" AND ");
+                }
+                builder.append("(");
+                builder.append(windowFunction.getRemainderEqualityCondition());
+                builder.append(")");
+            }
+        }
         return builder.toString();
     }
 
-    private String getWindowFunctionCrossApply(windowFunction windowFunction, int counter, String subqueryString) {
+    private String getWindowFunctionSubquery(windowFunction windowFunction, int counter, String subqueryString) {
         StringBuilder builder = new StringBuilder();
-        builder.append(" CROSS APPLY (" + windowFunction.getQueryText(subqueryString) + ") AS subquery_" + counter);
+        String alias = "win_subquery_" + counter;
+        // if window function is rank or dense_rank, the order by clouse attributes are not null,
+        // and rank equals to one, than use JOIN
+        if (windowFunction.isJoinRewrite()) {
+            builder.append(" JOIN (" + windowFunction.getQueryText(subqueryString, alias) + ") AS " + alias + " ON " + windowFunction.getRemainderEqualityCondition());
+            windowFunction.resetRemainderEqualityCondition();
+        } else {
+            builder.append(" OUTER APPLY (" + windowFunction.getQueryText(subqueryString, alias) + ") AS " + alias);
+        }
         return builder.toString();
     }
 
-    /**
-     * Build the select list of the main subquery
-     * @return String of the select list
-     */
-    private String getSelectListOfMainSubquery() {
+
+    private String getSelectList(ArrayList<Pair<String, ParserRuleContext>> selectList) {
         StringBuilder builder = new StringBuilder();
-        for (ParserRuleContext selectListElem : selectListElemsOfMainSubquery) {
-            builder.append(" " + getTextWithoutWindowFun(selectListElem, false));
-            if (selectListElem != selectListElemsOfMainSubquery.get(selectListElemsOfMainSubquery.size() - 1)) {
+        for (Pair<String, ParserRuleContext> selectListElem : selectList) {
+            builder.append(" ");
+            if (selectListElem.a != null)
+                builder.append(selectListElem.a + ".");
+            builder.append(getTextWithoutWindowFun(selectListElem.b, false));
+            if (selectListElem != selectList.get(selectList.size() - 1)) {
                 builder.append(",");
             }
         }
         return builder.toString();
     }
 
-    /**
-     * Build the select list of the select query
-     * @return String of the select list
-     */
-    private String getSelectListOfQuery() {
-        StringBuilder builder = new StringBuilder();
-        for (ParserRuleContext selectListElem : selectListElems) {
-            builder.append(" " + getTextWithoutWindowFun(selectListElem, false));
-            if (selectListElem != selectListElems.get(selectListElems.size() - 1)) {
-                builder.append(",");
-            }
-        }
-        return builder.toString();
-    }
 
     private String getTextWithoutWindowFun(ParseTree tree, boolean skip_sql_statement) {
         // check whether the tree is a select list
         if (tree == querySpecification.select_list()) {
             if (windowFunctions.size() == 0) {
-                return " " + getSelectListOfQuery();
+                return " " + getSelectList(selectListElemsUnchanged);
             } else {
-                return " " + getSelectListOfMainSubquery();
+                return " " + getSelectList(selectListElemsOfMainSubquery);
             }
         }
         if (!skip_sql_statement && tree instanceof Mssql.Select_statementContext) {

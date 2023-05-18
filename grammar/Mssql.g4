@@ -4419,7 +4419,7 @@ expression_list
 
 // https://msdn.microsoft.com/en-us/library/ms189798.aspx
 ranking_windowed_function
-    : (RANK | DENSE_RANK | ROW_NUMBER) '(' ')' over_clause
+    : rank_fun=(RANK | DENSE_RANK | ROW_NUMBER) '(' ')' over_clause
     | NTILE '(' expression ')' over_clause
     ;
 
