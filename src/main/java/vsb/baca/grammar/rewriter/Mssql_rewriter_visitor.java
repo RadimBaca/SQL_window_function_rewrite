@@ -5,10 +5,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.Pair;
 import vsb.baca.grammar.Mssql;
 import vsb.baca.grammar.MssqlBaseVisitor;
-import vsb.baca.sql.model.Config;
-import vsb.baca.sql.model.selectCmd;
-import vsb.baca.sql.model.windowFunction;
-import vsb.baca.sql.model.predicate;
+import vsb.baca.sql.model.*;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -17,17 +14,28 @@ public class Mssql_rewriter_visitor<T> extends MssqlBaseVisitor<T> {
     private selectCmd selectCmds;
     private Stack<selectCmd> selectCmdStack = new Stack<selectCmd>();
     private boolean is_window_function_element = false;
-    private Config config = new Config(Config.dbms.MSSQL, true); // TODO - external setup of dialect
+    private Config config = new Config(Config.dbms.MSSQL, false); // TODO - external setup of dialect
 
     @Override public T visitSelect_statement(Mssql.Select_statementContext ctx) {
-        selectCmd selectCmd = new selectCmd(ctx.query_expression().query_specification(), config);
+        selectCmd selectCmd = new selectCmd(ctx, config);
         if (!selectCmdStack.empty()) {
             selectCmdStack.peek().addSubSelectCmd(selectCmd);
         }
         selectCmdStack.push(selectCmd);
         T item = visitChildren(ctx);
         selectCmdStack.pop();
-        selectCmds = selectCmd;
+        selectCmds = selectCmd; // remember the top-level selectCmd
+        return item;
+    }
+
+    @Override public T visitQuery_specification(Mssql.Query_specificationContext ctx) {
+        selectCmd selectCmd = new querySpecificationCmd(ctx, config);
+        if (!selectCmdStack.empty()) {
+            selectCmdStack.peek().addSubSelectCmd(selectCmd);
+        }
+        selectCmdStack.push(selectCmd);
+        T item = visitChildren(ctx);
+        selectCmdStack.pop();
         return item;
     }
 
@@ -36,7 +44,7 @@ public class Mssql_rewriter_visitor<T> extends MssqlBaseVisitor<T> {
         T item = visitChildren(ctx);
         // push select list element (without window functions)
         if (!is_window_function_element) {
-            selectCmdStack.peek().addIntoSelectList_All(ctx);
+            ((querySpecificationCmd)selectCmdStack.peek()).addIntoSelectList_All(ctx);
         }
         is_window_function_element = remember_window_function_element;
         return item;
@@ -73,7 +81,7 @@ public class Mssql_rewriter_visitor<T> extends MssqlBaseVisitor<T> {
     @Override public T visitAggregate_windowed_function(Mssql.Aggregate_windowed_functionContext ctx) {
         if (ctx.over_clause() != null) {
             // push only window functions (with over clause)
-            selectCmd actualSelectCmd = selectCmdStack.peek();
+            querySpecificationCmd actualSelectCmd = (querySpecificationCmd)selectCmdStack.peek();
             ParserRuleContext aliasContext = (ParserRuleContext)ctx.getParent().getParent().getParent().getChild(1);
             String winFunAlias = sqlUtil.getText(aliasContext);
             windowFunction function = null;
@@ -177,7 +185,7 @@ public class Mssql_rewriter_visitor<T> extends MssqlBaseVisitor<T> {
     @Override public T visitRanking_windowed_function(Mssql.Ranking_windowed_functionContext ctx) {
         if (ctx.over_clause() != null) {
             // push only window functions (with over clause)
-            selectCmd actualSelectCmd = selectCmdStack.peek();
+            querySpecificationCmd actualSelectCmd = (querySpecificationCmd)selectCmdStack.peek();
             ParserRuleContext aliasContext = (ParserRuleContext)ctx.getParent().getParent().getParent().getChild(1);
             String winFunAlias = sqlUtil.getText(aliasContext).trim();
             windowFunction function = null;

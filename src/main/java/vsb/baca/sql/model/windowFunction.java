@@ -121,12 +121,25 @@ public class windowFunction {
 
         remainder_equality_condition = null;
         if (functionName.equalsIgnoreCase("DENSE_RANK") ||
-            functionName.equalsIgnoreCase("RANK"))
+            functionName.equalsIgnoreCase("RANK") ||
+            functionName.equalsIgnoreCase("ROW_NUMBER"))
         {
-            if (predicateList.size() == 0) {
-                // there is no predicate allowing rewriting in the outer query
-                // window function needs to be preserved
-                throw new RuntimeException("There is no predicate allowing rewriting of "+ functionName);
+            // there is no predicate allowing rewriting in the outer query
+            // window function should be preserved in the main subquery
+            // however in such case the rewrite may loose the meaning
+            if (predicateList.size() == 0) throw new RuntimeException("There is no predicate allowing rewriting of "+ functionName);
+            if (predicateList.size() > 1)  throw new RuntimeException("There is more than one predicate in outer query referencing the alias of window function. Unfortunately such rewrite is not supported");
+
+            predicate p = predicateList.get(0); // we assume that there is only one predicate
+            if (p.comparisonOp == predicate.comparisonOperator.EQUAL) {
+                if (p.right != 1) {
+                    throw new RuntimeException("DENSE_RANK/RANK/ROW_NUMBER rewrite does not support EQUAL predicate with value other than 1 in MSSQL");
+                }
+            }
+            if (p.comparisonOp == predicate.comparisonOperator.LESS_THAN || p.comparisonOp == predicate.comparisonOperator.LESS_THAN_OR_EQUAL) {
+                if (functionName.equals("DENSE_RANK")) {
+                    throw new RuntimeException("DENSE_RANK rewrite does not support LESS THAN predicate");
+                }
             }
             assert (orderByList.size() > 0);
             wfRank(subqueryString, alias, builder);
@@ -158,44 +171,41 @@ public class windowFunction {
             if (orderByList.size() > 1) {
                 builder.append(" SELECT * FROM ( SELECT ");
                 buildSimpleListFromPartitionBy(builder, false);
-                // TODO: finish this
+                // TODO: finish a situation when there are more than one order by attributes
             } else {
+                // this is a simple situaton when there is only one order by attribute
                 builder.append(" SELECT ");
                 buildSimpleListFromPartitionBy(builder, false);
-                builder.append(", min(");
-                String minAttribute = sqlUtil.getText(orderByList.get(0).a);
+                builder.append(", MIN(");
+                String minAttribute = sqlUtil.getText(orderByList.get(0).a).trim();
                 builder.append(minAttribute);
                 builder.append(") min_" + minAttribute + ", 1 " + winFunAlias);
                 builder.append(" FROM (" + subqueryString + ") AS winfun_subquery");
                 builder.append(" GROUP BY ");
                 buildSimpleListFromPartitionBy(builder, false);
+                // remainder builder
+                StringBuilder remainder_builder = new StringBuilder();
+                buildEqualityWhereCondition(partitionByList, remainder_builder, alias);
+                if (partitionByList.size() > 0)
+                    remainder_builder.append(" AND ");
+                remainder_builder.append(alias + ".min_" + minAttribute + " = main_subquery." + minAttribute);
+                remainder_equality_condition = remainder_builder.toString();
             }
         } else {
             if (config.getSelectedDbms() == Config.dbms.MSSQL) {
                 builder.append(" SELECT ");
-                if (predicateList.size() == 1) {
-                    predicate p = predicateList.get(0);
-                    if (p.comparisonOp == predicate.comparisonOperator.EQUAL) {
-                        if (p.right != 1) {
-                            throw new RuntimeException("DENSE_RANK/RANK rewrite does not support EQUAL predicate with value other than 1 in MSSQL");
-                        }
-                        builder.append(" TOP " + p.right + " WITH TIES ");
-                    }
-                    if (p.comparisonOp == predicate.comparisonOperator.LESS_THAN || p.comparisonOp == predicate.comparisonOperator.LESS_THAN_OR_EQUAL) {
-                        if (functionName.equals("DENSE_RANK")) {
-                            throw new RuntimeException("DENSE_RANK rewrite does not support LESS THAN predicate");
-                        }
-                        int equal_correction = 1;
-                        if (p.comparisonOp == predicate.comparisonOperator.LESS_THAN_OR_EQUAL) {
-                            equal_correction = 0;
-                        }
-                        builder.append(" TOP " + (p.right - equal_correction) + " WITH TIES ");
-                    }
-                } else {
-                    throw new RuntimeException("DENSE_RANK and RANK rewrite does not support more than one predicate");
-                    // TODO ??
-                    // this should cover situations where there is more than one predicate in the outer query referencing the rank result
+                predicate p = predicateList.get(0); // we assume that there is only one predicate (it is controled in getQueryText method)
+                if (p.comparisonOp == predicate.comparisonOperator.EQUAL) {
+                    builder.append(" TOP " + p.right + " WITH TIES ");
                 }
+                if (p.comparisonOp == predicate.comparisonOperator.LESS_THAN || p.comparisonOp == predicate.comparisonOperator.LESS_THAN_OR_EQUAL) {
+                    int equal_correction = 1;
+                    if (p.comparisonOp == predicate.comparisonOperator.LESS_THAN_OR_EQUAL) {
+                        equal_correction = 0;
+                    }
+                    builder.append(" TOP " + (p.right - equal_correction) + " WITH TIES ");
+                }
+
                 builder.append(" 1 " + winFunAlias);
             } else {
                 builder.append(" SELECT 1 " + winFunAlias);

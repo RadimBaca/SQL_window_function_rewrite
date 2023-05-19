@@ -19,7 +19,11 @@ public class main {
 
     public static void main(String[] args) throws Exception {
         // read SQL from input file
-        String fileName = "sql/unittests/input_agg_5.sql"; // change to the path and name of your input file
+        String fileName = "sql/unittests/input_agg_7.sql"; // change to the path and name of your input file
+        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
+        fileName = "sql/unittests/input_agg_6.sql";
+        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
+        fileName = "sql/unittests/input_agg_5.sql";
         checkCorrectness(testRewriteSqlInFile(fileName), fileName);
         fileName = "sql/unittests/input_agg_4.sql";
         checkCorrectness(testRewriteSqlInFile(fileName), fileName);
