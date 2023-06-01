@@ -1,3 +1,4 @@
+=N
 SELECT A, B
 FROM (
          SELECT A, B,

@@ -1,27 +1,51 @@
 package vsb.baca.sql;
 
 
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.misc.Pair;
+import org.antlr.v4.runtime.tree.ParseTree;
+import vsb.baca.grammar.Mssql;
+import vsb.baca.grammar.Mssql_lexer;
+import vsb.baca.grammar.rewriter.Mssql_rewriter_visitor;
 import vsb.baca.sql.benchmark.bench_config;
 import vsb.baca.sql.benchmark.bench_config_mssql;
 import vsb.baca.sql.benchmark.benchmark_mssql;
 import vsb.baca.sql.benchmark.run_setup;
 import vsb.baca.sql.model.Config;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.logging.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class mssql_rank_test {
+import static vsb.baca.sql.benchmark.benchmark.*;
 
-    private static final String SQL_ROWNUMBER_EQUAL_1_PADDING_FILENAME = "sql/rank_test/rownumber_equal1_padding.sql";
-    private static final String SQL_ROWNUMBER_EQUAL_N_PADDING_FILENAME = "sql/rank_test/rownumber_equalN_padding.sql";
-    private static final String SQL_ROWNUMBER_LESS_N_PADDING_FILENAME = "sql/rank_test/rownumber_lessN_padding.sql";
-    private static final String SQL_ROWNUMBER_EQUAL_1_FILENAME = "sql/rank_test/rownumber_equal1.sql";
-    private static final String SQL_ROWNUMBER_EQUAL_N_FILENAME = "sql/rank_test/rownumber_equalN.sql";
-    private static final String SQL_ROWNUMBER_LESS_N_FILENAME = "sql/rank_test/rownumber_lessN.sql";
+public class mssql_agg_test {
+
+    private static final String SUM_PBOB_LESS01 = "sql/agg_test/sum_pb_or_sel01.sql";
+    private static final String SUM_PBOB_LESS03 = "sql/agg_test/sum_pb_or_sel03.sql";
+    private static final String SUM_PBOB_LESS10 = "sql/agg_test/sum_pb_or_sel10.sql";
+    private static final String SUM_PBOB_LESS30 = "sql/agg_test/sum_pb_or_sel30.sql";
+    private static final String SUM_PBOB_LESS100 = "sql/agg_test/sum_pb_or_sel100.sql";
+    private static final String SUM_PBOB_LESS300 = "sql/agg_test/sum_pb_or_sel300.sql";
+
+
+    private static final String SUM_PBOB_LESS01_PADDING = "sql/agg_test/sum_pb_or_sel01_padding.sql";
+    private static final String SUM_PBOB_LESS03_PADDING = "sql/agg_test/sum_pb_or_sel03_padding.sql";
+    private static final String SUM_PBOB_LESS10_PADDING = "sql/agg_test/sum_pb_or_sel10_padding.sql";
+    private static final String SUM_PBOB_LESS30_PADDING = "sql/agg_test/sum_pb_or_sel30_padding.sql";
+    private static final String SUM_PBOB_LESS100_PADDING = "sql/agg_test/sum_pb_or_sel100_padding.sql";
+    private static final String SUM_PBOB_LESS300_PADDING = "sql/agg_test/sum_pb_or_sel300_padding.sql";
+
     private static ArrayList<run_setup> run_setups = new ArrayList<run_setup>();
 
-    private static final String DROPINDEXES_FILENAME = "sql/rank_test/rownumber_dropindexes.sql";
-    private static final String CREATEINDEXES_FILENAME = "sql/rank_test/rownumber_createindexes.sql";
+    private static final String DROPINDEXES_FILENAME = "sql/agg_test/agg_dropindexes.sql";
+    private static final String CREATEINDEXES_FILENAME = "sql/agg_test/agg_createindexes.sql";
     private static final String CONNECTION_STRING = "jdbc:sqlserver://bayer.cs.vsb.cz;instanceName=sqldb;databaseName=sqlbench_window;;user=sqlbench;password=n3cUmubsbo";
     private static Config config = new Config(Config.dbms.MSSQL, false, true);
     private static Logger logger = Logger.getLogger("MyLogger");
@@ -49,13 +73,20 @@ public class mssql_rank_test {
         }
 
         ArrayList<String> queryFileNamesPadding = new ArrayList<String>();
-        queryFileNamesPadding.add(SQL_ROWNUMBER_EQUAL_1_PADDING_FILENAME);
-        queryFileNamesPadding.add(SQL_ROWNUMBER_EQUAL_N_PADDING_FILENAME);
-        queryFileNamesPadding.add(SQL_ROWNUMBER_LESS_N_PADDING_FILENAME);
+        queryFileNamesPadding.add(SUM_PBOB_LESS01_PADDING);
+        queryFileNamesPadding.add(SUM_PBOB_LESS03_PADDING);
+        queryFileNamesPadding.add(SUM_PBOB_LESS10_PADDING);
+        queryFileNamesPadding.add(SUM_PBOB_LESS30_PADDING);
+        queryFileNamesPadding.add(SUM_PBOB_LESS100_PADDING);
+        queryFileNamesPadding.add(SUM_PBOB_LESS300_PADDING);
+
         ArrayList<String> queryFileNamesNoPadding = new ArrayList<String>();
-        queryFileNamesNoPadding.add(SQL_ROWNUMBER_EQUAL_1_FILENAME);
-        queryFileNamesNoPadding.add(SQL_ROWNUMBER_EQUAL_N_FILENAME);
-        queryFileNamesNoPadding.add(SQL_ROWNUMBER_LESS_N_FILENAME);
+        queryFileNamesNoPadding.add(SUM_PBOB_LESS01);
+        queryFileNamesNoPadding.add(SUM_PBOB_LESS03);
+        queryFileNamesNoPadding.add(SUM_PBOB_LESS10);
+        queryFileNamesNoPadding.add(SUM_PBOB_LESS30);
+        queryFileNamesNoPadding.add(SUM_PBOB_LESS100);
+        queryFileNamesNoPadding.add(SUM_PBOB_LESS300);
 
         run_setups.add(new run_setup("R_row_", queryFileNamesNoPadding, "\nOPTION(MAXDOP 1)", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF));
         run_setups.add(new run_setup("R_column_", queryFileNamesNoPadding, "\nOPTION(MAXDOP 1)", bench_config.Padding.OFF, bench_config.Storage.COLUMN, bench_config.Parallelism.OFF));

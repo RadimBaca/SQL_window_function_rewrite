@@ -1,3 +1,4 @@
+=1
 SELECT A, B, PADDING
 FROM (
          SELECT A, B, PADDING,
