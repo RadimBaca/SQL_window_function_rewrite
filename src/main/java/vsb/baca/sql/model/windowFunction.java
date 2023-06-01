@@ -20,6 +20,7 @@ public class windowFunction {
     private ArrayList<predicate>    predicateList = new ArrayList<predicate>();
     private String                  remainder_equality_condition;
     private Config                  config;
+    private selectCmd               root;
 
     interface OrderByCondition {
         boolean check(int index, String functionName);
@@ -35,19 +36,18 @@ public class windowFunction {
                 (orderByList.get(index).b && functionName.equals("LEAD")));
     };
 
-    public windowFunction(Config config) {
-    }
-
     public windowFunction(String functionName,
                             String winFunAlias,
                           ParserRuleContext functionExpression,
                           ParserRuleContext functionContext,
-                          Config config) {
+                          Config config,
+                          selectCmd root) {
         this.functionName = functionName;
         this.winFunAlias = winFunAlias;
         this.functionExpression = functionExpression;
         this.functionContext = functionContext;
         this.config = config;
+        this.root = root;
     }
 
     public String getRemainderEqualityCondition() {
@@ -100,7 +100,8 @@ public class windowFunction {
 
     public boolean isJoinRewrite() {
         if ((functionName.equalsIgnoreCase("RANK") ||
-                functionName.equalsIgnoreCase("DENSE_RANK")) &&
+                functionName.equalsIgnoreCase("DENSE_RANK")||
+                functionName.equalsIgnoreCase("ROW_NUMBER")) &&
                 predicateList.size() == 1 &&
                 !config.getAttributesCanBeNull()) {
             predicate p = predicateList.get(0);
@@ -129,20 +130,53 @@ public class windowFunction {
             // however in such case the rewrite may loose the meaning
             if (predicateList.size() == 0) throw new RuntimeException("There is no predicate allowing rewriting of "+ functionName);
             if (predicateList.size() > 1)  throw new RuntimeException("There is more than one predicate in outer query referencing the alias of window function. Unfortunately such rewrite is not supported");
-
             predicate p = predicateList.get(0); // we assume that there is only one predicate
-            if (p.comparisonOp == predicate.comparisonOperator.EQUAL) {
-                if (p.right != 1) {
-                    throw new RuntimeException("DENSE_RANK/RANK/ROW_NUMBER rewrite does not support EQUAL predicate with value other than 1 in MSSQL");
-                }
+            if (p.comparisonOp != predicate.comparisonOperator.EQUAL &&
+                    p.comparisonOp != predicate.comparisonOperator.LESS_THAN_OR_EQUAL &&
+                    p.comparisonOp != predicate.comparisonOperator.LESS_THAN) {
+                throw new RuntimeException("There is no suitable predicate allowing rewriting of "+ functionName +
+                        ". This implementation supports just operators '<', '<=', and '='");
             }
-            if (p.comparisonOp == predicate.comparisonOperator.LESS_THAN || p.comparisonOp == predicate.comparisonOperator.LESS_THAN_OR_EQUAL) {
-                if (functionName.equals("DENSE_RANK")) {
-                    throw new RuntimeException("DENSE_RANK rewrite does not support LESS THAN predicate");
+
+            boolean addWarning = false;
+            boolean withTies = false;
+            int rankValue = p.right - 1;
+            if (p.comparisonOp == predicate.comparisonOperator.EQUAL ||
+                p.comparisonOp == predicate.comparisonOperator.LESS_THAN_OR_EQUAL) {
+                rankValue = p.right;
+            }
+            if (functionName.equalsIgnoreCase("RANK") &&
+                    (p.comparisonOp == predicate.comparisonOperator.EQUAL && p.right == 1) ||
+                    p.comparisonOp == predicate.comparisonOperator.LESS_THAN_OR_EQUAL ||
+                    p.comparisonOp == predicate.comparisonOperator.LESS_THAN) {
+                withTies = true;
+            }
+            if (functionName.equalsIgnoreCase("DENSE_RANK") &&
+                    (p.comparisonOp == predicate.comparisonOperator.EQUAL && p.right == 1)) {
+                withTies = true;
+            }
+            if ((p.comparisonOp == predicate.comparisonOperator.EQUAL && p.right != 1) ||
+                functionName.equals("ROW_NUMBER")) {
+                addWarning = true;
+            }
+            if ((p.comparisonOp == predicate.comparisonOperator.LESS_THAN || p.comparisonOp == predicate.comparisonOperator.LESS_THAN_OR_EQUAL)
+                && functionName.equals("DENSE_RANK")) {
+                    addWarning = true;
+            }
+            if (addWarning) {
+                StringBuilder builderComment = new StringBuilder();
+                builderComment.append("-- the attributes {");
+                for (ParserRuleContext attr : partitionByList) {
+                    builderComment.append(sqlUtil.getText(attr) + " ");
                 }
+                for (Pair<ParserRuleContext,Boolean> orderBy : orderByList) {
+                    builderComment.append(sqlUtil.getText(orderBy.a) + " ");
+                }
+                builderComment.append("} has to form Unique Column Combination (UCC), otherwise the rewrite may not be valid.");
+                root.addFinalComment(builderComment.toString());
             }
             assert (orderByList.size() > 0);
-            wfRank(subqueryString, alias, builder);
+            wfRank(subqueryString, alias, builder, withTies, rankValue);
         }
 
         if (functionName.equalsIgnoreCase("LAG") ||
@@ -165,34 +199,56 @@ public class windowFunction {
         return builder.toString();
     }
 
-    private void wfRank(String subqueryString, String alias, StringBuilder builder)
+    private void wfRank(String subqueryString,
+                        String alias,
+                        StringBuilder builder,
+                        boolean withTies,
+                        int rankValue)
     {
         if (isJoinRewrite()) {
+            // JOIN+Min variant
             if (orderByList.size() > 1) {
                 builder.append(" SELECT * FROM ( SELECT ");
-                buildSimpleListFromPartitionBy(builder, false);
+                buildSimpleListFromPartitionBy(builder, false, "");
+                throw new RuntimeException("There is more than one order by attribute. Unfortunately such rewrite is not implemented yet.");
                 // TODO: finish a situation when there are more than one order by attributes
             } else {
                 // this is a simple situaton when there is only one order by attribute
                 builder.append(" SELECT ");
-                buildSimpleListFromPartitionBy(builder, false);
-                builder.append(", MIN(");
+                buildSimpleListFromPartitionBy(builder, false, "");
+                builder.append(", MIN("); // TODO: if ordering is DESC then use MAX
                 String minAttribute = sqlUtil.getText(orderByList.get(0).a).trim();
                 builder.append(minAttribute);
                 builder.append(") min_" + minAttribute + ", 1 " + winFunAlias);
                 builder.append(" FROM (" + subqueryString + ") AS winfun_subquery");
                 builder.append(" GROUP BY ");
-                buildSimpleListFromPartitionBy(builder, false);
+                buildSimpleListFromPartitionBy(builder, false, "");
                 // remainder builder
                 StringBuilder remainder_builder = new StringBuilder();
-                buildEqualityWhereCondition(partitionByList, remainder_builder, alias);
+                buildEqualityWhereCondition(partitionByList, remainder_builder, alias, "main_subquery");
                 if (partitionByList.size() > 0)
                     remainder_builder.append(" AND ");
                 remainder_builder.append(alias + ".min_" + minAttribute + " = main_subquery." + minAttribute);
                 remainder_equality_condition = remainder_builder.toString();
             }
         } else {
-            if (config.getSelectedDbms() == Config.dbms.MSSQL) {
+            // Lateral+Offset
+            if (config.getRankRewriteIsDoubleSubquery()) {
+                builder.append(" SELECT " + winFunAlias);
+                buildSimpleListFromOrderBy(builder, true, "T.");
+                buildSimpleListFromPartitionBy(builder, true, "T.");
+                builder.append(" FROM ( ");
+                builder.append(" SELECT DISTINCT ");
+                buildSimpleListFromPartitionBy(builder, false, "");
+                builder.append(" FROM ( " + subqueryString + " ) AS T");
+                builder.append(" ) AS distinct_subquery ");
+                if (config.getSelectedDbms() == Config.dbms.MSSQL) {
+                    builder.append(" OUTER APPLY ( ");
+                } else {
+                    builder.append(" LEFT JOIN LATERAL ( ");
+                }
+            }
+            if (config.getSelectedDbms() == Config.dbms.MSSQL && withTies) {
                 builder.append(" SELECT ");
                 predicate p = predicateList.get(0); // we assume that there is only one predicate (it is controled in getQueryText method)
                 if (p.comparisonOp == predicate.comparisonOperator.EQUAL) {
@@ -205,22 +261,35 @@ public class windowFunction {
                     }
                     builder.append(" TOP " + (p.right - equal_correction) + " WITH TIES ");
                 }
-
-                builder.append(" 1 " + winFunAlias);
+                builder.append(" " + rankValue +" " + winFunAlias);
             } else {
-                builder.append(" SELECT 1 " + winFunAlias);
+                builder.append(" SELECT " + rankValue + " " + winFunAlias);
             }
-            buildSimpleListFromOrderBy(builder, true);
+            buildSimpleListFromOrderBy(builder, true, "");
+            if (config.getRankRewriteIsDoubleSubquery()) {
+                buildSimpleListFromPartitionBy(builder, true, "");
+            }
             builder.append(" FROM (" + subqueryString + ") AS winfun_subquery");
             if (partitionByList.size() > 0) {
                 builder.append(" WHERE ");
-                buildEqualityWhereCondition(partitionByList, builder, null);
+                if (config.getRankRewriteIsDoubleSubquery()) {
+                    buildEqualityWhereCondition(partitionByList, builder, null, "distinct_subquery");
+                } else {
+                    buildEqualityWhereCondition(partitionByList, builder, null, "main_subquery");
+                }
             }
             builder.append(" ORDER BY ");
             buildOrderBy(builder, simpleOrdering);
-            if (config.getSelectedDbms() != Config.dbms.MSSQL) {
+            if (config.getSelectedDbms() != Config.dbms.MSSQL || !withTies) {
                 // MSSQL does not support OFFSET/FETCH WITH TIES, therefore, we use TOP N WITH TIES
-                buildOffsetFetch(builder, functionName);
+                buildOffsetFetch(builder, functionName, withTies);
+            }
+            if (config.getRankRewriteIsDoubleSubquery()) {
+                if (config.getSelectedDbms() == Config.dbms.MSSQL) {
+                    builder.append(" ) AS T ");
+                } else {
+                    builder.append(" ) AS T ON true ");
+                }
             }
 
             // remainder builder
@@ -229,7 +298,13 @@ public class windowFunction {
             for (int i = 0; i < orderByList.size(); i++) {
                 list.add(orderByList.get(i).a);
             }
-            buildEqualityWhereCondition(list, remainder_builder, alias);
+            buildEqualityWhereCondition(list, remainder_builder, alias, "main_subquery");
+            if (config.getRankRewriteIsDoubleSubquery()) {
+                if (orderByList.size() > 0 && partitionByList.size() > 0) {
+                    remainder_builder.append(" AND ");
+                }
+                buildEqualityWhereCondition(partitionByList, remainder_builder, alias,"main_subquery");
+            }
             remainder_equality_condition = remainder_builder.toString();
         }
     }
@@ -246,7 +321,7 @@ public class windowFunction {
             builder_sub.append(" WHERE ");
         }
         if (partitionByList.size() > 0) {
-            buildEqualityWhereCondition(partitionByList, builder_sub, null);
+            buildEqualityWhereCondition(partitionByList, builder_sub, null, "main_subquery");
         }
         assert (orderByList.size() > 0);
         predicate.comparisonOperator comparisonOp = null;
@@ -309,7 +384,7 @@ public class windowFunction {
             builder.append(" WHERE ");
         }
         if (partitionByList.size() > 0) {
-            buildEqualityWhereCondition(partitionByList, builder, null);
+            buildEqualityWhereCondition(partitionByList, builder, null, "main_subquery");
         }
         if (orderByList.size() > 0) {
 
@@ -330,7 +405,7 @@ public class windowFunction {
             builder.append(" WHERE ");
         }
         if (partitionByList.size() > 0) {
-            buildEqualityWhereCondition(partitionByList, builder, null);
+            buildEqualityWhereCondition(partitionByList, builder, null, "main_subquery");
         }
         assert (orderByList.size() > 0);
         predicate.comparisonOperator comparisonOp;
@@ -349,30 +424,32 @@ public class windowFunction {
      * Build a OFFSET and FETCH for a DENSE_RANK window function
      * @param builder
      */
-    private void buildOffsetFetch(StringBuilder builder, String functionName) {
-        if (predicateList.size() == 1) {
+    private void buildOffsetFetch(StringBuilder builder, String functionName, boolean withTies) {
+        //if (predicateList.size() == 1) // not necessary since we already checked that
+        {
             predicate p = predicateList.get(0);
             if (p.comparisonOp == predicate.comparisonOperator.EQUAL) {
                 builder.append(" OFFSET " + (p.right - 1) + " ROWS ");
-                builder.append(" FETCH FIRST 1 ROWS WITH TIES ");
+                builder.append(" FETCH FIRST 1 ROWS");
+                if (withTies) {
+                    builder.append(" WITH TIES ");
+                } else {
+                    builder.append(" ONLY ");
+                }
             }
             if (p.comparisonOp == predicate.comparisonOperator.LESS_THAN || p.comparisonOp == predicate.comparisonOperator.LESS_THAN_OR_EQUAL) {
-                if (functionName.equals("DENSE_RANK")) {
-                    throw new RuntimeException("DENSE_RANK rewrite does not support LESS THAN predicate");
-                }
                 int offset = 1;
                 if (p.comparisonOp == predicate.comparisonOperator.LESS_THAN_OR_EQUAL) {
                     offset = 0;
                 }
                 builder.append(" OFFSET 0 ROWS ");
-                builder.append(" FETCH FIRST " + (p.right - offset) +" ROWS WITH TIES ");
+                builder.append(" FETCH FIRST " + (p.right - offset) +" ROWS");
+                if (withTies) {
+                    builder.append(" WITH TIES ");
+                } else {
+                    builder.append(" ONLY ");
+                }
             }
-
-        } else
-        {
-            throw new RuntimeException("DENSE_RANK and RANK rewrite does not support more than one predicate");
-            // TODO ??
-            // this should cover situations where there is more than one predicate in the outer query referencing the rank result
         }
     }
 
@@ -381,17 +458,17 @@ public class windowFunction {
      * Typicaly it is used when we need a condition for the PARTITION BY clause
      * @param builder
      */
-    private void buildEqualityWhereCondition(ArrayList<ParserRuleContext> list, StringBuilder builder, String alias) {
-        if (alias == null) alias = "winfun_subquery";
+    private void buildEqualityWhereCondition(ArrayList<ParserRuleContext> list, StringBuilder builder, String alias1, String alias2) {
+        if (alias1 == null) alias1 = "winfun_subquery";
         for (int i = 0; i < list.size(); i++) {
             if (i > 0) {
                 builder.append(" AND ");
             }
-            builder.append("(" + alias + "." + sqlUtil.getText(list.get(i)) + " = ");
-            builder.append("main_subquery." + sqlUtil.getText(list.get(i)));
+            builder.append("(" + alias1 + "." + sqlUtil.getText(list.get(i)) + " = ");
+            builder.append(alias2 + "." + sqlUtil.getText(list.get(i)));
             builder.append(" OR (");
-            builder.append(alias + "." + sqlUtil.getText(list.get(i)) + " IS NULL AND ");
-            builder.append("main_subquery." + sqlUtil.getText(list.get(i)) + " IS NULL))");
+            builder.append(alias1 + "." + sqlUtil.getText(list.get(i)) + " IS NULL AND ");
+            builder.append(alias2 + "." + sqlUtil.getText(list.get(i)) + " IS NULL))");
         }
     }
 
@@ -415,12 +492,12 @@ public class windowFunction {
      * Builds a list of attributes from the ORDER BY clause
      * @param builder
      */
-    private void buildSimpleListFromOrderBy(StringBuilder builder, boolean first_comma) {
+    private void buildSimpleListFromOrderBy(StringBuilder builder, boolean first_comma, String prefix) {
         for (int i = 0; i < orderByList.size(); i++) {
             if (first_comma || i > 0) {
                 builder.append(", ");
             }
-            builder.append(sqlUtil.getText(orderByList.get(i).a));
+            builder.append(prefix + sqlUtil.getText(orderByList.get(i).a));
         }
     }
 
@@ -428,12 +505,12 @@ public class windowFunction {
      * Builds a list of attributes from the PARTITION BY clause
      * @param builder
      */
-    private void buildSimpleListFromPartitionBy(StringBuilder builder, boolean first_comma) {
+    private void buildSimpleListFromPartitionBy(StringBuilder builder, boolean first_comma, String prefix) {
         for (int i = 0; i < partitionByList.size(); i++) {
             if (first_comma || i > 0) {
                 builder.append(", ");
             }
-            builder.append(sqlUtil.getText(partitionByList.get(i)));
+            builder.append(prefix + sqlUtil.getText(partitionByList.get(i)));
         }
     }
 

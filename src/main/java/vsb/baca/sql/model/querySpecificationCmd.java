@@ -11,6 +11,7 @@ import java.util.Optional;
 
 /**
  * querySpecificationCmd represents a SELECT statement and inherits from the class selectCmd.
+ * Class store set of window functions and select list elements.
  */
 public class querySpecificationCmd extends selectCmd {
 
@@ -23,12 +24,12 @@ public class querySpecificationCmd extends selectCmd {
     protected ArrayList<windowFunction> windowFunctions = new ArrayList<windowFunction>();
 
 
-    public querySpecificationCmd(Config config) {
-        super(config);
+    public querySpecificationCmd(Config config, selectCmd root) {
+        super(config, root);
     }
 
-    public querySpecificationCmd(Mssql.Query_specificationContext querySpecification, Config config) {
-        super(config);
+    public querySpecificationCmd(Mssql.Query_specificationContext querySpecification, Config config, selectCmd root) {
+        super(config, root);
         this.querySpecification = querySpecification;
     }
 
@@ -182,7 +183,12 @@ public class querySpecificationCmd extends selectCmd {
             builder.append(" JOIN (" + windowFunction.getQueryText(subqueryString, alias) + ") AS " + alias + " ON " + windowFunction.getRemainderEqualityCondition());
             windowFunction.resetRemainderEqualityCondition();
         } else {
-            builder.append(" OUTER APPLY (" + windowFunction.getQueryText(subqueryString, alias) + ") AS " + alias);
+            if (config.getSelectedDbms() == Config.dbms.MSSQL) {
+                builder.append(" OUTER APPLY (" + windowFunction.getQueryText(subqueryString, alias) + ") AS " + alias);
+            } else {
+                builder.append(" LEFT JOIN LATERAL (" + windowFunction.getQueryText(subqueryString, alias) + ") AS " + alias + " ON true ");
+            }
+//            builder.append(" OUTER APPLY (" + windowFunction.getQueryText(subqueryString, alias) + ") AS " + alias);
         }
         return builder.toString();
     }

@@ -14,10 +14,16 @@ public class Mssql_rewriter_visitor<T> extends MssqlBaseVisitor<T> {
     private selectCmd selectCmds;
     private Stack<selectCmd> selectCmdStack = new Stack<selectCmd>();
     private boolean is_window_function_element = false;
-    private Config config = new Config(Config.dbms.MSSQL, false); // TODO - external setup of dialect
+    private Config config; // TODO - external setup of dialect
+    private selectCmd root = null;
+
+    public void setConfig(Config config) {
+        this.config = config;
+    }
 
     @Override public T visitSelect_statement(Mssql.Select_statementContext ctx) {
-        selectCmd selectCmd = new selectCmd(ctx, config);
+        selectCmd selectCmd = new selectCmd(ctx, config, root);
+        root = selectCmd.getRoot();
         if (!selectCmdStack.empty()) {
             selectCmdStack.peek().addSubSelectCmd(selectCmd);
         }
@@ -29,7 +35,7 @@ public class Mssql_rewriter_visitor<T> extends MssqlBaseVisitor<T> {
     }
 
     @Override public T visitQuery_specification(Mssql.Query_specificationContext ctx) {
-        selectCmd selectCmd = new querySpecificationCmd(ctx, config);
+        selectCmd selectCmd = new querySpecificationCmd(ctx, config, root);
         if (!selectCmdStack.empty()) {
             selectCmdStack.peek().addSubSelectCmd(selectCmd);
         }
@@ -88,14 +94,14 @@ public class Mssql_rewriter_visitor<T> extends MssqlBaseVisitor<T> {
             if (ctx.agg_func != null) {
                 String agg_fun = ctx.agg_func.getText().trim();
                 actualSelectCmd.addIntoSelectList_MainSubquery(ctx.all_distinct_expression());
-                function = new windowFunction(agg_fun, winFunAlias, ctx.all_distinct_expression(), ctx.getParent().getParent().getParent(), config);
+                function = new windowFunction(agg_fun, winFunAlias, ctx.all_distinct_expression(), ctx.getParent().getParent().getParent(), config, root);
             }
             if (ctx.cnt != null) {
                 String agg_fun = ctx.cnt.getText().trim();
                 if (ctx.all_distinct_expression() != null) {
-                    function = new windowFunction(agg_fun, winFunAlias, ctx.all_distinct_expression(), ctx.getParent().getParent().getParent(), config);
+                    function = new windowFunction(agg_fun, winFunAlias, ctx.all_distinct_expression(), ctx.getParent().getParent().getParent(), config, root);
                 } else {
-                    function = new windowFunction(agg_fun, winFunAlias, null, ctx.getParent().getParent().getParent(), config);
+                    function = new windowFunction(agg_fun, winFunAlias, null, ctx.getParent().getParent().getParent(), config, root);
                 }
             }
             // collect partition by expressions
@@ -191,7 +197,7 @@ public class Mssql_rewriter_visitor<T> extends MssqlBaseVisitor<T> {
             windowFunction function = null;
             if (ctx.rank_fun != null) {
                 String rank_fun = ctx.rank_fun.getText().trim();
-                function = new windowFunction(rank_fun, winFunAlias, null, ctx.getParent().getParent().getParent(), config);
+                function = new windowFunction(rank_fun, winFunAlias, null, ctx.getParent().getParent().getParent(), config, root);
             }
             // collect partition by expressions
             function.setRange_row_frameBounds("NONE");

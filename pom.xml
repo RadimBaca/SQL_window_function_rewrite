@@ -80,6 +80,11 @@
             <artifactId>mssql-jdbc</artifactId>
             <version>9.4.0.jre8</version>
         </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.2.24</version> <!-- Replace with the desired driver version -->
+        </dependency>
     </dependencies>
 
 </project>

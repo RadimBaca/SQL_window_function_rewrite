@@ -12,20 +12,42 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * selectCmd represents a SELECT statement. It may contains several SELECT statements interconnected by UNION, INTERSECT, EXCEPT.
+ * selectCmd represents a SELECT statement.
+ * It may contains several SELECT statements interconnected by UNION, INTERSECT, EXCEPT.
+ * It always contains one or more querySpecificationCmd child objects.
  */
 public class selectCmd {
     protected Mssql.Select_statementContext select_statement;
     protected ArrayList<selectCmd> subSelectCmds = new ArrayList<selectCmd>(); // SELECT subqueries of the current query
     protected Config config;
+    protected selectCmd root;
+    protected ArrayList<String> finalComments = new ArrayList<String>(); // comments that will be added at the end of the query
 
-    public selectCmd(Config config) {
+    public selectCmd(Config config, selectCmd root) {
         this.config = config;
+        if (root == null) {
+            this.root = this;
+        } else {
+            this.root = root;
+        }
     }
 
-    public selectCmd(Mssql.Select_statementContext selectStatement, Config config) {
+    public selectCmd(Mssql.Select_statementContext selectStatement, Config config, selectCmd root) {
         this.select_statement = selectStatement;
         this.config = config;
+        if (root == null) {
+            this.root = this;
+        } else {
+            this.root = root;
+        }
+    }
+
+    public selectCmd getRoot() {
+        return root;
+    }
+
+    private boolean isRootSelectCmd() {
+        return this == root;
     }
 
     public void addSubSelectCmd(selectCmd subSelectCmd) {
@@ -46,6 +68,10 @@ public class selectCmd {
         return select_statement == tree;
     }
 
+    public void addFinalComment(String comment) {
+        finalComments.add(comment);
+    }
+
     /////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////// Query building methods /////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -55,7 +81,14 @@ public class selectCmd {
      * @return
      */
     public String getQueryText() {
-        return getTextWithoutWindowFun(select_statement, true);
+        StringBuilder builder = new StringBuilder();
+        builder.append(getTextWithoutWindowFun(select_statement, true));
+        if (isRootSelectCmd()) {
+            for (String comment : finalComments) {
+                builder.append("\n" + comment);
+            }
+        }
+        return builder.toString();
     }
 
 
