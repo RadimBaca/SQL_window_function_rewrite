@@ -99,7 +99,7 @@ public class mssql_agg_test {
 
         for (run_setup run_setup : run_setups) {
             bench_config_mssql bench_config = new bench_config_mssql(CREATEINDEXES_FILENAME, DROPINDEXES_FILENAME,
-                    CONNECTION_STRING, config, logger, fileHandler,
+                    CONNECTION_STRING, "", "", config, logger, fileHandler,
                     run_setup.queryFileNames, run_setup.tab_prefix, run_setup.option_maxdop, run_setup.padding, run_setup.storage, run_setup.parallelism);
 
             benchmark_mssql rank_benchmark = new benchmark_mssql(bench_config);

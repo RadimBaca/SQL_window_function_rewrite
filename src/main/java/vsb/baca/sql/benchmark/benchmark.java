@@ -78,7 +78,7 @@ public abstract class benchmark {
         bconfig.logger.info("DDL: " + sql_index);
         for (Pair<String, Integer> tableName : tableNames) {
             String cmd = sql_index.replace("tab", tableName.a);
-            try (Connection connection = DriverManager.getConnection(bconfig.CONNECTION_STRING);
+            try (Connection connection = DriverManager.getConnection(bconfig.CONNECTION_STRING, bconfig.USERNAME, bconfig.PASSWORD);
                  Statement statement = connection.createStatement()) {
                 statement.execute(cmd);
             } catch (SQLException e) {

@@ -10,6 +10,8 @@ public class bench_config {
     public String DROPINDEXES_FILENAME;
     public String CREATEINDEXES_FILENAME;
     public String CONNECTION_STRING;
+    public String USERNAME;
+    public String PASSWORD;
     public Config config;
     public Logger logger;
     public FileHandler fileHandler;
@@ -37,6 +39,8 @@ public class bench_config {
     public bench_config(String createindexes_filename,
                         String dropindexes_filename,
                          String connection_string,
+                         String username,
+                            String password,
                          Config config,
                          Logger logger,
                          FileHandler fileHandler,
@@ -48,6 +52,8 @@ public class bench_config {
         this.CREATEINDEXES_FILENAME = createindexes_filename;
         this.DROPINDEXES_FILENAME = dropindexes_filename;
         this.CONNECTION_STRING = connection_string;
+        this.USERNAME = username;
+        this.PASSWORD = password;
         this.config = config;
         this.logger = logger;
         this.fileHandler = fileHandler;
