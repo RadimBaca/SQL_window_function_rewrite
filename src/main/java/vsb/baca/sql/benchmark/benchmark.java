@@ -128,7 +128,11 @@ public abstract class benchmark {
         Pair<Long, Integer> return_pair = null;
         ArrayList<Pair<Long, Integer>> sql_times = new ArrayList<Pair<Long, Integer>>();
         for (int i = 0; i < n; i++) {
-            sql_times.add(getQueryProcessingTime(sql));
+            Pair<Long, Integer> result = getQueryProcessingTime(sql);
+            sql_times.add(result);
+            if (result.a.compareTo((long)60000) == 0 || result.a.compareTo((long)60000) == 1) {
+                return result;
+            }
         }
         // find lowest value in sql_times
         lowest_time = Long.MAX_VALUE;

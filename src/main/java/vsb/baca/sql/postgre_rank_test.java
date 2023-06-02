@@ -41,7 +41,7 @@ public class postgre_rank_test {
     private static final String SET_PARALLEL_WORKERS_0 = "SET max_parallel_workers = 0";
     private static final String SET_PARALLEL_WORKERS_PER_GATHER_0 = "SET max_parallel_workers_per_gather = 0";
     private static final String SET_PARALLEL_WORKERS_N = "SET max_parallel_workers = 8";
-    private static final String SET_PARALLEL_WORKERS_PER_GATHER_N = "SET max_parallel_workers_per_gather = 0";
+    private static final String SET_PARALLEL_WORKERS_PER_GATHER_N = "SET max_parallel_workers_per_gather = 8";
     private static Config config = new Config(Config.dbms.POSTGRESQL, false, true);
     private static Logger logger = Logger.getLogger("MyLogger");
     private static FileHandler fileHandler;
