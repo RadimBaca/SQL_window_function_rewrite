@@ -1,5 +1,6 @@
 package vsb.baca.sql.benchmark;
 
+import org.antlr.v4.runtime.misc.Pair;
 import vsb.baca.sql.model.Config;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class bench_config_postgresql extends bench_config {
                                    Config config,
                                    Logger logger,
                                    FileHandler fileHandler,
-                                   ArrayList<String> queryFileNames,
+                                   ArrayList<Pair<String, String>> queryFileNames,
                                    String tab_prefix,
                                    String set_parallel_workers,
                                    String set_parallel_workers_per_gather,

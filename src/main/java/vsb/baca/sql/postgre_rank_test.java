@@ -76,10 +76,10 @@ public class postgre_rank_test {
         queryFileNamesNoPadding.add(SQL_ROWNUMBER_EQUAL_N_FILENAME);
         queryFileNamesNoPadding.add(SQL_ROWNUMBER_LESS_N_FILENAME);
 
-        run_setups.add(new run_setup_postgresql("R_row_", queryFileNamesNoPadding, SET_PARALLEL_WORKERS_0, SET_PARALLEL_WORKERS_PER_GATHER_0, bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF));
-        run_setups.add(new run_setup_postgresql("P_row_", queryFileNamesPadding, SET_PARALLEL_WORKERS_0, SET_PARALLEL_WORKERS_PER_GATHER_0, bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF));
-        run_setups.add(new run_setup_postgresql("R_row_", queryFileNamesNoPadding,  SET_PARALLEL_WORKERS_N, SET_PARALLEL_WORKERS_PER_GATHER_N, bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON));
-        run_setups.add(new run_setup_postgresql("P_row_", queryFileNamesPadding,  SET_PARALLEL_WORKERS_N, SET_PARALLEL_WORKERS_PER_GATHER_N, bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON));
+//        run_setups.add(new run_setup_postgresql("R_row_", queryFileNamesNoPadding, SET_PARALLEL_WORKERS_0, SET_PARALLEL_WORKERS_PER_GATHER_0, bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF));
+//        run_setups.add(new run_setup_postgresql("P_row_", queryFileNamesPadding, SET_PARALLEL_WORKERS_0, SET_PARALLEL_WORKERS_PER_GATHER_0, bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF));
+//        run_setups.add(new run_setup_postgresql("R_row_", queryFileNamesNoPadding,  SET_PARALLEL_WORKERS_N, SET_PARALLEL_WORKERS_PER_GATHER_N, bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON));
+//        run_setups.add(new run_setup_postgresql("P_row_", queryFileNamesPadding,  SET_PARALLEL_WORKERS_N, SET_PARALLEL_WORKERS_PER_GATHER_N, bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON));
 
         for (run_setup_postgresql run_setup : run_setups) {
             bench_config_postgresql bench_config = new bench_config_postgresql(CREATEINDEXES_FILENAME, DROPINDEXES_FILENAME,

@@ -1,13 +1,7 @@
 package vsb.baca.sql;
 
 
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.misc.Pair;
-import org.antlr.v4.runtime.tree.ParseTree;
-import vsb.baca.grammar.Mssql;
-import vsb.baca.grammar.Mssql_lexer;
-import vsb.baca.grammar.rewriter.Mssql_rewriter_visitor;
 import vsb.baca.sql.benchmark.bench_config;
 import vsb.baca.sql.benchmark.bench_config_mssql;
 import vsb.baca.sql.benchmark.benchmark_mssql;
@@ -17,23 +11,20 @@ import vsb.baca.sql.model.Config;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.logging.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
-import static vsb.baca.sql.benchmark.benchmark.*;
+import static vsb.baca.sql.benchmark.benchmark.generateQueriesWithSelectivity;
 
-public class mssql_agg_test {
+public class mssql_agg_pb_test {
 
-    private static final String SUM_PB_OB_TEMP = "sql/agg_test/count_pb_or_temp.sql";
-    private static final String SUM_PB_OB_TEMP_PADDING = "sql/agg_test/count_pb_or_temp_padding.sql";
+    private static final String SUM_PB_TEMP = "sql/agg_test/count_pb_temp.sql";
+    private static final String SUM_PB_TEMP_PADDING = "sql/agg_test/count_pb_temp_padding.sql";
 
     private static ArrayList<run_setup> run_setups = new ArrayList<run_setup>();
 
-    private static final String DROPINDEXES_FILENAME = "sql/agg_test/agg_pb_ob_dropindexes_mssql.sql";
-    private static final String CREATEINDEXES_FILENAME = "sql/agg_test/agg_pb_ob_createindexes.sql";
+    private static final String DROPINDEXES_FILENAME = "sql/agg_test/agg_pb_dropindexes_mssql.sql";
+    private static final String CREATEINDEXES_FILENAME = "sql/agg_test/agg_pb_createindexes.sql";
     private static final String CONNECTION_STRING = "jdbc:sqlserver://bayer.cs.vsb.cz;instanceName=sqldb;databaseName=sqlbench_window;;user=sqlbench;password=n3cUmubsbo";
     private static Config config = new Config(Config.dbms.MSSQL, false, true);
     private static Logger logger = Logger.getLogger("MyLogger");
@@ -68,8 +59,8 @@ public class mssql_agg_test {
             init_sel *= 2;
         }
 
-        ArrayList<Pair<String, String>> queriesNoPadding = benchmark_mssql.generateQueriesWithSelectivity(selectivity, SUM_PB_OB_TEMP);
-        ArrayList<Pair<String, String>> queriesPadding = benchmark_mssql.generateQueriesWithSelectivity(selectivity, SUM_PB_OB_TEMP_PADDING);
+        ArrayList<Pair<String, String>> queriesNoPadding = benchmark_mssql.generateQueriesWithSelectivity(selectivity, SUM_PB_TEMP);
+        ArrayList<Pair<String, String>> queriesPadding = benchmark_mssql.generateQueriesWithSelectivity(selectivity, SUM_PB_TEMP_PADDING);
 
         run_setups.add(new run_setup("R_row_", queriesNoPadding, "\nOPTION(MAXDOP 1)", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF));
         run_setups.add(new run_setup("R_column_", queriesNoPadding, "\nOPTION(MAXDOP 1)", bench_config.Padding.OFF, bench_config.Storage.COLUMN, bench_config.Parallelism.OFF));
@@ -91,6 +82,7 @@ public class mssql_agg_test {
 
         fileHandler.close();
     }
+
 
 }
 

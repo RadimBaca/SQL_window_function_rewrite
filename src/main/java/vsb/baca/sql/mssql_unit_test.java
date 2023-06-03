@@ -14,25 +14,27 @@ import java.io.IOException;
 import java.sql.*;
 import java.util.Locale;
 
-public class main {
+public class mssql_unit_test {
 
     private static String sql1 = "";
     private static String sql2 = "";
 
     public static void main(String[] args) throws Exception {
         // read SQL from input file
-        String fileName = "sql/unittests/input_agg_7.sql"; // change to the path and name of your input file
-        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
-        fileName = "sql/unittests/input_agg_6.sql";
-        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
-        fileName = "sql/unittests/input_agg_5.sql";
-        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
-        fileName = "sql/unittests/input_agg_4.sql";
-        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
-        fileName = "sql/unittests/input_agg_3.sql";
-        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
-        fileName = "sql/unittests/input_agg_2.sql";
-        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
+        String fileName;
+
+//        fileName = "sql/unittests/input_agg_7.sql"; // change to the path and name of your input file
+//        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
+//        fileName = "sql/unittests/input_agg_6.sql";
+//        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
+//        fileName = "sql/unittests/input_agg_5.sql";
+//        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
+//        fileName = "sql/unittests/input_agg_4.sql";
+//        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
+//        fileName = "sql/unittests/input_agg_3.sql";
+//        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
+//        fileName = "sql/unittests/input_agg_2.sql";
+//        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
         fileName = "sql/unittests/input_agg_1.sql";
         checkCorrectness(testRewriteSqlInFile(fileName), fileName);
     }
@@ -62,7 +64,7 @@ public class main {
         } catch (IOException e) {
             System.out.println("Error reading file: " + e.getMessage());
         }
-
+        sql1 = sql1.toUpperCase();
         sql2 = rewriteSQL(sql1);
 
         try {

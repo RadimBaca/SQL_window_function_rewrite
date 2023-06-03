@@ -1,18 +1,20 @@
 package vsb.baca.sql.benchmark;
 
 
+import org.antlr.v4.runtime.misc.Pair;
+
 import java.util.ArrayList;
 
 public class run_setup {
     public String tab_prefix;
-    public ArrayList<String> queryFileNames;
+    public ArrayList<Pair<String, String>> queryFileNames;
     public String option_maxdop;
     public bench_config.Padding padding;
     public bench_config.Storage storage;
     public bench_config.Parallelism parallelism;
 
     public run_setup(String tab_prefix,
-                     ArrayList<String> queryFileNames,
+                     ArrayList<Pair<String, String>> queryFileNames,
                      String option_maxdop,
                      bench_config.Padding padding,
                      bench_config.Storage storage,

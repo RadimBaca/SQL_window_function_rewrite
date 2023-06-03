@@ -12,7 +12,7 @@ import java.util.logging.*;
 
 public class postgre_agg_test {
 
-    private static final String SUM_PBOB_LESS01 = "sql/agg_test/sum_pb_or_sel01.sql";
+    private static final String SUM_PBOB_LESS01 = "sql/agg_test/count_pb_or_temp.sql";
     private static final String SUM_PBOB_LESS03 = "sql/agg_test/sum_pb_or_sel03.sql";
     private static final String SUM_PBOB_LESS10 = "sql/agg_test/sum_pb_or_sel10.sql";
     private static final String SUM_PBOB_LESS30 = "sql/agg_test/sum_pb_or_sel30.sql";
@@ -20,7 +20,7 @@ public class postgre_agg_test {
     private static final String SUM_PBOB_LESS300 = "sql/agg_test/sum_pb_or_sel300.sql";
 
 
-    private static final String SUM_PBOB_LESS01_PADDING = "sql/agg_test/sum_pb_or_sel01_padding.sql";
+    private static final String SUM_PBOB_LESS01_PADDING = "sql/agg_test/count_pb_or_temp_padding.sql";
     private static final String SUM_PBOB_LESS03_PADDING = "sql/agg_test/sum_pb_or_sel03_padding.sql";
     private static final String SUM_PBOB_LESS10_PADDING = "sql/agg_test/sum_pb_or_sel10_padding.sql";
     private static final String SUM_PBOB_LESS30_PADDING = "sql/agg_test/sum_pb_or_sel30_padding.sql";
@@ -79,10 +79,10 @@ public class postgre_agg_test {
         queryFileNamesNoPadding.add(SUM_PBOB_LESS100);
         queryFileNamesNoPadding.add(SUM_PBOB_LESS300);
 
-        run_setups.add(new run_setup_postgresql("R_row_", queryFileNamesNoPadding, SET_PARALLEL_WORKERS_0, SET_PARALLEL_WORKERS_PER_GATHER_0, bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF));
-        run_setups.add(new run_setup_postgresql("P_row_", queryFileNamesPadding, SET_PARALLEL_WORKERS_0, SET_PARALLEL_WORKERS_PER_GATHER_0, bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF));
-        run_setups.add(new run_setup_postgresql("R_row_", queryFileNamesNoPadding,  SET_PARALLEL_WORKERS_N, SET_PARALLEL_WORKERS_PER_GATHER_N, bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON));
-        run_setups.add(new run_setup_postgresql("P_row_", queryFileNamesPadding,  SET_PARALLEL_WORKERS_N, SET_PARALLEL_WORKERS_PER_GATHER_N, bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON));
+//        run_setups.add(new run_setup_postgresql("R_row_", queryFileNamesNoPadding, SET_PARALLEL_WORKERS_0, SET_PARALLEL_WORKERS_PER_GATHER_0, bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF));
+//        run_setups.add(new run_setup_postgresql("P_row_", queryFileNamesPadding, SET_PARALLEL_WORKERS_0, SET_PARALLEL_WORKERS_PER_GATHER_0, bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF));
+//        run_setups.add(new run_setup_postgresql("R_row_", queryFileNamesNoPadding,  SET_PARALLEL_WORKERS_N, SET_PARALLEL_WORKERS_PER_GATHER_N, bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON));
+//        run_setups.add(new run_setup_postgresql("P_row_", queryFileNamesPadding,  SET_PARALLEL_WORKERS_N, SET_PARALLEL_WORKERS_PER_GATHER_N, bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON));
 
         for (run_setup_postgresql run_setup : run_setups) {
             bench_config_postgresql bench_config = new bench_config_postgresql(CREATEINDEXES_FILENAME, DROPINDEXES_FILENAME,

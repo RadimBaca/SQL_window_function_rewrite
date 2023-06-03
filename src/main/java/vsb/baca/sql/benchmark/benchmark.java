@@ -45,8 +45,8 @@ public abstract class benchmark {
             throw new Exception("Number of create and drop indexes commands must be equal");
         }
 
-        for (String name : bconfig.queryFileNames) {
-            queries.add(readQueryFromFile(name));
+        for (Pair<String, String> pair : bconfig.queryFileNames) {
+            queries.add(pair);
         }
 
         // run initial drop index commands
@@ -78,11 +78,21 @@ public abstract class benchmark {
         bconfig.logger.info("DDL: " + sql_index);
         for (Pair<String, Integer> tableName : tableNames) {
             String cmd = sql_index.replace("tab", tableName.a);
-            try (Connection connection = DriverManager.getConnection(bconfig.CONNECTION_STRING, bconfig.USERNAME, bconfig.PASSWORD);
-                 Statement statement = connection.createStatement()) {
-                statement.execute(cmd);
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if (bconfig.USERNAME.trim().equals(""))
+            {
+                try (Connection connection = DriverManager.getConnection(bconfig.CONNECTION_STRING);
+                     Statement statement = connection.createStatement()) {
+                    statement.execute(cmd);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                try (Connection connection = DriverManager.getConnection(bconfig.CONNECTION_STRING, bconfig.USERNAME, bconfig.PASSWORD);
+                     Statement statement = connection.createStatement()) {
+                    statement.execute(cmd);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -190,7 +200,40 @@ public abstract class benchmark {
         }
     }
 
-    public Pair<String, String> readQueryFromFile(String fileName) {
+//    public Pair<String, String> readQueryFromFile(String fileName) {
+//        String sqlInit = "";
+//        String sqlLegend = "";
+//        boolean firstLine = true;
+//        try (FileReader fileReader = new FileReader(fileName);
+//             BufferedReader bufferedReader = new BufferedReader(fileReader)) {
+//            String line;
+//            while ((line = bufferedReader.readLine()) != null) {
+//                if (firstLine) {
+//                    firstLine = false;
+//                    sqlLegend = line;
+//                    continue;
+//                }
+//                sqlInit += "\n" + line;
+//            }
+//        } catch (IOException e) {
+//            System.out.println("Error reading file: " + e.getMessage());
+//        }
+//        return new Pair(sqlInit, sqlLegend);
+//    }
+
+
+    public static ArrayList<Pair<String, String>> generateQueriesWithSelectivity(ArrayList<Integer> selectivity, String fileName) {
+        ArrayList<Pair<String, String>> queries = new ArrayList<Pair<String, String>>();
+        for (Integer sel : selectivity) {
+            Pair<String, String> temp = benchmark.readQueryFromFile(fileName);
+            String temp_a = temp.a.replace("SSS", sel.toString());
+            String temp_b = temp.b.replace("SSS", sel.toString());
+            queries.add(new Pair<String, String>(temp_a, temp_b));
+        }
+        return queries;
+    }
+
+    private static Pair<String, String> readQueryFromFile(String fileName) {
         String sqlInit = "";
         String sqlLegend = "";
         boolean firstLine = true;

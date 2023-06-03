@@ -189,7 +189,8 @@ public class windowFunction {
                 functionName.equalsIgnoreCase("MIN") ||
                 functionName.equalsIgnoreCase("SUM") ||
                 functionName.equalsIgnoreCase("COUNT")) {
-            if (range_row_frameBounds.equals("RANGE")) {
+            if (range_row_frameBounds.equals("RANGE") ||
+                range_row_frameBounds.equals("NONE")) {
                 wfRangeAggregate(subqueryString, builder);
             }
             if (range_row_frameBounds.equals("ROWS")) {

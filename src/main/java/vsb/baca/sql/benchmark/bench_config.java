@@ -1,5 +1,6 @@
 package vsb.baca.sql.benchmark;
 
+import org.antlr.v4.runtime.misc.Pair;
 import vsb.baca.sql.model.Config;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class bench_config {
     public Config config;
     public Logger logger;
     public FileHandler fileHandler;
-    public ArrayList<String> queryFileNames;
+    public ArrayList<Pair<String, String>> queryFileNames;
     public String tab_prefix;
     public Storage storage; // "row" or "column"
     public Padding padding; // "padding_on" or "padding_off"
@@ -44,7 +45,7 @@ public class bench_config {
                          Config config,
                          Logger logger,
                          FileHandler fileHandler,
-                         ArrayList<String> queryFileNames,
+                         ArrayList<Pair<String, String>> queryFileNames,
                         String tab_prefix,
                         Storage storage,
                         Padding padding,
