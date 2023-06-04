@@ -27,8 +27,8 @@ import static vsb.baca.sql.benchmark.benchmark.*;
 
 public class mssql_agg_test {
 
-    private static final String SUM_PB_OB_TEMP = "sql/agg_test/min_pb_or_temp.sql";
-    private static final String SUM_PB_OB_TEMP_PADDING = "sql/agg_test/min_pb_or_temp_padding.sql";
+    private static final String SUM_PB_OB_TEMP = "sql/agg_test/min_pb_ob_temp.sql";
+    private static final String SUM_PB_OB_TEMP_PADDING = "sql/agg_test/min_pb_ob_temp_padding.sql";
 
     private static ArrayList<run_setup> run_setups = new ArrayList<run_setup>();
 
