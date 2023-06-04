@@ -87,7 +87,8 @@ public class postgre_agg_test {
         for (run_setup_postgresql run_setup : run_setups) {
             bench_config_postgresql bench_config = new bench_config_postgresql(CREATEINDEXES_FILENAME, DROPINDEXES_FILENAME,
                     CONNECTION_STRING, USERNAME, PASSWORD, config, logger, fileHandler,
-                    run_setup.queryFileNames, run_setup.tab_prefix, run_setup.SET_PARALLEL_WORKERS, run_setup.SET_PARALLEL_WORKERS_PER_GATHER, run_setup.padding, run_setup.storage, run_setup.parallelism);
+                    run_setup.queryFileNames, run_setup.tab_prefix, run_setup.SET_PARALLEL_WORKERS, run_setup.SET_PARALLEL_WORKERS_PER_GATHER,
+                    run_setup.padding, run_setup.storage, run_setup.parallelism);
 
             benchmark_postgresql rank_benchmark = new benchmark_postgresql(bench_config);
             rank_benchmark.run();
