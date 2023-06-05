@@ -27,38 +27,24 @@ import static vsb.baca.sql.benchmark.benchmark.*;
 
 public class mssql_agg_test {
 
-    private static final String SUM_PB_OB_TEMP = "sql/agg_test/min_pb_ob_temp.sql";
-    private static final String SUM_PB_OB_TEMP_PADDING = "sql/agg_test/min_pb_ob_temp_padding.sql";
+    private static final String COUNT_PB_OB_TEMP = "sql/agg_test/count_pb_ob_temp.sql";
+    private static final String COUNT_PB_OB_TEMP_PADDING = "sql/agg_test/count_pb_ob_temp_padding.sql";
+    private static final String DROPINDEXES_PB_OB = "sql/agg_test/agg_pb_ob_dropindexes_mssql.sql";
+    private static final String CREATEINDEXES_PB_OB = "sql/agg_test/agg_pb_ob_createindexes.sql";
 
-    private static ArrayList<run_setup> run_setups = new ArrayList<run_setup>();
+    private static final String COUNT_PB_TEMP = "sql/agg_test/count_pb_temp.sql";
+    private static final String COUNT_PB_TEMP_PADDING = "sql/agg_test/count_pb_temp_padding.sql";
+    private static final String DROPINDEXES_PB = "sql/agg_test/agg_pb_dropindexes_mssql.sql";
+    private static final String CREATEINDEXES_PB = "sql/agg_test/agg_pb_createindexes.sql";
 
-    private static final String DROPINDEXES_FILENAME = "sql/agg_test/agg_pb_ob_dropindexes_mssql.sql";
-    private static final String CREATEINDEXES_FILENAME = "sql/agg_test/agg_pb_ob_createindexes.sql";
-    private static final String CONNECTION_STRING = "jdbc:sqlserver://bayer.cs.vsb.cz;instanceName=sqldb;databaseName=sqlbench_window;;user=sqlbench;password=n3cUmubsbo";
-    private static Config config = new Config(Config.dbms.MSSQL, false, true);
-    private static Logger logger = Logger.getLogger("MyLogger");
-    private static FileHandler fileHandler;
+    private static final String MIN_PB_OB_TEMP = "sql/agg_test/min_pb_ob_temp.sql";
+    private static final String MIN_PB_OB_TEMP_PADDING = "sql/agg_test/min_pb_ob_temp_padding.sql";
+
+    private static final String MIN_PB_TEMP = "sql/agg_test/min_pb_temp.sql";
+    private static final String MIN_PB_TEMP_PADDING = "sql/agg_test/min_pb_temp_padding.sql";
+
 
     public static void main(String[] args) throws Exception {
-
-        // Disable console logging
-        Logger rootLogger = Logger.getLogger("");
-        Handler[] handlers = rootLogger.getHandlers();
-        for (Handler handler : handlers) {
-            if (handler instanceof ConsoleHandler) {
-                rootLogger.removeHandler(handler);
-            }
-        }
-
-        try {
-            // Set up the file path and limit the log file size
-            fileHandler = new FileHandler("log.txt", 1024 * 1024, 1, true);
-            logger.addHandler(fileHandler);
-            SimpleFormatter formatter = new SimpleFormatter();
-            fileHandler.setFormatter(formatter);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         ////////////////////////////////////////////
         ArrayList<Integer> selectivity = new ArrayList<Integer>();
@@ -68,29 +54,53 @@ public class mssql_agg_test {
             init_sel *= 2;
         }
 
-        ArrayList<Pair<String, String>> queriesNoPadding = benchmark_mssql.generateQueriesWithSelectivity(selectivity, SUM_PB_OB_TEMP);
-        ArrayList<Pair<String, String>> queriesPadding = benchmark_mssql.generateQueriesWithSelectivity(selectivity, SUM_PB_OB_TEMP_PADDING);
-
-        run_setups.add(new run_setup("R_row_", queriesNoPadding, "\nOPTION(MAXDOP 1)", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF));
-        run_setups.add(new run_setup("R_column_", queriesNoPadding, "\nOPTION(MAXDOP 1)", bench_config.Padding.OFF, bench_config.Storage.COLUMN, bench_config.Parallelism.OFF));
-        run_setups.add(new run_setup("P_row_", queriesPadding, "\nOPTION(MAXDOP 1)", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF));
-        run_setups.add(new run_setup("P_column_", queriesPadding, "\nOPTION(MAXDOP 1)", bench_config.Padding.ON, bench_config.Storage.COLUMN, bench_config.Parallelism.OFF));
-        run_setups.add(new run_setup("R_row_", queriesNoPadding, "\nOPTION(MAXDOP 8)", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON));
-        run_setups.add(new run_setup("R_column_", queriesNoPadding, "\nOPTION(MAXDOP 8)", bench_config.Padding.OFF, bench_config.Storage.COLUMN, bench_config.Parallelism.ON));
-        run_setups.add(new run_setup("P_row_", queriesPadding, "\nOPTION(MAXDOP 8)", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON));
-        run_setups.add(new run_setup("P_column_", queriesPadding, "\nOPTION(MAXDOP 8)", bench_config.Padding.ON, bench_config.Storage.COLUMN, bench_config.Parallelism.ON));
-
-        for (run_setup run_setup : run_setups) {
-            bench_config_mssql bench_config = new bench_config_mssql(CREATEINDEXES_FILENAME, DROPINDEXES_FILENAME,
-                    CONNECTION_STRING, "", "", config, logger, fileHandler,
-                    run_setup.queryFileNames, run_setup.tab_prefix, run_setup.option_maxdop, run_setup.padding, run_setup.storage, run_setup.parallelism);
-
-            benchmark_mssql rank_benchmark = new benchmark_mssql(bench_config);
-            rank_benchmark.run();
-        }
-
-        fileHandler.close();
+//        count_bp_ob_test(selectivity);
+//        count_bp_test(selectivity);
+//        min_bp_ob_test(selectivity);
+        min_bp_test(selectivity);
     }
 
+
+    private static void count_bp_ob_test(ArrayList<Integer> selectivity) throws Exception {
+        ArrayList<Pair<String, String>> queriesNoPadding = benchmark_mssql.generateQueriesWithSelectivity(selectivity, COUNT_PB_OB_TEMP);
+        ArrayList<Pair<String, String>> queriesPadding = benchmark_mssql.generateQueriesWithSelectivity(selectivity, COUNT_PB_OB_TEMP_PADDING);
+        ArrayList<run_setup> run_setups = generate_run_setups(queriesNoPadding, queriesPadding);
+        mssql_runner.prepare_run(run_setups, DROPINDEXES_PB_OB, CREATEINDEXES_PB_OB);
+    }
+
+    private static void count_bp_test(ArrayList<Integer> selectivity) throws Exception {
+        ArrayList<Pair<String, String>> queriesNoPadding = benchmark_mssql.generateQueriesWithSelectivity(selectivity, COUNT_PB_TEMP);
+        ArrayList<Pair<String, String>> queriesPadding = benchmark_mssql.generateQueriesWithSelectivity(selectivity, COUNT_PB_TEMP_PADDING);
+        ArrayList<run_setup> run_setups = generate_run_setups(queriesNoPadding, queriesPadding);
+        mssql_runner.prepare_run(run_setups, DROPINDEXES_PB, CREATEINDEXES_PB);
+    }
+
+    private static void min_bp_ob_test(ArrayList<Integer> selectivity) throws Exception {
+        ArrayList<Pair<String, String>> queriesNoPadding = benchmark_mssql.generateQueriesWithSelectivity(selectivity, MIN_PB_OB_TEMP);
+        ArrayList<Pair<String, String>> queriesPadding = benchmark_mssql.generateQueriesWithSelectivity(selectivity, MIN_PB_OB_TEMP_PADDING);
+        ArrayList<run_setup> run_setups = generate_run_setups(queriesNoPadding, queriesPadding);
+        mssql_runner.prepare_run(run_setups, DROPINDEXES_PB_OB, CREATEINDEXES_PB_OB);
+    }
+
+    private static void min_bp_test(ArrayList<Integer> selectivity) throws Exception {
+        ArrayList<Pair<String, String>> queriesNoPadding = benchmark_mssql.generateQueriesWithSelectivity(selectivity, MIN_PB_TEMP);
+        ArrayList<Pair<String, String>> queriesPadding = benchmark_mssql.generateQueriesWithSelectivity(selectivity, MIN_PB_TEMP_PADDING);
+        ArrayList<run_setup> run_setups = generate_run_setups(queriesNoPadding, queriesPadding);
+        mssql_runner.prepare_run(run_setups, DROPINDEXES_PB_OB, CREATEINDEXES_PB_OB);
+    }
+
+
+    private static ArrayList<run_setup> generate_run_setups(ArrayList<Pair<String, String>> queriesNoPadding, ArrayList<Pair<String, String>> queriesPadding) {
+        ArrayList<run_setup> run_setups = new ArrayList<run_setup>();
+        run_setups.add(new run_setup("R_row_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF));
+        run_setups.add(new run_setup("P_row_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF));
+        run_setups.add(new run_setup("R_row_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON));
+        run_setups.add(new run_setup("P_row_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON));
+        run_setups.add(new run_setup("R_column_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.COLUMN, bench_config.Parallelism.OFF));
+        run_setups.add(new run_setup("P_column_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.COLUMN, bench_config.Parallelism.OFF));
+        run_setups.add(new run_setup("R_column_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.COLUMN, bench_config.Parallelism.ON));
+        run_setups.add(new run_setup("P_column_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.COLUMN, bench_config.Parallelism.ON));
+        return run_setups;
+    }
 }
 

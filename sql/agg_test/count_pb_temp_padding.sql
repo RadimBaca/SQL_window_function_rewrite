@@ -1,4 +1,4 @@
-count,BP,<SSS
+count,PB,<SSS
 SELECT A, B, C, countA, padding
 FROM (
          SELECT A, B, C, padding,
