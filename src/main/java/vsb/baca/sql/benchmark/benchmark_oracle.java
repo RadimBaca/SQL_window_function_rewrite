@@ -70,7 +70,7 @@ public class benchmark_oracle extends benchmark {
                      Statement statement = connection.createStatement()) {
                     statement.execute(cmd);
                 } catch (SQLException e) {
-                    if (e.getMessage().contains("ORA-01418: specified index does not exist"))
+                    if (e.getMessage().contains("ORA-01418"))
                         continue;
                     e.printStackTrace();
                 }
