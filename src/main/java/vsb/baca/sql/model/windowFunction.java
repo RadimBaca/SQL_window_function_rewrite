@@ -221,7 +221,7 @@ public class windowFunction {
                 String minAttribute = sqlUtil.getText(orderByList.get(0).a).trim();
                 builder.append(minAttribute);
                 builder.append(") min_" + minAttribute + ", 1 " + winFunAlias);
-                builder.append(" FROM (" + subqueryString + ") AS winfun_subquery");
+                builder.append(" FROM (" + subqueryString + ") winfun_subquery");
                 builder.append(" GROUP BY ");
                 buildSimpleListFromPartitionBy(builder, false, "");
                 // remainder builder
@@ -241,9 +241,9 @@ public class windowFunction {
                 builder.append(" FROM ( ");
                 builder.append(" SELECT DISTINCT ");
                 buildSimpleListFromPartitionBy(builder, false, "");
-                builder.append(" FROM ( " + subqueryString + " ) AS T");
-                builder.append(" ) AS distinct_subquery ");
-                if (config.getSelectedDbms() == Config.dbms.MSSQL) {
+                builder.append(" FROM ( " + subqueryString + " ) T");
+                builder.append(" ) distinct_subquery ");
+                if (config.getSelectedDbms() == Config.dbms.MSSQL || config.getSelectedDbms() == Config.dbms.ORACLE) {
                     builder.append(" OUTER APPLY ( ");
                 } else {
                     builder.append(" LEFT JOIN LATERAL ( ");
@@ -270,7 +270,7 @@ public class windowFunction {
             if (config.getRankRewriteIsDoubleSubquery()) {
                 buildSimpleListFromPartitionBy(builder, true, "");
             }
-            builder.append(" FROM (" + subqueryString + ") AS winfun_subquery");
+            builder.append(" FROM (" + subqueryString + ") winfun_subquery");
             if (partitionByList.size() > 0) {
                 builder.append(" WHERE ");
                 if (config.getRankRewriteIsDoubleSubquery()) {
@@ -286,10 +286,10 @@ public class windowFunction {
                 buildOffsetFetch(builder, functionName, withTies);
             }
             if (config.getRankRewriteIsDoubleSubquery()) {
-                if (config.getSelectedDbms() == Config.dbms.MSSQL) {
-                    builder.append(" ) AS T ");
+                if (config.getSelectedDbms() == Config.dbms.MSSQL || config.getSelectedDbms() == Config.dbms.ORACLE) {
+                    builder.append(" ) T ");
                 } else {
-                    builder.append(" ) AS T ON true ");
+                    builder.append(" ) T ON true ");
                 }
             }
 
@@ -313,10 +313,10 @@ public class windowFunction {
     private void wfRowsAggregate(String subqueryString, StringBuilder builder, StringBuilder builder_sub) {
         if (functionExpression == null) {
             builder.append(" SELECT " + functionName + "(*) " + winFunAlias + " FROM ( ");
-            builder_sub.append(" SELECT * FROM (" + subqueryString + ") AS winfun_subquery");
+            builder_sub.append(" SELECT * FROM (" + subqueryString + ") winfun_subquery");
         } else {
             builder.append(" SELECT " + functionName + "(" + sqlUtil.getText(functionExpression) + ") " + winFunAlias + " FROM ( ");
-            builder_sub.append(" SELECT " + sqlUtil.getText(functionExpression) + " FROM (" + subqueryString + ") AS winfun_subquery");
+            builder_sub.append(" SELECT " + sqlUtil.getText(functionExpression) + " FROM (" + subqueryString + ") winfun_subquery");
         }
         if (partitionByList.size() > 0 || orderByList.size() > 0) {
             builder_sub.append(" WHERE ");
@@ -370,7 +370,7 @@ public class windowFunction {
                 }
             }
         }
-        builder.append(" ) AS winfun_subquery_rows");
+        builder.append(" ) winfun_subquery_rows");
 
     }
 
@@ -380,7 +380,7 @@ public class windowFunction {
         } else {
             builder.append(" SELECT " + functionName + "(" + sqlUtil.getText(functionExpression) + ") " + winFunAlias);
         }
-        builder.append(" FROM (" + subqueryString + ") AS winfun_subquery");
+        builder.append(" FROM (" + subqueryString + ") winfun_subquery");
         if (partitionByList.size() > 0 || orderByList.size() > 0) {
             builder.append(" WHERE ");
         }
@@ -401,7 +401,7 @@ public class windowFunction {
     }
 
     private void wfLagLead(String subqueryString, StringBuilder builder) {
-        builder.append(" SELECT " + sqlUtil.getText(functionExpression) + " " + winFunAlias + " FROM (" + subqueryString + ") AS winfun_subquery");
+        builder.append(" SELECT " + sqlUtil.getText(functionExpression) + " " + winFunAlias + " FROM (" + subqueryString + ") winfun_subquery");
         if (partitionByList.size() > 0 || orderByList.size() > 0) {
             builder.append(" WHERE ");
         }

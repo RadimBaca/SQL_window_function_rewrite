@@ -72,12 +72,15 @@ public abstract class benchmark {
     }
 
 
-    private void runCommand(String sql_index, ArrayList<Pair<String, Integer>> tableNames) {
+    protected void runCommand(String sql_index, ArrayList<Pair<String, Integer>> tableNames) {
         System.out.println("----------------------------------------");
         System.out.println("DDL: " + sql_index);
+
+        if (sql_index.isEmpty()) return;
         bconfig.logger.info("DDL: " + sql_index);
         for (Pair<String, Integer> tableName : tableNames) {
             String cmd = sql_index.replace("tab", tableName.a);
+
             if (bconfig.USERNAME.trim().equals(""))
             {
                 try (Connection connection = DriverManager.getConnection(bconfig.CONNECTION_STRING);
@@ -233,7 +236,7 @@ public abstract class benchmark {
         return queries;
     }
 
-    private static Pair<String, String> readQueryFromFile(String fileName) {
+    public static Pair<String, String> readQueryFromFile(String fileName) {
         String sqlInit = "";
         String sqlLegend = "";
         boolean firstLine = true;

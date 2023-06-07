@@ -31,22 +31,6 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 
@@ -68,12 +52,6 @@
             <version>4.13.2</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.dbunit</groupId>
-            <artifactId>dbunit</artifactId>
-            <version>2.7.0</version>
-            <scope>test</scope>
-        </dependency>
 
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
@@ -84,6 +62,19 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.2.24</version> <!-- Replace with the desired driver version -->
+        </dependency>
+        <dependency>
+            <groupId>org.dbunit</groupId>
+            <artifactId>dbunit</artifactId>
+            <version>2.7.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc11</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>c:/Users/bac027/Git/mycode/SQL_window_function_rewrite/jar/ojdbc11.jar</systemPath>
         </dependency>
     </dependencies>
 

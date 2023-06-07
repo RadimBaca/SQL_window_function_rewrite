@@ -121,7 +121,7 @@ public class querySpecificationCmd extends selectCmd {
         String subqueryString = getTextWithoutWindowFun(querySpecification, true);
         builder.append(" SELECT ");
         builder.append(getSelectList(selectListElemsOuter));
-        builder.append(" FROM (" + subqueryString + ") AS main_subquery");
+        builder.append(" FROM (" + subqueryString + ") main_subquery");
         int counter = 1;
         boolean has_remainder = false;
         for (windowFunction windowFunction : windowFunctions) {
@@ -180,13 +180,13 @@ public class querySpecificationCmd extends selectCmd {
         // if window function is rank or dense_rank, the order by clouse attributes are not null,
         // and rank equals to one, than use JOIN
         if (windowFunction.isJoinRewrite()) {
-            builder.append(" JOIN (" + windowFunction.getQueryText(subqueryString, alias) + ") AS " + alias + " ON " + windowFunction.getRemainderEqualityCondition());
+            builder.append(" JOIN (" + windowFunction.getQueryText(subqueryString, alias) + ") " + alias + " ON " + windowFunction.getRemainderEqualityCondition());
             windowFunction.resetRemainderEqualityCondition();
         } else {
-            if (config.getSelectedDbms() == Config.dbms.MSSQL) {
-                builder.append(" OUTER APPLY (" + windowFunction.getQueryText(subqueryString, alias) + ") AS " + alias);
+            if (config.getSelectedDbms() == Config.dbms.MSSQL || config.getSelectedDbms() == Config.dbms.ORACLE) {
+                builder.append(" OUTER APPLY (" + windowFunction.getQueryText(subqueryString, alias) + ") " + alias);
             } else {
-                builder.append(" LEFT JOIN LATERAL (" + windowFunction.getQueryText(subqueryString, alias) + ") AS " + alias + " ON true ");
+                builder.append(" LEFT JOIN LATERAL (" + windowFunction.getQueryText(subqueryString, alias) + ") " + alias + " ON true ");
             }
 //            builder.append(" OUTER APPLY (" + windowFunction.getQueryText(subqueryString, alias) + ") AS " + alias);
         }
