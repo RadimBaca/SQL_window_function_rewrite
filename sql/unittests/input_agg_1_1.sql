@@ -1,6 +1,6 @@
-SELECT  /*+ no_parallel */  A, B, C, countA
+SELECT  A, B, C, countA
 FROM (
-         SELECT  /*+ no_parallel */  A, B, C,
+         SELECT  A, B, C,
                                      count(A) OVER (PARTITION BY B) countA
          FROM R_row_10
      ) T1
