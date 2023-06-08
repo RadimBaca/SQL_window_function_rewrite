@@ -184,11 +184,7 @@ public class windowFunction {
             wfLagLead(subqueryString, builder);
         }
 
-        if (functionName.equalsIgnoreCase("MAX") ||
-                functionName.equalsIgnoreCase("AVG") ||
-                functionName.equalsIgnoreCase("MIN") ||
-                functionName.equalsIgnoreCase("SUM") ||
-                functionName.equalsIgnoreCase("COUNT")) {
+        if (isaAggFunction()) {
             if (range_row_frameBounds.equals("RANGE") ||
                 range_row_frameBounds.equals("NONE")) {
                 wfRangeAggregate(subqueryString, builder);
@@ -198,6 +194,14 @@ public class windowFunction {
             }
         }
         return builder.toString();
+    }
+
+    public boolean isaAggFunction() {
+        return functionName.equalsIgnoreCase("MAX") ||
+                functionName.equalsIgnoreCase("AVG") ||
+                functionName.equalsIgnoreCase("MIN") ||
+                functionName.equalsIgnoreCase("SUM") ||
+                functionName.equalsIgnoreCase("COUNT");
     }
 
     private void wfRank(String subqueryString,

@@ -183,10 +183,19 @@ public class querySpecificationCmd extends selectCmd {
             builder.append(" JOIN (" + windowFunction.getQueryText(subqueryString, alias) + ") " + alias + " ON " + windowFunction.getRemainderEqualityCondition());
             windowFunction.resetRemainderEqualityCondition();
         } else {
-            if (config.getSelectedDbms() == Config.dbms.MSSQL || config.getSelectedDbms() == Config.dbms.ORACLE) {
+            if (config.getSelectedDbms() == Config.dbms.MSSQL) {
                 builder.append(" OUTER APPLY (" + windowFunction.getQueryText(subqueryString, alias) + ") " + alias);
-            } else {
+            }
+            if (config.getSelectedDbms() == Config.dbms.POSTGRESQL) {
                 builder.append(" LEFT JOIN LATERAL (" + windowFunction.getQueryText(subqueryString, alias) + ") " + alias + " ON true ");
+            }
+            if (config.getSelectedDbms() == Config.dbms.ORACLE) {
+                if (windowFunction.isaAggFunction())
+                {
+                    builder.append(" CROSS JOIN LATERAL (" + windowFunction.getQueryText(subqueryString, alias) + ") " + alias + " ");
+                } else {
+                    builder.append(" OUTER APPLY (" + windowFunction.getQueryText(subqueryString, alias) + ") " + alias + " ");
+                }
             }
 //            builder.append(" OUTER APPLY (" + windowFunction.getQueryText(subqueryString, alias) + ") AS " + alias);
         }

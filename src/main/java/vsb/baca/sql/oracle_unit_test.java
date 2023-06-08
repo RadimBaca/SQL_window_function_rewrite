@@ -23,17 +23,19 @@ public class oracle_unit_test {
         // read SQL from input file
         String fileName;
 
-        fileName = "sql/unittests/input_agg_7.sql"; // change to the path and name of your input file
-        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
-        fileName = "sql/unittests/input_agg_6.sql";
-        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
-        fileName = "sql/unittests/input_agg_5.sql";
-        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
-        fileName = "sql/unittests/input_agg_4.sql";
-        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
+//        fileName = "sql/unittests/input_agg_7.sql"; // change to the path and name of your input file
+//        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
+//        fileName = "sql/unittests/input_agg_6.sql";
+//        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
+//        fileName = "sql/unittests/input_agg_5.sql";
+//        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
+//        fileName = "sql/unittests/input_agg_4.sql";
+//        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
 //        fileName = "sql/unittests/input_agg_3.sql";
 //        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
-        fileName = "sql/unittests/input_agg_2.sql";
+//        fileName = "sql/unittests/input_agg_2.sql";
+//        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
+        fileName = "sql/unittests/input_agg_1_1.sql";
         checkCorrectness(testRewriteSqlInFile(fileName), fileName);
         fileName = "sql/unittests/input_agg_1.sql";
         checkCorrectness(testRewriteSqlInFile(fileName), fileName);

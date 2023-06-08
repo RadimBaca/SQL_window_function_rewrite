@@ -76,6 +76,11 @@
             <scope>system</scope>
             <systemPath>c:/Users/bac027/Git/mycode/SQL_window_function_rewrite/jar/ojdbc11.jar</systemPath>
         </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version>
+        </dependency>
     </dependencies>
 
 </project>
