@@ -38,10 +38,6 @@ public class benchmark_mysql extends benchmark {
             return new Pair((long)queryTimeout * 1000, -1);
         }
         catch (SQLException e) {
-            if (e.getMessage().contains("ERROR: canceling statement due to statement timeout") ||
-                    e.getMessage().contains("ERROR: canceling statement due to user request")) {
-                return new Pair((long)queryTimeout * 1000, -1);
-            }
             e.printStackTrace();
         }
         return new Pair((long)queryTimeout * 1000, -1);
