@@ -144,6 +144,7 @@ public abstract class benchmark {
             Pair<Long, Integer> result = getQueryProcessingTime(sql);
             sql_times.add(result);
             if (result.a.compareTo((long)60000) == 0 || result.a.compareTo((long)60000) == 1) {
+                // if the query took more than 1 minute, return the result
                 return result;
             }
         }

@@ -16,9 +16,10 @@ public class benchmark_postgresql extends benchmark {
     }
 
     @Override protected Pair<Long, Integer> getQueryProcessingTime(String sql) {
+        int queryTimeout = 300;
         try (Connection connection = DriverManager.getConnection(bconfig.CONNECTION_STRING, bconfig.USERNAME, bconfig.PASSWORD);
              Statement statement = connection.createStatement()) {
-            statement.setQueryTimeout(300);
+            statement.setQueryTimeout(queryTimeout);
             statement.execute(((bench_config_postgresql)bconfig).SET_PARALLEL_WORKERS);
             statement.execute(((bench_config_postgresql)bconfig).SET_PARALLEL_WORKERS_PER_GATHER);
 
@@ -43,16 +44,16 @@ public class benchmark_postgresql extends benchmark {
         }
         catch (SQLTimeoutException e) {
 //            System.out.println("Query timed out!");
-            return new Pair((long)60000, 0);
+            return new Pair((long)queryTimeout * 1000, 0);
         }
         catch (SQLException e) {
             if (e.getMessage().contains("ERROR: canceling statement due to statement timeout") ||
                     e.getMessage().contains("ERROR: canceling statement due to user request")) {
-                return new Pair((long)60000, 0);
+                return new Pair((long)queryTimeout * 1000, 0);
             }
             e.printStackTrace();
         }
-        return new Pair((long)60000, 0);
+        return new Pair((long)queryTimeout * 1000, 0);
     }
 
     @Override protected String compileResultRow(long sql1_query_time, long sql2_query_time, String index, int B_count, int result_size, bench_config bconfig, String query)
