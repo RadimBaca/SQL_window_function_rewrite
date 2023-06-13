@@ -12,17 +12,16 @@ public class benchmark_mysql extends benchmark {
     }
 
     @Override protected String setUpQuery(String sql) {
-        // TODO paralelization
-        String psql = sql.replaceAll("SELECT ", "SELECT " + ((bench_config_mysql) bconfig).PARALLEL + " ");
-        return psql;
+        return sql;
     }
 
     @Override protected Pair<Long, Integer> getQueryProcessingTime(String sql) {
         try (Connection connection = DriverManager.getConnection(bconfig.CONNECTION_STRING, bconfig.USERNAME, bconfig.PASSWORD);
              Statement statement = connection.createStatement()) {
 
-            long startTime = System.currentTimeMillis();
+            statement.execute(((bench_config_mysql)bconfig).PARALLEL);
 
+            long startTime = System.currentTimeMillis();
             ResultSet resultSet = statement.executeQuery(sql);
             int count = 0;
             while (resultSet.next()) {
@@ -56,7 +55,7 @@ public class benchmark_mysql extends benchmark {
                      Statement statement = connection.createStatement()) {
                     statement.execute(cmd);
                 } catch (SQLException e) {
-                    if (e.getErrorCode() == 1064)
+                    if (e.getErrorCode() == 1091)
                         continue;
                     e.printStackTrace();
                 }

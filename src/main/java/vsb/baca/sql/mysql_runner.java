@@ -12,8 +12,8 @@ public class mysql_runner {
     private static final String USERNAME = "sqlbench";
     private static final String PASSWORD = "n3cUmubsbo";
 
-    private static final String PARALLEL_0 = " /*+ no_parallel */ ";
-    private static final String PARALLEL_8 = " /*+ PARALLEL(8) */ ";
+    private static final String PARALLEL_1 = "SET LOCAL innodb_parallel_read_threads=1";
+    private static final String PARALLEL_8 = "SET LOCAL innodb_parallel_read_threads=8";
 
     private static Config config = new Config(Config.dbms.MYSQL, false, true);
     private static Logger logger = Logger.getLogger("MyLogger");
@@ -51,7 +51,7 @@ public class mysql_runner {
             } else {
                 bench_config = new bench_config_mysql(createindexesFilename, dropindexesFilename,
                         CONNECTION_STRING, USERNAME, PASSWORD, config, logger, fileHandler,
-                        rs.queryFileNames, rs.tab_prefix, PARALLEL_0,
+                        rs.queryFileNames, rs.tab_prefix, PARALLEL_1,
                         rs.padding, rs.storage, rs.parallelism);
             }
 

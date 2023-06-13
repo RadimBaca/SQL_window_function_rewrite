@@ -12,18 +12,16 @@ public class benchmark_postgresql extends benchmark {
     }
 
     @Override protected String setUpQuery(String sql) {
-        return sql;
+        return "explain analyse " + sql;
     }
 
     @Override protected Pair<Long, Integer> getQueryProcessingTime(String sql) {
         try (Connection connection = DriverManager.getConnection(bconfig.CONNECTION_STRING, bconfig.USERNAME, bconfig.PASSWORD);
              Statement statement = connection.createStatement()) {
-            statement.setQueryTimeout(60);
+            statement.setQueryTimeout(300);
             statement.execute(((bench_config_postgresql)bconfig).SET_PARALLEL_WORKERS);
             statement.execute(((bench_config_postgresql)bconfig).SET_PARALLEL_WORKERS_PER_GATHER);
 
-            // Execute the query
-            sql = "explain analyse " + sql;
             ResultSet resultSet = statement.executeQuery(sql);
 
             String queryPlan = "";
