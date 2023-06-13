@@ -35,8 +35,8 @@ public class postgre_agg_test {
             init_sel *= 2;
         }
 
-//        count_bp_ob_test(selectivity);
-//        count_bp_test(selectivity);
+        count_bp_ob_test(selectivity);
+        count_bp_test(selectivity);
         min_bp_ob_test(selectivity);
         min_bp_test(selectivity);
     }
