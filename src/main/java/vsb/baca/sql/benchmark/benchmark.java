@@ -117,7 +117,9 @@ public abstract class benchmark {
             Pair<Long, Integer> sql2_time = processQueryNTimes(sql2, 3 );
 
             // check if the result sizes are the same
-            if (sql1_time.b.compareTo(sql2_time.b) != 0) {
+            if (sql1_time.b.compareTo(sql2_time.b) != 0 &&
+                    sql2_time.b.compareTo(-1) != 0 &&
+                    sql2_time.b.compareTo(-1) != 0) {
                 System.out.println("ERROR: result size mismatch. SQL1: " + sql1_time.b + ", SQL2: " + sql2_time.b);
                 bconfig.logger.info("ERROR: result size mismatch!");
                 return false;

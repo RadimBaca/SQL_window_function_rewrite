@@ -16,9 +16,11 @@ public class benchmark_mysql extends benchmark {
     }
 
     @Override protected Pair<Long, Integer> getQueryProcessingTime(String sql) {
+        int queryTimeout = 300;
         try (Connection connection = DriverManager.getConnection(bconfig.CONNECTION_STRING, bconfig.USERNAME, bconfig.PASSWORD);
              Statement statement = connection.createStatement()) {
 
+            statement.setQueryTimeout(queryTimeout);
             statement.execute(((bench_config_mysql)bconfig).PARALLEL);
 
             long startTime = System.currentTimeMillis();
@@ -31,10 +33,18 @@ public class benchmark_mysql extends benchmark {
             resultSet.close();
 
             return new Pair(endTime - startTime, count);
-        } catch (SQLException e) {
+        } catch (SQLTimeoutException e) {
+//            System.out.println("Query timed out!");
+            return new Pair((long)queryTimeout * 1000, -1);
+        }
+        catch (SQLException e) {
+            if (e.getMessage().contains("ERROR: canceling statement due to statement timeout") ||
+                    e.getMessage().contains("ERROR: canceling statement due to user request")) {
+                return new Pair((long)queryTimeout * 1000, -1);
+            }
             e.printStackTrace();
         }
-        return new Pair(-1, -1);
+        return new Pair((long)queryTimeout * 1000, -1);
     }
 
 

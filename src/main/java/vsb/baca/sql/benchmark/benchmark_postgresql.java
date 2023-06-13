@@ -44,16 +44,16 @@ public class benchmark_postgresql extends benchmark {
         }
         catch (SQLTimeoutException e) {
 //            System.out.println("Query timed out!");
-            return new Pair((long)queryTimeout * 1000, 0);
+            return new Pair((long)queryTimeout * 1000, -1);
         }
         catch (SQLException e) {
             if (e.getMessage().contains("ERROR: canceling statement due to statement timeout") ||
                     e.getMessage().contains("ERROR: canceling statement due to user request")) {
-                return new Pair((long)queryTimeout * 1000, 0);
+                return new Pair((long)queryTimeout * 1000, -1);
             }
             e.printStackTrace();
         }
-        return new Pair((long)queryTimeout * 1000, 0);
+        return new Pair((long)queryTimeout * 1000, -1);
     }
 
     @Override protected String compileResultRow(long sql1_query_time, long sql2_query_time, String index, int B_count, int result_size, bench_config bconfig, String query)
