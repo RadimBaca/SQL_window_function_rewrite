@@ -9,9 +9,15 @@ has_column = True
 
 # dbms = 'Postgres'
 # has_column = False
+#
+# dbms = 'Oracle'
+# has_column = False
+#
+# dbms = 'MySQL'
+# has_column = False
 
 # Read the CSV file into a DataFrame, reading each row as a string
-with open('rank_' + dbms +'.txt', 'r') as file:
+with open('agg_' + dbms +'.txt', 'r') as file:
     lines = file.readlines()
 
 # Define the regular expression pattern for valid rows
@@ -24,7 +30,7 @@ valid_lines = [line.strip().split(',') for line in lines if re.match(pattern, li
 wrong_lines = [line for line in valid_lines if not len(line) == 11]
 
 # Create a DataFrame from the filtered lines
-data = pd.DataFrame(valid_lines, columns=['T1','T2','PB','RS','Storage','IDX','Padding','Par','Cmp'])
+data = pd.DataFrame(valid_lines, columns=['T1','T2','PB','RS','Storage','IDX','Padding','Par','Fun','Constructs','Sel'])
 
 # Convert numeric columns to the appropriate data types
 numeric_cols = ['T1', 'T2', 'PB', 'RS']
@@ -41,9 +47,12 @@ parallel_on = data[data['Par'] == 'parallel_ON']
 parallel_off = data[data['Par'] == 'parallel_OFF']
 padding_on = data[data['Padding'] == 'padding_ON']
 padding_off = data[data['Padding'] == 'padding_OFF']
-equal1_data = data[data['Cmp'] == '=1']
-equalN_data = data[data['Cmp'] == '=N']
-lessN_data = data[data['Cmp'] == '<N']
+count_data = data[data['Fun'] == 'count']
+min_data = data[data['Fun'] == 'min']
+PB_data = data[data['Constructs'] == 'PB']
+PB_OB_data = data[data['Constructs'] == 'PB_OB']
+IC_data = data[data['IDX'].str.startswith('I(C)')]
+Not_IC_data = data[~data['IDX'].str.startswith('I(C)')]
 IB_data = data[data['IDX'].str.contains('I\(B')]
 Not_IB_data = data[~data['IDX'].str.contains('I\(B')]
 IA_data = data[data['IDX'].str.contains('I\(A')]
@@ -69,19 +78,22 @@ def all_parameters():
                      parallel_off['T1'] / parallel_off['T2'],
                      padding_on['T1'] / padding_on['T2'],
                      padding_off['T1'] / padding_off['T2'],
-                     equal1_data['T1'] / equal1_data['T2'],
-                     equalN_data['T1'] / equalN_data['T2'],
-                     lessN_data['T1'] / lessN_data['T2'],
+                     count_data['T1'] / count_data['T2'],
+                     min_data['T1'] / min_data['T2'],
+                     PB_data['T1'] / PB_data['T2'],
+                     PB_OB_data['T1'] / PB_OB_data['T2'],
                      IB_data['T1'] / IB_data['T2'],
                      Not_IB_data['T1'] / Not_IB_data['T2'],
+                     IC_data['T1'] / IC_data['T2'],
+                     Not_IC_data['T1'] / Not_IC_data['T2'],
                      IA_data['T1'] / IA_data['T2'],
                      Not_IA_data['T1'] / Not_IA_data['T2']
                      ],
 
                     showfliers=False,
-                    positions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-                    labels=['ALL', 'COLUMN', 'ROW', 'PARALLELIZED', 'SINGLE THREAD', 'PADDING', 'NO PADDING', '= 1',
-                            '= N', '< N', 'I(B)', '~I(B)', 'I(A)', '~I(A)']
+                    positions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
+                    labels=['ALL', 'COLUMN', 'ROW', 'PARALLELIZED', 'SINGLE THREAD', 'PADDING', 'NO PADDING', 'COUNT',
+                            'MIN', 'PB', 'PB_OB', 'I(B)', '~I(B)', 'I(C)', '~I(C)', 'I(A)', '~I(A)']
                     )
     else:
         plt.boxplot([data['T1'] / data['T2'],
@@ -89,19 +101,25 @@ def all_parameters():
                      parallel_off['T1'] / parallel_off['T2'],
                      padding_on['T1'] / padding_on['T2'],
                      padding_off['T1'] / padding_off['T2'],
-                     equal1_data['T1'] / equal1_data['T2'],
-                     equalN_data['T1'] / equalN_data['T2'],
-                     lessN_data['T1'] / lessN_data['T2'],
+                     count_data['T1'] / count_data['T2'],
+                     min_data['T1'] / min_data['T2'],
+                     PB_data['T1'] / PB_data['T2'],
+                     PB_OB_data['T1'] / PB_OB_data['T2'],
                      IB_data['T1'] / IB_data['T2'],
                      Not_IB_data['T1'] / Not_IB_data['T2'],
+                     IC_data['T1'] / IC_data['T2'],
+                     Not_IC_data['T1'] / Not_IC_data['T2'],
                      IA_data['T1'] / IA_data['T2'],
                      Not_IA_data['T1'] / Not_IA_data['T2']
                      ],
 
                     showfliers=False,
-                    positions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-                    labels=['ALL', 'PARALLELIZED', 'SINGLE THREAD', 'PADDING', 'NO PADDING', '= 1',
-                            '= N', '< N', 'I(B)', '~I(B)', 'I(A)', '~I(A)']
+                    # positions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+                    # labels=['ALL', 'COLUMN', 'ROW', 'PARALLELIZED', 'SINGLE THREAD', 'PADDING', 'NO PADDING', 'COUNT', 'MIN', 'PB', 'PB_OB', 'I(A)', '~I(A)']
+                    positions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+                    labels=['ALL', 'PARALLELIZED', 'SINGLE THREAD', 'PADDING', 'NO PADDING', 'COUNT', 'MIN', 'PB',
+                            'PB_OB',
+                            'I(B)', '~I(B)', 'I(C)', '~I(C)', 'I(A)', '~I(A)']
                     )
     plt.xticks(rotation=45)
     plt.ylabel('T1/T2')
@@ -209,7 +227,7 @@ bvalues()
 
 ###################################################################
 # Create the next box plot for T1/T2 based on Sel value
-# sel()
+sel()
 
 ###################################################################
 # filtered_data = data[(data['Storage'] == 'ROW') &
@@ -232,14 +250,27 @@ bvalues()
 #     print(row_string)
 #
 
-##################################################################
+###################################################################
 data_IB_ROW = data
 if dbms == 'MSSql':
     data_IB_ROW = data[(data['Storage'] == 'ROW') &
-                        (data['PB'] < 3000) ]
+                        (data['PB'] > 100) &
+                        (data['Sel'] != '<32') &
+                        (data['IDX'].str.contains('I\(B')) ]
 if dbms == 'Postgres':
     data_IB_ROW = data[(data['Storage'] == 'ROW') &
-                        (data['PB'] < 1000) &
+                        (data['PB'] > 100) &
+                        (data['Sel'] != '<32') &
+                        (data['Sel'] != '<16') &
+                        (data['Sel'] != '<8') &
+                        (data['IDX'].str.contains('I\(B')) ]
+
+if dbms == 'MySQL':
+    data_IB_ROW = data[(data['Storage'] == 'ROW') &
+                        (data['PB'] > 100) &
+                        (data['Sel'] != '<32') &
+                        (data['Sel'] != '<16') &
+                        (data['Sel'] != '<8') &
                         (data['IDX'].str.contains('I\(B')) ]
 
 print('Data size: ' + str(len(data)))
@@ -249,8 +280,8 @@ print('data_IB_ROW data size: ' + str(len(data_IB_ROW)))
 geometric_mean = stats.gmean(data_IB_ROW['T1'] / data_IB_ROW['T2'].replace(0, 1))
 print("Geometric Mean of T1/T2:", geometric_mean)
 
-data_IB_ROW_equal1 = data_IB_ROW[data_IB_ROW['Cmp'] == '=1']
-data_IB_ROW_equalN = data_IB_ROW[data_IB_ROW['Cmp'] == '=N']
+data_IB_ROW_count = data_IB_ROW[data_IB_ROW['Fun'] == 'count']
+data_IB_ROW_min = data_IB_ROW[data_IB_ROW['Fun'] == 'min']
 data_IB_ROW_parallelon = data_IB_ROW[data_IB_ROW['Par'] == 'parallel_ON']
 data_IB_ROW_paralleloff = data_IB_ROW[data_IB_ROW['Par'] == 'parallel_OFF']
 data_IB_ROW_paddingon = data_IB_ROW[data_IB_ROW['Padding'] == 'padding_ON']
@@ -259,16 +290,16 @@ data_IB_ROW_paddingoff = data_IB_ROW[data_IB_ROW['Padding'] == 'padding_OFF']
 
 # Create the box plot
 plt.boxplot([data_IB_ROW['T1'] / data_IB_ROW['T2'],
-             data_IB_ROW_equal1['T1'] / data_IB_ROW_equal1['T2'],
-             data_IB_ROW_equalN['T1'] / data_IB_ROW_equalN['T2'],
+             data_IB_ROW_count['T1'] / data_IB_ROW_count['T2'],
+            data_IB_ROW_min['T1'] / data_IB_ROW_min['T2'],
              data_IB_ROW_parallelon['T1'] / data_IB_ROW_parallelon['T2'],
-             data_IB_ROW_paralleloff['T1'] / data_IB_ROW_paralleloff['T2'],
+            data_IB_ROW_paralleloff['T1'] / data_IB_ROW_paralleloff['T2'],
              data_IB_ROW_paddingon['T1'] / data_IB_ROW_paddingon['T2'],
-             data_IB_ROW_paddingoff['T1'] / data_IB_ROW_paddingoff['T2']
+            data_IB_ROW_paddingoff['T1'] / data_IB_ROW_paddingoff['T2']
              ],
             showfliers=False,
             positions=[1, 2, 3, 4, 5, 6, 7],
-            labels=['all', '=1', '=N', 'parallel_ON', 'parallel_OFF', 'padding_ON', 'padding_OFF'])
+            labels=['all', 'count', 'min', 'parallel_ON', 'parallel_OFF', 'padding_ON', 'padding_OFF'])
 
 plt.xticks(rotation=45)
 plt.xlabel('T1/T2')
