@@ -62,7 +62,7 @@ print("Geometric Mean of T1/T2:", geometric_mean)
 
 def all_parameters():
     if has_column:
-        plt.boxplot([data['T1'] / data['T2'],
+        boxplot_dict = plt.boxplot([data['T1'] / data['T2'],
                      column_data['T1'] / column_data['T2'],
                      row_data['T1'] / row_data['T2'],
                      parallel_on['T1'] / parallel_on['T2'],
@@ -83,6 +83,14 @@ def all_parameters():
                     labels=['ALL', 'COLUMN', 'ROW', 'PARALLELIZED', 'SINGLE THREAD', 'PADDING', 'NO PADDING', '= 1',
                             '= N', '< N', 'I(B)', '~I(B)', 'I(A)', '~I(A)']
                     )
+        # Define the colors for the desired boxes
+        colors = ['red', 'red', 'blue', 'blue','green', 'green', 'yellow', 'yellow', 'yellow', 'cyan', 'cyan', 'magenta', 'magenta']
+
+        # Loop through the desired boxes and modify their color
+        for i in range(1, 14):
+            box = boxplot_dict['boxes'][i]
+            box.set(color=colors[i - 1])
+
     else:
         plt.boxplot([data['T1'] / data['T2'],
                      parallel_on['T1'] / parallel_on['T2'],

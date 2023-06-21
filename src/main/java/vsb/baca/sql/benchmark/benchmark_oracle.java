@@ -21,8 +21,10 @@ public class benchmark_oracle extends benchmark {
     }
 
     @Override protected Pair<Long, Integer> getQueryProcessingTime(String sql) {
+        int queryTimeout = 300;
         try (Connection connection = DriverManager.getConnection(bconfig.CONNECTION_STRING, bconfig.USERNAME, bconfig.PASSWORD);
              Statement statement = connection.createStatement()) {
+            statement.setQueryTimeout(queryTimeout);
 
 //            // Enable the jdbc.sqltiming property
 //            Properties props = new Properties();
