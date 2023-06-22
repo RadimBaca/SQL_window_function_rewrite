@@ -48,8 +48,16 @@ public class benchmark_oracle extends benchmark {
             resultSet.close();
 
             return new Pair(endTime - startTime, count);
-        } catch (SQLException e) {
-            e.printStackTrace();
+        }
+        catch (SQLTimeoutException e) {
+                return new Pair((long)queryTimeout * 1000, -1);
+        }
+        catch (SQLException e) {
+            if (e.getErrorCode() == 1013) {
+                return new Pair((long)queryTimeout * 1000, -1);
+            } else {
+                e.printStackTrace();
+            }
         }
         return new Pair(-1, -1);
     }
