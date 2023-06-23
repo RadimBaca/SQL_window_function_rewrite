@@ -10,11 +10,11 @@ import numpy as np
 # dbms = 'Postgres'
 # has_column = False
 #
-dbms = 'Oracle'
-has_column = False
-#
-# dbms = 'MySQL'
+# dbms = 'Oracle'
 # has_column = False
+#
+dbms = 'MySQL'
+has_column = False
 
 # Read the CSV file into a DataFrame, reading each row as a string
 with open('agg_' + dbms +'.txt', 'r') as file:
@@ -283,11 +283,11 @@ all_parameters()
 
 ###################################################################
 # Create the next box plot for T1/T2 based on PB value
-# bvalues()
+bvalues()
 
 ###################################################################
 # Create the next box plot for T1/T2 based on PB value
-# bvalues_Bindex()
+bvalues_Bindex()
 
 ###################################################################
 # Create the next box plot for T1/T2 based on Sel value
@@ -295,7 +295,7 @@ all_parameters()
 
 ###################################################################
 # Create the next box plot for T1/T2 based on Sel value with I(B) index
-# sel_Ib()
+sel_Ib()
 
 ###################################################################
 # filtered_data = data[(data['Storage'] == 'ROW') &

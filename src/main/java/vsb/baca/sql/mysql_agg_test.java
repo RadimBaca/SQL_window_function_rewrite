@@ -8,7 +8,7 @@ import vsb.baca.sql.benchmark.run_setup;
 
 import java.util.ArrayList;
 
-public class mysql_test {
+public class mysql_agg_test {
 
     private static final String COUNT_PB_OB_TEMP = "sql/agg_test/count_pb_ob_temp.sql";
     private static final String COUNT_PB_OB_TEMP_PADDING = "sql/agg_test/count_pb_ob_temp_padding.sql";
