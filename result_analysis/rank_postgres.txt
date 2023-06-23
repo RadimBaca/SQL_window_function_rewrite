@@ -1,0 +1,723 @@
+"C:\Program Files\Java\jdk-16\bin\java.exe" "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2021.3.1\lib\idea_rt.jar=49266:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2021.3.1\bin" -Dfile.encoding=UTF-8 -classpath E:\users\bac027\git\SQL_window_function_rewrite3_postgre\target\classes;C:\Users\bac027\.m2\repository\org\antlr\antlr4-runtime\4.9.2\antlr4-runtime-4.9.2.jar;C:\Users\bac027\.m2\repository\org\antlr\antlr4-maven-plugin\4.5\antlr4-maven-plugin-4.5.jar;C:\Users\bac027\.m2\repository\org\apache\maven\maven-plugin-api\3.0.5\maven-plugin-api-3.0.5.jar;C:\Users\bac027\.m2\repository\org\apache\maven\maven-model\3.0.5\maven-model-3.0.5.jar;C:\Users\bac027\.m2\repository\org\apache\maven\maven-artifact\3.0.5\maven-artifact-3.0.5.jar;C:\Users\bac027\.m2\repository\org\sonatype\sisu\sisu-inject-plexus\2.3.0\sisu-inject-plexus-2.3.0.jar;C:\Users\bac027\.m2\repository\org\codehaus\plexus\plexus-component-annotations\1.5.5\plexus-component-annotations-1.5.5.jar;C:\Users\bac027\.m2\repository\org\codehaus\plexus\plexus-classworlds\2.4\plexus-classworlds-2.4.jar;C:\Users\bac027\.m2\repository\org\sonatype\sisu\sisu-inject-bean\2.3.0\sisu-inject-bean-2.3.0.jar;C:\Users\bac027\.m2\repository\org\sonatype\sisu\sisu-guice\3.1.0\sisu-guice-3.1.0-no_aop.jar;C:\Users\bac027\.m2\repository\org\sonatype\sisu\sisu-guava\0.9.9\sisu-guava-0.9.9.jar;C:\Users\bac027\.m2\repository\org\apache\maven\maven-project\2.2.1\maven-project-2.2.1.jar;C:\Users\bac027\.m2\repository\org\apache\maven\maven-settings\2.2.1\maven-settings-2.2.1.jar;C:\Users\bac027\.m2\repository\org\apache\maven\maven-profile\2.2.1\maven-profile-2.2.1.jar;C:\Users\bac027\.m2\repository\org\apache\maven\maven-artifact-manager\2.2.1\maven-artifact-manager-2.2.1.jar;C:\Users\bac027\.m2\repository\org\apache\maven\maven-repository-metadata\2.2.1\maven-repository-metadata-2.2.1.jar;C:\Users\bac027\.m2\repository\org\apache\maven\wagon\wagon-provider-api\1.0-beta-6\wagon-provider-api-1.0-beta-6.jar;C:\Users\bac027\.m2\repository\backport-util-concurrent\backport-util-concurrent\3.1\backport-util-concurrent-3.1.jar;C:\Users\bac027\.m2\repository\org\apache\maven\maven-plugin-registry\2.2.1\maven-plugin-registry-2.2.1.jar;C:\Users\bac027\.m2\repository\org\codehaus\plexus\plexus-interpolation\1.11\plexus-interpolation-1.11.jar;C:\Users\bac027\.m2\repository\org\codehaus\plexus\plexus-utils\1.5.15\plexus-utils-1.5.15.jar;C:\Users\bac027\.m2\repository\org\codehaus\plexus\plexus-container-default\1.0-alpha-9-stable-1\plexus-container-default-1.0-alpha-9-stable-1.jar;C:\Users\bac027\.m2\repository\classworlds\classworlds\1.1-alpha-2\classworlds-1.1-alpha-2.jar;C:\Users\bac027\.m2\repository\org\codehaus\plexus\plexus-compiler-api\2.2\plexus-compiler-api-2.2.jar;C:\Users\bac027\.m2\repository\org\sonatype\plexus\plexus-build-api\0.0.7\plexus-build-api-0.0.7.jar;C:\Users\bac027\.m2\repository\org\antlr\antlr4\4.5\antlr4-4.5.jar;C:\Users\bac027\.m2\repository\org\antlr\antlr-runtime\3.5.2\antlr-runtime-3.5.2.jar;C:\Users\bac027\.m2\repository\org\antlr\ST4\4.0.8\ST4-4.0.8.jar;C:\Users\bac027\.m2\repository\com\microsoft\sqlserver\mssql-jdbc\9.4.0.jre8\mssql-jdbc-9.4.0.jre8.jar;C:\Users\bac027\.m2\repository\org\postgresql\postgresql\42.2.24\postgresql-42.2.24.jar;C:\Users\bac027\.m2\repository\org\checkerframework\checker-qual\3.5.0\checker-qual-3.5.0.jar;C:\Users\bac027\.m2\repository\org\dbunit\dbunit\2.7.0\dbunit-2.7.0.jar;C:\Users\bac027\.m2\repository\org\slf4j\slf4j-api\1.7.25\slf4j-api-1.7.25.jar;C:\Users\bac027\.m2\repository\commons-collections\commons-collections\3.2.2\commons-collections-3.2.2.jar;C:\Users\bac027\.m2\repository\org\apache\poi\poi-ooxml\3.17\poi-ooxml-3.17.jar;C:\Users\bac027\.m2\repository\org\apache\poi\poi\3.17\poi-3.17.jar;C:\Users\bac027\.m2\repository\commons-codec\commons-codec\1.10\commons-codec-1.10.jar;C:\Users\bac027\.m2\repository\org\apache\commons\commons-collections4\4.1\commons-collections4-4.1.jar;C:\Users\bac027\.m2\repository\org\apache\poi\poi-ooxml-schemas\3.17\poi-ooxml-schemas-3.17.jar;C:\Users\bac027\.m2\repository\org\apache\xmlbeans\xmlbeans\2.6.0\xmlbeans-2.6.0.jar;C:\Users\bac027\.m2\repository\stax\stax-api\1.0.1\stax-api-1.0.1.jar;C:\Users\bac027\.m2\repository\com\github\virtuald\curvesapi\1.04\curvesapi-1.04.jar;C:\Users\bac027\.m2\repository\com\mysql\mysql-connector-j\8.0.33\mysql-connector-j-8.0.33.jar;C:\Users\bac027\.m2\repository\com\google\protobuf\protobuf-java\3.21.9\protobuf-java-3.21.9.jar vsb.baca.sql.postgre_rank_test
+----------------------------------------
+DDL: 
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_a;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_a;DROP INDEX IF EXISTS idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_a_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_b_a;
+----------------------------------------
+DDL:  
+1411,326,10,0,ROW, ,padding_OFF,parallel_OFF,=1
+1293,326,30,0,ROW, ,padding_OFF,parallel_OFF,=1
+1635,339,100,0,ROW, ,padding_OFF,parallel_OFF,=1
+1675,958,300,0,ROW, ,padding_OFF,parallel_OFF,=1
+1222,1040,1000,0,ROW, ,padding_OFF,parallel_OFF,=1
+1492,1160,3000,0,ROW, ,padding_OFF,parallel_OFF,=1
+1381,1102,10000,0,ROW, ,padding_OFF,parallel_OFF,=1
+1348,1155,30000,0,ROW, ,padding_OFF,parallel_OFF,=1
+1424,2318,10,0,ROW, ,padding_OFF,parallel_OFF,=N
+1194,5923,30,0,ROW, ,padding_OFF,parallel_OFF,=N
+1467,18567,100,0,ROW, ,padding_OFF,parallel_OFF,=N
+1771,55152,300,0,ROW, ,padding_OFF,parallel_OFF,=N
+1746,182782,1000,0,ROW, ,padding_OFF,parallel_OFF,=N
+1245,300000,3000,0,ROW, ,padding_OFF,parallel_OFF,=N
+1194,300000,10000,0,ROW, ,padding_OFF,parallel_OFF,=N
+1382,300000,30000,0,ROW, ,padding_OFF,parallel_OFF,=N
+2323,9605,10,0,ROW, ,padding_OFF,parallel_OFF,<N
+2312,27700,30,0,ROW, ,padding_OFF,parallel_OFF,<N
+1442,91903,100,0,ROW, ,padding_OFF,parallel_OFF,<N
+1607,271405,300,0,ROW, ,padding_OFF,parallel_OFF,<N
+1738,300000,1000,0,ROW, ,padding_OFF,parallel_OFF,<N
+1363,300000,3000,0,ROW, ,padding_OFF,parallel_OFF,<N
+1567,300000,10000,0,ROW, ,padding_OFF,parallel_OFF,<N
+1254,300000,30000,0,ROW, ,padding_OFF,parallel_OFF,<N
+----------------------------------------
+DDL: 
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);
+1723,221,10,0,ROW,I(A),padding_OFF,parallel_OFF,=1
+2383,212,30,0,ROW,I(A),padding_OFF,parallel_OFF,=1
+3928,220,100,0,ROW,I(A),padding_OFF,parallel_OFF,=1
+1253,217,300,0,ROW,I(A),padding_OFF,parallel_OFF,=1
+1651,214,1000,0,ROW,I(A),padding_OFF,parallel_OFF,=1
+3131,227,3000,0,ROW,I(A),padding_OFF,parallel_OFF,=1
+1626,248,10000,0,ROW,I(A),padding_OFF,parallel_OFF,=1
+2168,299,30000,0,ROW,I(A),padding_OFF,parallel_OFF,=1
+2166,198,10,0,ROW,I(A),padding_OFF,parallel_OFF,=N
+2530,199,30,0,ROW,I(A),padding_OFF,parallel_OFF,=N
+1713,213,100,0,ROW,I(A),padding_OFF,parallel_OFF,=N
+2327,265,300,0,ROW,I(A),padding_OFF,parallel_OFF,=N
+1814,852,1000,0,ROW,I(A),padding_OFF,parallel_OFF,=N
+1497,6096,3000,0,ROW,I(A),padding_OFF,parallel_OFF,=N
+2022,65532,10000,0,ROW,I(A),padding_OFF,parallel_OFF,=N
+2228,300000,30000,0,ROW,I(A),padding_OFF,parallel_OFF,=N
+1459,198,10,0,ROW,I(A),padding_OFF,parallel_OFF,<N
+1303,202,30,0,ROW,I(A),padding_OFF,parallel_OFF,<N
+1333,225,100,0,ROW,I(A),padding_OFF,parallel_OFF,<N
+1183,343,300,0,ROW,I(A),padding_OFF,parallel_OFF,<N
+1572,1619,1000,0,ROW,I(A),padding_OFF,parallel_OFF,<N
+1119,12737,3000,0,ROW,I(A),padding_OFF,parallel_OFF,<N
+1552,138680,10000,0,ROW,I(A),padding_OFF,parallel_OFF,<N
+1105,300000,30000,0,ROW,I(A),padding_OFF,parallel_OFF,<N
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_a;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b ON tab(b);
+1312,326,10,0,ROW,I(B),padding_OFF,parallel_OFF,=1
+1491,328,30,0,ROW,I(B),padding_OFF,parallel_OFF,=1
+1337,336,100,0,ROW,I(B),padding_OFF,parallel_OFF,=1
+1200,941,300,0,ROW,I(B),padding_OFF,parallel_OFF,=1
+889,694,1000,0,ROW,I(B),padding_OFF,parallel_OFF,=1
+912,732,3000,0,ROW,I(B),padding_OFF,parallel_OFF,=1
+903,827,10000,0,ROW,I(B),padding_OFF,parallel_OFF,=1
+869,825,30000,0,ROW,I(B),padding_OFF,parallel_OFF,=1
+1576,752,10,0,ROW,I(B),padding_OFF,parallel_OFF,=N
+1236,962,30,0,ROW,I(B),padding_OFF,parallel_OFF,=N
+1306,1452,100,0,ROW,I(B),padding_OFF,parallel_OFF,=N
+1351,1889,300,0,ROW,I(B),padding_OFF,parallel_OFF,=N
+884,1798,1000,0,ROW,I(B),padding_OFF,parallel_OFF,=N
+868,1677,3000,0,ROW,I(B),padding_OFF,parallel_OFF,=N
+917,1590,10000,0,ROW,I(B),padding_OFF,parallel_OFF,=N
+870,1904,30000,0,ROW,I(B),padding_OFF,parallel_OFF,=N
+1564,2456,10,0,ROW,I(B),padding_OFF,parallel_OFF,<N
+1758,3420,30,0,ROW,I(B),padding_OFF,parallel_OFF,<N
+1309,5385,100,0,ROW,I(B),padding_OFF,parallel_OFF,<N
+1220,7439,300,0,ROW,I(B),padding_OFF,parallel_OFF,<N
+873,6712,1000,0,ROW,I(B),padding_OFF,parallel_OFF,<N
+912,5958,3000,0,ROW,I(B),padding_OFF,parallel_OFF,<N
+905,5475,10000,0,ROW,I(B),padding_OFF,parallel_OFF,<N
+884,6602,30000,0,ROW,I(B),padding_OFF,parallel_OFF,<N
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);CREATE INDEX idx_tab_b ON tab(b);
+1505,212,10,0,ROW,I(A);I(B),padding_OFF,parallel_OFF,=1
+1944,212,30,0,ROW,I(A);I(B),padding_OFF,parallel_OFF,=1
+1543,221,100,0,ROW,I(A);I(B),padding_OFF,parallel_OFF,=1
+1423,219,300,0,ROW,I(A);I(B),padding_OFF,parallel_OFF,=1
+910,213,1000,0,ROW,I(A);I(B),padding_OFF,parallel_OFF,=1
+869,228,3000,0,ROW,I(A);I(B),padding_OFF,parallel_OFF,=1
+906,247,10000,0,ROW,I(A);I(B),padding_OFF,parallel_OFF,=1
+913,302,30000,0,ROW,I(A);I(B),padding_OFF,parallel_OFF,=1
+1499,197,10,0,ROW,I(A);I(B),padding_OFF,parallel_OFF,=N
+1827,198,30,0,ROW,I(A);I(B),padding_OFF,parallel_OFF,=N
+1504,213,100,0,ROW,I(A);I(B),padding_OFF,parallel_OFF,=N
+1421,264,300,0,ROW,I(A);I(B),padding_OFF,parallel_OFF,=N
+906,855,1000,0,ROW,I(A);I(B),padding_OFF,parallel_OFF,=N
+869,1069,3000,0,ROW,I(A);I(B),padding_OFF,parallel_OFF,=N
+903,1170,10000,0,ROW,I(A);I(B),padding_OFF,parallel_OFF,=N
+869,1553,30000,0,ROW,I(A);I(B),padding_OFF,parallel_OFF,=N
+2423,198,10,0,ROW,I(A);I(B),padding_OFF,parallel_OFF,<N
+1563,200,30,0,ROW,I(A);I(B),padding_OFF,parallel_OFF,<N
+1437,225,100,0,ROW,I(A);I(B),padding_OFF,parallel_OFF,<N
+1492,343,300,0,ROW,I(A);I(B),padding_OFF,parallel_OFF,<N
+874,1619,1000,0,ROW,I(A);I(B),padding_OFF,parallel_OFF,<N
+870,1207,3000,0,ROW,I(A);I(B),padding_OFF,parallel_OFF,<N
+910,1590,10000,0,ROW,I(A);I(B),padding_OFF,parallel_OFF,<N
+889,2829,30000,0,ROW,I(A);I(B),padding_OFF,parallel_OFF,<N
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_a;DROP INDEX IF EXISTS idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a_b ON tab(a,b);
+1522,222,10,0,ROW,I(AB),padding_OFF,parallel_OFF,=1
+1550,212,30,0,ROW,I(AB),padding_OFF,parallel_OFF,=1
+1907,222,100,0,ROW,I(AB),padding_OFF,parallel_OFF,=1
+1329,218,300,0,ROW,I(AB),padding_OFF,parallel_OFF,=1
+1271,215,1000,0,ROW,I(AB),padding_OFF,parallel_OFF,=1
+1361,227,3000,0,ROW,I(AB),padding_OFF,parallel_OFF,=1
+1051,246,10000,0,ROW,I(AB),padding_OFF,parallel_OFF,=1
+1945,293,30000,0,ROW,I(AB),padding_OFF,parallel_OFF,=1
+1428,198,10,0,ROW,I(AB),padding_OFF,parallel_OFF,=N
+1692,198,30,0,ROW,I(AB),padding_OFF,parallel_OFF,=N
+2851,211,100,0,ROW,I(AB),padding_OFF,parallel_OFF,=N
+1905,244,300,0,ROW,I(AB),padding_OFF,parallel_OFF,=N
+1236,630,1000,0,ROW,I(AB),padding_OFF,parallel_OFF,=N
+1484,4018,3000,0,ROW,I(AB),padding_OFF,parallel_OFF,=N
+2283,42481,10000,0,ROW,I(AB),padding_OFF,parallel_OFF,=N
+1242,300000,30000,0,ROW,I(AB),padding_OFF,parallel_OFF,=N
+1434,198,10,0,ROW,I(AB),padding_OFF,parallel_OFF,<N
+1406,201,30,0,ROW,I(AB),padding_OFF,parallel_OFF,<N
+1630,221,100,0,ROW,I(AB),padding_OFF,parallel_OFF,<N
+1210,299,300,0,ROW,I(AB),padding_OFF,parallel_OFF,<N
+1267,1142,1000,0,ROW,I(AB),padding_OFF,parallel_OFF,<N
+1198,8373,3000,0,ROW,I(AB),padding_OFF,parallel_OFF,<N
+1619,89899,10000,0,ROW,I(AB),padding_OFF,parallel_OFF,<N
+1613,300000,30000,0,ROW,I(AB),padding_OFF,parallel_OFF,<N
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_a_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b_a ON tab(b,a);
+495,326,10,0,ROW,I(BA),padding_OFF,parallel_OFF,=1
+495,327,30,0,ROW,I(BA),padding_OFF,parallel_OFF,=1
+495,335,100,0,ROW,I(BA),padding_OFF,parallel_OFF,=1
+494,846,300,0,ROW,I(BA),padding_OFF,parallel_OFF,=1
+494,1093,1000,0,ROW,I(BA),padding_OFF,parallel_OFF,=1
+498,830,3000,0,ROW,I(BA),padding_OFF,parallel_OFF,=1
+499,889,10000,0,ROW,I(BA),padding_OFF,parallel_OFF,=1
+506,965,30000,0,ROW,I(BA),padding_OFF,parallel_OFF,=1
+496,792,10,0,ROW,I(BA),padding_OFF,parallel_OFF,=N
+495,989,30,0,ROW,I(BA),padding_OFF,parallel_OFF,=N
+495,1580,100,0,ROW,I(BA),padding_OFF,parallel_OFF,=N
+495,1943,300,0,ROW,I(BA),padding_OFF,parallel_OFF,=N
+494,1776,1000,0,ROW,I(BA),padding_OFF,parallel_OFF,=N
+496,1644,3000,0,ROW,I(BA),padding_OFF,parallel_OFF,=N
+499,1652,10000,0,ROW,I(BA),padding_OFF,parallel_OFF,=N
+506,1949,30000,0,ROW,I(BA),padding_OFF,parallel_OFF,=N
+494,2622,10,0,ROW,I(BA),padding_OFF,parallel_OFF,<N
+494,3670,30,0,ROW,I(BA),padding_OFF,parallel_OFF,<N
+494,5525,100,0,ROW,I(BA),padding_OFF,parallel_OFF,<N
+496,7449,300,0,ROW,I(BA),padding_OFF,parallel_OFF,<N
+496,6965,1000,0,ROW,I(BA),padding_OFF,parallel_OFF,<N
+497,6017,3000,0,ROW,I(BA),padding_OFF,parallel_OFF,<N
+502,5808,10000,0,ROW,I(BA),padding_OFF,parallel_OFF,<N
+521,6933,30000,0,ROW,I(BA),padding_OFF,parallel_OFF,<N
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_b_a;
+----------------------------------------
+DDL: 
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_a;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_a;DROP INDEX IF EXISTS idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_a_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_b_a;
+----------------------------------------
+DDL:  
+17673,479,10,0,ROW, ,padding_ON,parallel_OFF,=1
+10331,488,30,0,ROW, ,padding_ON,parallel_OFF,=1
+14165,474,100,0,ROW, ,padding_ON,parallel_OFF,=1
+14976,471,300,0,ROW, ,padding_ON,parallel_OFF,=1
+10914,10954,1000,0,ROW, ,padding_ON,parallel_OFF,=1
+9000,9548,3000,0,ROW, ,padding_ON,parallel_OFF,=1
+10288,12984,10000,0,ROW, ,padding_ON,parallel_OFF,=1
+11235,12812,30000,0,ROW, ,padding_ON,parallel_OFF,=1
+12917,3142,10,0,ROW, ,padding_ON,parallel_OFF,=N
+13136,8755,30,0,ROW, ,padding_ON,parallel_OFF,=N
+10989,24703,100,0,ROW, ,padding_ON,parallel_OFF,=N
+10885,80148,300,0,ROW, ,padding_ON,parallel_OFF,=N
+10456,249608,1000,0,ROW, ,padding_ON,parallel_OFF,=N
+10828,300000,3000,0,ROW, ,padding_ON,parallel_OFF,=N
+12313,300000,10000,0,ROW, ,padding_ON,parallel_OFF,=N
+16581,300000,30000,0,ROW, ,padding_ON,parallel_OFF,=N
+16437,10313,10,0,ROW, ,padding_ON,parallel_OFF,<N
+10986,30122,30,0,ROW, ,padding_ON,parallel_OFF,<N
+12482,101507,100,0,ROW, ,padding_ON,parallel_OFF,<N
+12746,300000,300,0,ROW, ,padding_ON,parallel_OFF,<N
+15397,300000,1000,0,ROW, ,padding_ON,parallel_OFF,<N
+10179,300000,3000,0,ROW, ,padding_ON,parallel_OFF,<N
+6198,300000,10000,0,ROW, ,padding_ON,parallel_OFF,<N
+18011,300000,30000,0,ROW, ,padding_ON,parallel_OFF,<N
+----------------------------------------
+DDL: 
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);
+9904,296,10,0,ROW,I(A),padding_ON,parallel_OFF,=1
+11245,313,30,0,ROW,I(A),padding_ON,parallel_OFF,=1
+14561,310,100,0,ROW,I(A),padding_ON,parallel_OFF,=1
+17002,296,300,0,ROW,I(A),padding_ON,parallel_OFF,=1
+13850,300,1000,0,ROW,I(A),padding_ON,parallel_OFF,=1
+10838,312,3000,0,ROW,I(A),padding_ON,parallel_OFF,=1
+13850,334,10000,0,ROW,I(A),padding_ON,parallel_OFF,=1
+13539,391,30000,0,ROW,I(A),padding_ON,parallel_OFF,=1
+19697,296,10,0,ROW,I(A),padding_ON,parallel_OFF,=N
+6757,298,30,0,ROW,I(A),padding_ON,parallel_OFF,=N
+6427,304,100,0,ROW,I(A),padding_ON,parallel_OFF,=N
+11542,352,300,0,ROW,I(A),padding_ON,parallel_OFF,=N
+12167,974,1000,0,ROW,I(A),padding_ON,parallel_OFF,=N
+9548,6524,3000,0,ROW,I(A),padding_ON,parallel_OFF,=N
+18705,69705,10000,0,ROW,I(A),padding_ON,parallel_OFF,=N
+17054,300000,30000,0,ROW,I(A),padding_ON,parallel_OFF,=N
+12642,306,10,0,ROW,I(A),padding_ON,parallel_OFF,<N
+14140,306,30,0,ROW,I(A),padding_ON,parallel_OFF,<N
+9863,323,100,0,ROW,I(A),padding_ON,parallel_OFF,<N
+18908,436,300,0,ROW,I(A),padding_ON,parallel_OFF,<N
+17232,1795,1000,0,ROW,I(A),padding_ON,parallel_OFF,<N
+8926,13482,3000,0,ROW,I(A),padding_ON,parallel_OFF,<N
+18339,157672,10000,0,ROW,I(A),padding_ON,parallel_OFF,<N
+12048,300000,30000,0,ROW,I(A),padding_ON,parallel_OFF,<N
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_a;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b ON tab(b);
+1216,473,10,0,ROW,I(B),padding_ON,parallel_OFF,=1
+1379,468,30,0,ROW,I(B),padding_ON,parallel_OFF,=1
+1467,482,100,0,ROW,I(B),padding_ON,parallel_OFF,=1
+1315,472,300,0,ROW,I(B),padding_ON,parallel_OFF,=1
+1248,13062,1000,0,ROW,I(B),padding_ON,parallel_OFF,=1
+1132,12409,3000,0,ROW,I(B),padding_ON,parallel_OFF,=1
+1143,10677,10000,0,ROW,I(B),padding_ON,parallel_OFF,=1
+1233,10108,30000,0,ROW,I(B),padding_ON,parallel_OFF,=1
+1188,1907,10,0,ROW,I(B),padding_ON,parallel_OFF,=N
+1345,4189,30,0,ROW,I(B),padding_ON,parallel_OFF,=N
+1364,1994,100,0,ROW,I(B),padding_ON,parallel_OFF,=N
+1290,1812,300,0,ROW,I(B),padding_ON,parallel_OFF,=N
+1338,1646,1000,0,ROW,I(B),padding_ON,parallel_OFF,=N
+1141,1469,3000,0,ROW,I(B),padding_ON,parallel_OFF,=N
+1131,1478,10000,0,ROW,I(B),padding_ON,parallel_OFF,=N
+1143,1679,30000,0,ROW,I(B),padding_ON,parallel_OFF,=N
+1187,5078,10,0,ROW,I(B),padding_ON,parallel_OFF,<N
+1375,9225,30,0,ROW,I(B),padding_ON,parallel_OFF,<N
+1530,9128,100,0,ROW,I(B),padding_ON,parallel_OFF,<N
+1318,7267,300,0,ROW,I(B),padding_ON,parallel_OFF,<N
+1274,6475,1000,0,ROW,I(B),padding_ON,parallel_OFF,<N
+1134,5646,3000,0,ROW,I(B),padding_ON,parallel_OFF,<N
+1158,5138,10000,0,ROW,I(B),padding_ON,parallel_OFF,<N
+1142,6101,30000,0,ROW,I(B),padding_ON,parallel_OFF,<N
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);CREATE INDEX idx_tab_b ON tab(b);
+1186,313,10,0,ROW,I(A);I(B),padding_ON,parallel_OFF,=1
+1629,294,30,0,ROW,I(A);I(B),padding_ON,parallel_OFF,=1
+1353,306,100,0,ROW,I(A);I(B),padding_ON,parallel_OFF,=1
+1294,299,300,0,ROW,I(A);I(B),padding_ON,parallel_OFF,=1
+1379,297,1000,0,ROW,I(A);I(B),padding_ON,parallel_OFF,=1
+1255,310,3000,0,ROW,I(A);I(B),padding_ON,parallel_OFF,=1
+1218,332,10000,0,ROW,I(A);I(B),padding_ON,parallel_OFF,=1
+1121,383,30000,0,ROW,I(A);I(B),padding_ON,parallel_OFF,=1
+1225,107,10,0,ROW,I(A);I(B),padding_ON,parallel_OFF,=N
+1383,108,30,0,ROW,I(A);I(B),padding_ON,parallel_OFF,=N
+1342,114,100,0,ROW,I(A);I(B),padding_ON,parallel_OFF,=N
+1392,171,300,0,ROW,I(A);I(B),padding_ON,parallel_OFF,=N
+1345,792,1000,0,ROW,I(A);I(B),padding_ON,parallel_OFF,=N
+1138,995,3000,0,ROW,I(A);I(B),padding_ON,parallel_OFF,=N
+1133,979,10000,0,ROW,I(A);I(B),padding_ON,parallel_OFF,=N
+1163,1232,30000,0,ROW,I(A);I(B),padding_ON,parallel_OFF,=N
+1219,108,10,0,ROW,I(A);I(B),padding_ON,parallel_OFF,<N
+1358,109,30,0,ROW,I(A);I(B),padding_ON,parallel_OFF,<N
+1479,126,100,0,ROW,I(A);I(B),padding_ON,parallel_OFF,<N
+1308,251,300,0,ROW,I(A);I(B),padding_ON,parallel_OFF,<N
+1329,1615,1000,0,ROW,I(A);I(B),padding_ON,parallel_OFF,<N
+1136,1080,3000,0,ROW,I(A);I(B),padding_ON,parallel_OFF,<N
+1145,1388,10000,0,ROW,I(A);I(B),padding_ON,parallel_OFF,<N
+1230,2479,30000,0,ROW,I(A);I(B),padding_ON,parallel_OFF,<N
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_a;DROP INDEX IF EXISTS idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a_b ON tab(a,b);
+13905,220,10,0,ROW,I(AB),padding_ON,parallel_OFF,=1
+5663,222,30,0,ROW,I(AB),padding_ON,parallel_OFF,=1
+19655,231,100,0,ROW,I(AB),padding_ON,parallel_OFF,=1
+16507,229,300,0,ROW,I(AB),padding_ON,parallel_OFF,=1
+5796,225,1000,0,ROW,I(AB),padding_ON,parallel_OFF,=1
+3601,240,3000,0,ROW,I(AB),padding_ON,parallel_OFF,=1
+4372,255,10000,0,ROW,I(AB),padding_ON,parallel_OFF,=1
+4282,304,30000,0,ROW,I(AB),padding_ON,parallel_OFF,=1
+8637,209,10,0,ROW,I(AB),padding_ON,parallel_OFF,=N
+5710,210,30,0,ROW,I(AB),padding_ON,parallel_OFF,=N
+4997,223,100,0,ROW,I(AB),padding_ON,parallel_OFF,=N
+6833,256,300,0,ROW,I(AB),padding_ON,parallel_OFF,=N
+6641,641,1000,0,ROW,I(AB),padding_ON,parallel_OFF,=N
+4458,4033,3000,0,ROW,I(AB),padding_ON,parallel_OFF,=N
+10943,42484,10000,0,ROW,I(AB),padding_ON,parallel_OFF,=N
+10304,300000,30000,0,ROW,I(AB),padding_ON,parallel_OFF,=N
+21165,211,10,0,ROW,I(AB),padding_ON,parallel_OFF,<N
+10730,214,30,0,ROW,I(AB),padding_ON,parallel_OFF,<N
+8862,234,100,0,ROW,I(AB),padding_ON,parallel_OFF,<N
+7516,312,300,0,ROW,I(AB),padding_ON,parallel_OFF,<N
+6574,1153,1000,0,ROW,I(AB),padding_ON,parallel_OFF,<N
+12116,8379,3000,0,ROW,I(AB),padding_ON,parallel_OFF,<N
+7212,90074,10000,0,ROW,I(AB),padding_ON,parallel_OFF,<N
+6647,300000,30000,0,ROW,I(AB),padding_ON,parallel_OFF,<N
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_a_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b_a ON tab(b,a);
+951,348,10,0,ROW,I(BA),padding_ON,parallel_OFF,=1
+1099,352,30,0,ROW,I(BA),padding_ON,parallel_OFF,=1
+1125,359,100,0,ROW,I(BA),padding_ON,parallel_OFF,=1
+1098,398,300,0,ROW,I(BA),padding_ON,parallel_OFF,=1
+1156,15424,1000,0,ROW,I(BA),padding_ON,parallel_OFF,=1
+1032,9142,3000,0,ROW,I(BA),padding_ON,parallel_OFF,=1
+1007,8316,10000,0,ROW,I(BA),padding_ON,parallel_OFF,=1
+1082,10876,30000,0,ROW,I(BA),padding_ON,parallel_OFF,=1
+947,2398,10,0,ROW,I(BA),padding_ON,parallel_OFF,=N
+1316,6163,30,0,ROW,I(BA),padding_ON,parallel_OFF,=N
+1145,2273,100,0,ROW,I(BA),padding_ON,parallel_OFF,=N
+1107,1897,300,0,ROW,I(BA),padding_ON,parallel_OFF,=N
+1056,1696,1000,0,ROW,I(BA),padding_ON,parallel_OFF,=N
+1128,1522,3000,0,ROW,I(BA),padding_ON,parallel_OFF,=N
+1022,1472,10000,0,ROW,I(BA),padding_ON,parallel_OFF,=N
+1025,1688,30000,0,ROW,I(BA),padding_ON,parallel_OFF,=N
+947,5671,10,0,ROW,I(BA),padding_ON,parallel_OFF,<N
+1127,12247,30,0,ROW,I(BA),padding_ON,parallel_OFF,<N
+1117,8707,100,0,ROW,I(BA),padding_ON,parallel_OFF,<N
+1113,7355,300,0,ROW,I(BA),padding_ON,parallel_OFF,<N
+1144,6758,1000,0,ROW,I(BA),padding_ON,parallel_OFF,<N
+1159,5836,3000,0,ROW,I(BA),padding_ON,parallel_OFF,<N
+1050,5385,10000,0,ROW,I(BA),padding_ON,parallel_OFF,<N
+1007,6364,30000,0,ROW,I(BA),padding_ON,parallel_OFF,<N
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_b_a;
+----------------------------------------
+DDL: 
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_a;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_a;DROP INDEX IF EXISTS idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_a_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_b_a;
+----------------------------------------
+DDL:  
+1847,214,10,0,ROW, ,padding_OFF,parallel_ON,=1
+1235,214,30,0,ROW, ,padding_OFF,parallel_ON,=1
+1426,229,100,0,ROW, ,padding_OFF,parallel_ON,=1
+1405,295,300,0,ROW, ,padding_OFF,parallel_ON,=1
+1407,674,1000,0,ROW, ,padding_OFF,parallel_ON,=1
+1129,856,3000,0,ROW, ,padding_OFF,parallel_ON,=1
+1073,644,10000,0,ROW, ,padding_OFF,parallel_ON,=1
+1224,1060,30000,0,ROW, ,padding_OFF,parallel_ON,=1
+1258,2347,10,0,ROW, ,padding_OFF,parallel_ON,=N
+1192,5889,30,0,ROW, ,padding_OFF,parallel_ON,=N
+1213,18628,100,0,ROW, ,padding_OFF,parallel_ON,=N
+1190,54409,300,0,ROW, ,padding_OFF,parallel_ON,=N
+1242,185212,1000,0,ROW, ,padding_OFF,parallel_ON,=N
+1083,300000,3000,0,ROW, ,padding_OFF,parallel_ON,=N
+1203,300000,10000,0,ROW, ,padding_OFF,parallel_ON,=N
+1003,300000,30000,0,ROW, ,padding_OFF,parallel_ON,=N
+1203,9629,10,0,ROW, ,padding_OFF,parallel_ON,<N
+1191,27739,30,0,ROW, ,padding_OFF,parallel_ON,<N
+1371,90978,100,0,ROW, ,padding_OFF,parallel_ON,<N
+1219,270893,300,0,ROW, ,padding_OFF,parallel_ON,<N
+1257,300000,1000,0,ROW, ,padding_OFF,parallel_ON,<N
+1380,300000,3000,0,ROW, ,padding_OFF,parallel_ON,<N
+1146,300000,10000,0,ROW, ,padding_OFF,parallel_ON,<N
+1310,300000,30000,0,ROW, ,padding_OFF,parallel_ON,<N
+----------------------------------------
+DDL: 
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);
+1515,111,10,0,ROW,I(A),padding_OFF,parallel_ON,=1
+1746,112,30,0,ROW,I(A),padding_OFF,parallel_ON,=1
+1760,114,100,0,ROW,I(A),padding_OFF,parallel_ON,=1
+1504,112,300,0,ROW,I(A),padding_OFF,parallel_ON,=1
+1581,112,1000,0,ROW,I(A),padding_OFF,parallel_ON,=1
+1742,115,3000,0,ROW,I(A),padding_OFF,parallel_ON,=1
+1136,134,10000,0,ROW,I(A),padding_OFF,parallel_ON,=1
+1324,215,30000,0,ROW,I(A),padding_OFF,parallel_ON,=1
+2048,198,10,0,ROW,I(A),padding_OFF,parallel_ON,=N
+1808,199,30,0,ROW,I(A),padding_OFF,parallel_ON,=N
+1243,214,100,0,ROW,I(A),padding_OFF,parallel_ON,=N
+1839,264,300,0,ROW,I(A),padding_OFF,parallel_ON,=N
+1453,855,1000,0,ROW,I(A),padding_OFF,parallel_ON,=N
+1246,6086,3000,0,ROW,I(A),padding_OFF,parallel_ON,=N
+1339,65469,10000,0,ROW,I(A),padding_OFF,parallel_ON,=N
+1180,300000,30000,0,ROW,I(A),padding_OFF,parallel_ON,=N
+1264,198,10,0,ROW,I(A),padding_OFF,parallel_ON,<N
+1528,200,30,0,ROW,I(A),padding_OFF,parallel_ON,<N
+1293,234,100,0,ROW,I(A),padding_OFF,parallel_ON,<N
+1192,343,300,0,ROW,I(A),padding_OFF,parallel_ON,<N
+2762,1629,1000,0,ROW,I(A),padding_OFF,parallel_ON,<N
+2087,12727,3000,0,ROW,I(A),padding_OFF,parallel_ON,<N
+1147,138463,10000,0,ROW,I(A),padding_OFF,parallel_ON,<N
+1140,300000,30000,0,ROW,I(A),padding_OFF,parallel_ON,<N
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_a;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b ON tab(b);
+1522,213,10,0,ROW,I(B),padding_OFF,parallel_ON,=1
+1553,217,30,0,ROW,I(B),padding_OFF,parallel_ON,=1
+1287,217,100,0,ROW,I(B),padding_OFF,parallel_ON,=1
+1682,297,300,0,ROW,I(B),padding_OFF,parallel_ON,=1
+883,638,1000,0,ROW,I(B),padding_OFF,parallel_ON,=1
+910,862,3000,0,ROW,I(B),padding_OFF,parallel_ON,=1
+905,809,10000,0,ROW,I(B),padding_OFF,parallel_ON,=1
+873,1151,30000,0,ROW,I(B),padding_OFF,parallel_ON,=1
+1372,858,10,0,ROW,I(B),padding_OFF,parallel_ON,=N
+1267,961,30,0,ROW,I(B),padding_OFF,parallel_ON,=N
+1268,1549,100,0,ROW,I(B),padding_OFF,parallel_ON,=N
+1610,1897,300,0,ROW,I(B),padding_OFF,parallel_ON,=N
+877,1738,1000,0,ROW,I(B),padding_OFF,parallel_ON,=N
+869,1608,3000,0,ROW,I(B),padding_OFF,parallel_ON,=N
+903,1591,10000,0,ROW,I(B),padding_OFF,parallel_ON,=N
+874,1874,30000,0,ROW,I(B),padding_OFF,parallel_ON,=N
+1815,2438,10,0,ROW,I(B),padding_OFF,parallel_ON,<N
+1837,3246,30,0,ROW,I(B),padding_OFF,parallel_ON,<N
+1542,5663,100,0,ROW,I(B),padding_OFF,parallel_ON,<N
+1679,7283,300,0,ROW,I(B),padding_OFF,parallel_ON,<N
+874,6753,1000,0,ROW,I(B),padding_OFF,parallel_ON,<N
+868,5858,3000,0,ROW,I(B),padding_OFF,parallel_ON,<N
+909,5463,10000,0,ROW,I(B),padding_OFF,parallel_ON,<N
+928,6687,30000,0,ROW,I(B),padding_OFF,parallel_ON,<N
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);CREATE INDEX idx_tab_b ON tab(b);
+1673,111,10,0,ROW,I(A);I(B),padding_OFF,parallel_ON,=1
+1541,112,30,0,ROW,I(A);I(B),padding_OFF,parallel_ON,=1
+1692,114,100,0,ROW,I(A);I(B),padding_OFF,parallel_ON,=1
+2413,112,300,0,ROW,I(A);I(B),padding_OFF,parallel_ON,=1
+878,112,1000,0,ROW,I(A);I(B),padding_OFF,parallel_ON,=1
+864,115,3000,0,ROW,I(A);I(B),padding_OFF,parallel_ON,=1
+906,134,10000,0,ROW,I(A);I(B),padding_OFF,parallel_ON,=1
+915,219,30000,0,ROW,I(A);I(B),padding_OFF,parallel_ON,=1
+1354,196,10,0,ROW,I(A);I(B),padding_OFF,parallel_ON,=N
+1412,198,30,0,ROW,I(A);I(B),padding_OFF,parallel_ON,=N
+1811,213,100,0,ROW,I(A);I(B),padding_OFF,parallel_ON,=N
+1293,265,300,0,ROW,I(A);I(B),padding_OFF,parallel_ON,=N
+884,853,1000,0,ROW,I(A);I(B),padding_OFF,parallel_ON,=N
+873,1085,3000,0,ROW,I(A);I(B),padding_OFF,parallel_ON,=N
+902,1126,10000,0,ROW,I(A);I(B),padding_OFF,parallel_ON,=N
+873,1429,30000,0,ROW,I(A);I(B),padding_OFF,parallel_ON,=N
+1474,196,10,0,ROW,I(A);I(B),padding_OFF,parallel_ON,<N
+1487,202,30,0,ROW,I(A);I(B),padding_OFF,parallel_ON,<N
+1165,225,100,0,ROW,I(A);I(B),padding_OFF,parallel_ON,<N
+1204,343,300,0,ROW,I(A);I(B),padding_OFF,parallel_ON,<N
+879,1619,1000,0,ROW,I(A);I(B),padding_OFF,parallel_ON,<N
+867,1193,3000,0,ROW,I(A);I(B),padding_OFF,parallel_ON,<N
+907,1579,10000,0,ROW,I(A);I(B),padding_OFF,parallel_ON,<N
+882,2801,30000,0,ROW,I(A);I(B),padding_OFF,parallel_ON,<N
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_a;DROP INDEX IF EXISTS idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a_b ON tab(a,b);
+1879,112,10,0,ROW,I(AB),padding_OFF,parallel_ON,=1
+1519,111,30,0,ROW,I(AB),padding_OFF,parallel_ON,=1
+1392,114,100,0,ROW,I(AB),padding_OFF,parallel_ON,=1
+1546,112,300,0,ROW,I(AB),padding_OFF,parallel_ON,=1
+1388,112,1000,0,ROW,I(AB),padding_OFF,parallel_ON,=1
+1843,114,3000,0,ROW,I(AB),padding_OFF,parallel_ON,=1
+1198,131,10000,0,ROW,I(AB),padding_OFF,parallel_ON,=1
+1193,308,30000,0,ROW,I(AB),padding_OFF,parallel_ON,=1
+1215,197,10,0,ROW,I(AB),padding_OFF,parallel_ON,=N
+1492,198,30,0,ROW,I(AB),padding_OFF,parallel_ON,=N
+1524,212,100,0,ROW,I(AB),padding_OFF,parallel_ON,=N
+1688,245,300,0,ROW,I(AB),padding_OFF,parallel_ON,=N
+1231,627,1000,0,ROW,I(AB),padding_OFF,parallel_ON,=N
+1225,4021,3000,0,ROW,I(AB),padding_OFF,parallel_ON,=N
+1990,42410,10000,0,ROW,I(AB),padding_OFF,parallel_ON,=N
+1475,300000,30000,0,ROW,I(AB),padding_OFF,parallel_ON,=N
+4829,198,10,0,ROW,I(AB),padding_OFF,parallel_ON,<N
+2018,200,30,0,ROW,I(AB),padding_OFF,parallel_ON,<N
+1569,219,100,0,ROW,I(AB),padding_OFF,parallel_ON,<N
+1233,300,300,0,ROW,I(AB),padding_OFF,parallel_ON,<N
+1762,1137,1000,0,ROW,I(AB),padding_OFF,parallel_ON,<N
+1241,8372,3000,0,ROW,I(AB),padding_OFF,parallel_ON,<N
+1269,89512,10000,0,ROW,I(AB),padding_OFF,parallel_ON,<N
+1209,300000,30000,0,ROW,I(AB),padding_OFF,parallel_ON,<N
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_a_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b_a ON tab(b,a);
+496,193,10,0,ROW,I(BA),padding_OFF,parallel_ON,=1
+494,206,30,0,ROW,I(BA),padding_OFF,parallel_ON,=1
+495,199,100,0,ROW,I(BA),padding_OFF,parallel_ON,=1
+494,297,300,0,ROW,I(BA),padding_OFF,parallel_ON,=1
+496,906,1000,0,ROW,I(BA),padding_OFF,parallel_ON,=1
+495,961,3000,0,ROW,I(BA),padding_OFF,parallel_ON,=1
+498,854,10000,0,ROW,I(BA),padding_OFF,parallel_ON,=1
+507,1145,30000,0,ROW,I(BA),padding_OFF,parallel_ON,=1
+494,788,10,0,ROW,I(BA),padding_OFF,parallel_ON,=N
+495,990,30,0,ROW,I(BA),padding_OFF,parallel_ON,=N
+495,1471,100,0,ROW,I(BA),padding_OFF,parallel_ON,=N
+496,1921,300,0,ROW,I(BA),padding_OFF,parallel_ON,=N
+495,1782,1000,0,ROW,I(BA),padding_OFF,parallel_ON,=N
+497,1643,3000,0,ROW,I(BA),padding_OFF,parallel_ON,=N
+499,1639,10000,0,ROW,I(BA),padding_OFF,parallel_ON,=N
+508,1923,30000,0,ROW,I(BA),padding_OFF,parallel_ON,=N
+494,2621,10,0,ROW,I(BA),padding_OFF,parallel_ON,<N
+494,3401,30,0,ROW,I(BA),padding_OFF,parallel_ON,<N
+495,5527,100,0,ROW,I(BA),padding_OFF,parallel_ON,<N
+495,7405,300,0,ROW,I(BA),padding_OFF,parallel_ON,<N
+495,6921,1000,0,ROW,I(BA),padding_OFF,parallel_ON,<N
+499,6021,3000,0,ROW,I(BA),padding_OFF,parallel_ON,<N
+502,5658,10000,0,ROW,I(BA),padding_OFF,parallel_ON,<N
+521,6789,30000,0,ROW,I(BA),padding_OFF,parallel_ON,<N
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_b_a;
+----------------------------------------
+DDL: 
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_a;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_a;DROP INDEX IF EXISTS idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_a_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_b_a;
+----------------------------------------
+DDL:  
+12103,289,10,0,ROW, ,padding_ON,parallel_ON,=1
+11928,281,30,0,ROW, ,padding_ON,parallel_ON,=1
+10869,291,100,0,ROW, ,padding_ON,parallel_ON,=1
+16271,414,300,0,ROW, ,padding_ON,parallel_ON,=1
+12373,419,1000,0,ROW, ,padding_ON,parallel_ON,=1
+9518,11466,3000,0,ROW, ,padding_ON,parallel_ON,=1
+10231,10817,10000,0,ROW, ,padding_ON,parallel_ON,=1
+12873,12844,30000,0,ROW, ,padding_ON,parallel_ON,=1
+14068,3030,10,0,ROW, ,padding_ON,parallel_ON,=N
+11796,7595,30,0,ROW, ,padding_ON,parallel_ON,=N
+10694,25657,100,0,ROW, ,padding_ON,parallel_ON,=N
+15810,85126,300,0,ROW, ,padding_ON,parallel_ON,=N
+9784,283012,1000,0,ROW, ,padding_ON,parallel_ON,=N
+7213,300000,3000,0,ROW, ,padding_ON,parallel_ON,=N
+12507,300000,10000,0,ROW, ,padding_ON,parallel_ON,=N
+7984,300000,30000,0,ROW, ,padding_ON,parallel_ON,=N
+8406,10983,10,0,ROW, ,padding_ON,parallel_ON,<N
+9343,29473,30,0,ROW, ,padding_ON,parallel_ON,<N
+9591,96343,100,0,ROW, ,padding_ON,parallel_ON,<N
+11727,300000,300,0,ROW, ,padding_ON,parallel_ON,<N
+18110,300000,1000,0,ROW, ,padding_ON,parallel_ON,<N
+9046,300000,3000,0,ROW, ,padding_ON,parallel_ON,<N
+7454,300000,10000,0,ROW, ,padding_ON,parallel_ON,<N
+13308,300000,30000,0,ROW, ,padding_ON,parallel_ON,<N
+----------------------------------------
+DDL: 
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);
+14380,119,10,0,ROW,I(A),padding_ON,parallel_ON,=1
+14343,115,30,0,ROW,I(A),padding_ON,parallel_ON,=1
+10947,119,100,0,ROW,I(A),padding_ON,parallel_ON,=1
+19381,115,300,0,ROW,I(A),padding_ON,parallel_ON,=1
+11638,116,1000,0,ROW,I(A),padding_ON,parallel_ON,=1
+12704,120,3000,0,ROW,I(A),padding_ON,parallel_ON,=1
+14232,148,10000,0,ROW,I(A),padding_ON,parallel_ON,=1
+9633,390,30000,0,ROW,I(A),padding_ON,parallel_ON,=1
+9538,300,10,0,ROW,I(A),padding_ON,parallel_ON,=N
+12677,281,30,0,ROW,I(A),padding_ON,parallel_ON,=N
+7148,314,100,0,ROW,I(A),padding_ON,parallel_ON,=N
+6401,349,300,0,ROW,I(A),padding_ON,parallel_ON,=N
+6788,970,1000,0,ROW,I(A),padding_ON,parallel_ON,=N
+7383,6542,3000,0,ROW,I(A),padding_ON,parallel_ON,=N
+6082,70020,10000,0,ROW,I(A),padding_ON,parallel_ON,=N
+6725,300000,30000,0,ROW,I(A),padding_ON,parallel_ON,=N
+13372,282,10,0,ROW,I(A),padding_ON,parallel_ON,<N
+11322,306,30,0,ROW,I(A),padding_ON,parallel_ON,<N
+10114,320,100,0,ROW,I(A),padding_ON,parallel_ON,<N
+13856,425,300,0,ROW,I(A),padding_ON,parallel_ON,<N
+14048,1801,1000,0,ROW,I(A),padding_ON,parallel_ON,<N
+12730,13626,3000,0,ROW,I(A),padding_ON,parallel_ON,<N
+14060,160147,10000,0,ROW,I(A),padding_ON,parallel_ON,<N
+13799,300000,30000,0,ROW,I(A),padding_ON,parallel_ON,<N
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_a;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b ON tab(b);
+1187,288,10,0,ROW,I(B),padding_ON,parallel_ON,=1
+1351,284,30,0,ROW,I(B),padding_ON,parallel_ON,=1
+1370,292,100,0,ROW,I(B),padding_ON,parallel_ON,=1
+1310,417,300,0,ROW,I(B),padding_ON,parallel_ON,=1
+1237,419,1000,0,ROW,I(B),padding_ON,parallel_ON,=1
+1108,6436,3000,0,ROW,I(B),padding_ON,parallel_ON,=1
+1153,6654,10000,0,ROW,I(B),padding_ON,parallel_ON,=1
+1090,10502,30000,0,ROW,I(B),padding_ON,parallel_ON,=1
+1197,1909,10,0,ROW,I(B),padding_ON,parallel_ON,=N
+1390,4150,30,0,ROW,I(B),padding_ON,parallel_ON,=N
+1367,1992,100,0,ROW,I(B),padding_ON,parallel_ON,=N
+1306,1834,300,0,ROW,I(B),padding_ON,parallel_ON,=N
+1251,1638,1000,0,ROW,I(B),padding_ON,parallel_ON,=N
+1121,1530,3000,0,ROW,I(B),padding_ON,parallel_ON,=N
+1129,1401,10000,0,ROW,I(B),padding_ON,parallel_ON,=N
+1092,1601,30000,0,ROW,I(B),padding_ON,parallel_ON,=N
+1191,6084,10,0,ROW,I(B),padding_ON,parallel_ON,<N
+1364,9081,30,0,ROW,I(B),padding_ON,parallel_ON,<N
+1373,8458,100,0,ROW,I(B),padding_ON,parallel_ON,<N
+1300,7270,300,0,ROW,I(B),padding_ON,parallel_ON,<N
+1238,6581,1000,0,ROW,I(B),padding_ON,parallel_ON,<N
+1116,5621,3000,0,ROW,I(B),padding_ON,parallel_ON,<N
+1152,5108,10000,0,ROW,I(B),padding_ON,parallel_ON,<N
+1105,6080,30000,0,ROW,I(B),padding_ON,parallel_ON,<N
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);CREATE INDEX idx_tab_b ON tab(b);
+1184,117,10,0,ROW,I(A);I(B),padding_ON,parallel_ON,=1
+1352,118,30,0,ROW,I(A);I(B),padding_ON,parallel_ON,=1
+1360,122,100,0,ROW,I(A);I(B),padding_ON,parallel_ON,=1
+1288,115,300,0,ROW,I(A);I(B),padding_ON,parallel_ON,=1
+1255,117,1000,0,ROW,I(A);I(B),padding_ON,parallel_ON,=1
+1119,119,3000,0,ROW,I(A);I(B),padding_ON,parallel_ON,=1
+1275,143,10000,0,ROW,I(A);I(B),padding_ON,parallel_ON,=1
+1105,379,30000,0,ROW,I(A);I(B),padding_ON,parallel_ON,=1
+1395,108,10,0,ROW,I(A);I(B),padding_ON,parallel_ON,=N
+1374,108,30,0,ROW,I(A);I(B),padding_ON,parallel_ON,=N
+1530,115,100,0,ROW,I(A);I(B),padding_ON,parallel_ON,=N
+1307,170,300,0,ROW,I(A);I(B),padding_ON,parallel_ON,=N
+1374,793,1000,0,ROW,I(A);I(B),padding_ON,parallel_ON,=N
+1106,941,3000,0,ROW,I(A);I(B),padding_ON,parallel_ON,=N
+1149,972,10000,0,ROW,I(A);I(B),padding_ON,parallel_ON,=N
+1116,1201,30000,0,ROW,I(A);I(B),padding_ON,parallel_ON,=N
+1195,107,10,0,ROW,I(A);I(B),padding_ON,parallel_ON,<N
+1378,109,30,0,ROW,I(A);I(B),padding_ON,parallel_ON,<N
+1339,127,100,0,ROW,I(A);I(B),padding_ON,parallel_ON,<N
+1300,251,300,0,ROW,I(A);I(B),padding_ON,parallel_ON,<N
+1255,1602,1000,0,ROW,I(A);I(B),padding_ON,parallel_ON,<N
+1255,1139,3000,0,ROW,I(A);I(B),padding_ON,parallel_ON,<N
+1137,1392,10000,0,ROW,I(A);I(B),padding_ON,parallel_ON,<N
+1111,2462,30000,0,ROW,I(A);I(B),padding_ON,parallel_ON,<N
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_a;DROP INDEX IF EXISTS idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a_b ON tab(a,b);
+16010,91,10,0,ROW,I(AB),padding_ON,parallel_ON,=1
+10751,90,30,0,ROW,I(AB),padding_ON,parallel_ON,=1
+15371,92,100,0,ROW,I(AB),padding_ON,parallel_ON,=1
+13715,91,300,0,ROW,I(AB),padding_ON,parallel_ON,=1
+13843,90,1000,0,ROW,I(AB),padding_ON,parallel_ON,=1
+12572,97,3000,0,ROW,I(AB),padding_ON,parallel_ON,=1
+10312,122,10000,0,ROW,I(AB),padding_ON,parallel_ON,=1
+8912,306,30000,0,ROW,I(AB),padding_ON,parallel_ON,=1
+8606,209,10,0,ROW,I(AB),padding_ON,parallel_ON,=N
+9669,212,30,0,ROW,I(AB),padding_ON,parallel_ON,=N
+8773,222,100,0,ROW,I(AB),padding_ON,parallel_ON,=N
+8837,258,300,0,ROW,I(AB),padding_ON,parallel_ON,=N
+15104,641,1000,0,ROW,I(AB),padding_ON,parallel_ON,=N
+11259,4030,3000,0,ROW,I(AB),padding_ON,parallel_ON,=N
+14725,42455,10000,0,ROW,I(AB),padding_ON,parallel_ON,=N
+11810,300000,30000,0,ROW,I(AB),padding_ON,parallel_ON,=N
+15304,209,10,0,ROW,I(AB),padding_ON,parallel_ON,<N
+11994,213,30,0,ROW,I(AB),padding_ON,parallel_ON,<N
+19876,234,100,0,ROW,I(AB),padding_ON,parallel_ON,<N
+9253,312,300,0,ROW,I(AB),padding_ON,parallel_ON,<N
+10591,1152,1000,0,ROW,I(AB),padding_ON,parallel_ON,<N
+11258,8380,3000,0,ROW,I(AB),padding_ON,parallel_ON,<N
+11092,89712,10000,0,ROW,I(AB),padding_ON,parallel_ON,<N
+10691,300000,30000,0,ROW,I(AB),padding_ON,parallel_ON,<N
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_a_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b_a ON tab(b,a);
+969,274,10,0,ROW,I(BA),padding_ON,parallel_ON,=1
+1090,273,30,0,ROW,I(BA),padding_ON,parallel_ON,=1
+1113,281,100,0,ROW,I(BA),padding_ON,parallel_ON,=1
+1084,250,300,0,ROW,I(BA),padding_ON,parallel_ON,=1
+1031,264,1000,0,ROW,I(BA),padding_ON,parallel_ON,=1
+1008,16001,3000,0,ROW,I(BA),padding_ON,parallel_ON,=1
+1009,15817,10000,0,ROW,I(BA),padding_ON,parallel_ON,=1
+1010,8747,30000,0,ROW,I(BA),padding_ON,parallel_ON,=1
+973,2427,10,0,ROW,I(BA),padding_ON,parallel_ON,=N
+1133,6151,30,0,ROW,I(BA),padding_ON,parallel_ON,=N
+1152,2095,100,0,ROW,I(BA),padding_ON,parallel_ON,=N
+1084,1946,300,0,ROW,I(BA),padding_ON,parallel_ON,=N
+1052,1700,1000,0,ROW,I(BA),padding_ON,parallel_ON,=N
+1073,1569,3000,0,ROW,I(BA),padding_ON,parallel_ON,=N
+998,1468,10000,0,ROW,I(BA),padding_ON,parallel_ON,=N
+1036,1690,30000,0,ROW,I(BA),padding_ON,parallel_ON,=N
+970,6056,10,0,ROW,I(BA),padding_ON,parallel_ON,<N
+1094,11674,30,0,ROW,I(BA),padding_ON,parallel_ON,<N
+1127,9068,100,0,ROW,I(BA),padding_ON,parallel_ON,<N
+1075,7418,300,0,ROW,I(BA),padding_ON,parallel_ON,<N
+1033,6698,1000,0,ROW,I(BA),padding_ON,parallel_ON,<N
+1062,5848,3000,0,ROW,I(BA),padding_ON,parallel_ON,<N
+1005,5343,10000,0,ROW,I(BA),padding_ON,parallel_ON,<N
+1022,6371,30000,0,ROW,I(BA),padding_ON,parallel_ON,<N
+----------------------------------------
+DDL: DROP INDEX IF EXISTS idx_tab_b_a;
+
+Process finished with exit code 0
