@@ -1,53 +1,47 @@
 package vsb.baca.sql;
 
-import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.*;
-import vsb.baca.grammar.*;
-import vsb.baca.grammar.rewriter.*;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import vsb.baca.grammar.Mssql;
+import vsb.baca.grammar.Mssql_lexer;
+import vsb.baca.grammar.rewriter.Mssql_rewriter_visitor;
 import vsb.baca.sql.model.Config;
-import vsb.baca.sql.model.selectCmd;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-
 import java.sql.*;
 import java.util.Locale;
 
-public class mssql_unit_test {
+public class postgre_rewrite_probe {
 
     private static String sql1 = "";
     private static String sql2 = "";
+
+    //private static String connectionString = "jdbc:postgresql://158.196.98.67/sqlbench?user=sqlbench&password=n3cUmubsbo";
+    private static String url = "jdbc:postgresql://bayer.cs.vsb.cz:5432/sqlbench";
+    private static String username = "sqlbench";
+    private static String password = "n3cUmubsbo";
 
     public static void main(String[] args) throws Exception {
         // read SQL from input file
         String fileName;
 
-        fileName = "sql/unittests/input_agg_7.sql"; // change to the path and name of your input file
-        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
-        fileName = "sql/unittests/input_agg_6.sql";
-        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
-        fileName = "sql/unittests/input_agg_5.sql";
-        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
-        fileName = "sql/unittests/input_agg_4.sql";
-        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
-        fileName = "sql/unittests/input_agg_3.sql";
-        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
-        fileName = "sql/unittests/input_agg_2.sql";
-        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
-        fileName = "sql/unittests/input_agg_1.sql";
+        fileName = "sql/unittests/input_rewrite_probe.sql"; // change to the path and name of your input file
         checkCorrectness(testRewriteSqlInFile(fileName), fileName);
     }
 
     private static void checkCorrectness(boolean ok, String fileName) {
+        System.out.println("-----------------------------------------");
+        System.out.println(sql1);
+        System.out.println("-----------------------------------------");
+        System.out.println(sql2);
+        System.out.println("-----------------------------------------");
+
         if (ok) {
             System.out.println("Test passed - " + fileName);
         } else {
-            System.out.println("-----------------------------------------");
-            System.out.println(sql1);
-            System.out.println("-----------------------------------------");
-            System.out.println(sql2);
-            System.out.println("-----------------------------------------");
             System.out.println("Test failed - " + fileName);
         }
         sql1 = "";
@@ -64,25 +58,24 @@ public class mssql_unit_test {
         } catch (IOException e) {
             System.out.println("Error reading file: " + e.getMessage());
         }
-        sql1 = sql1.toUpperCase();
+
         sql2 = rewriteSQL(sql1);
 
-        try {
-            // Load the SQL Server JDBC driver
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
-            // Connect to the database
-            Connection conn = DriverManager.getConnection(
-                    "jdbc:sqlserver://bayer.cs.vsb.cz;instanceName=sqldb;databaseName=sqlbench_window", "sqlbench", "n3cUmubsbo");
+        try {
+            Connection connection = DriverManager.getConnection(url, username, password);
+
+            // Your code for executing SQL commands will go here
+
 
             // execute rewritten SQL
-            Statement stmt1 = conn.createStatement();
+            Statement stmt1 = connection.createStatement();
             ResultSet rs1 = stmt1.executeQuery(sql1);
             ResultSetMetaData rsmd1 = rs1.getMetaData();
             int columnCount1 = rsmd1.getColumnCount();
 
             // Execute the SQL SELECT command
-            Statement stmt2 = conn.createStatement();
+            Statement stmt2 = connection.createStatement();
             ResultSet rs2 = stmt2.executeQuery(sql2);
             ResultSetMetaData rsmd = rs2.getMetaData();
             int columnCount2 = rsmd.getColumnCount();
@@ -109,7 +102,7 @@ public class mssql_unit_test {
             // Close the resources
             rs2.close();
             stmt2.close();
-            conn.close();
+            connection.close();
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -126,7 +119,7 @@ public class mssql_unit_test {
 
         ParseTree tree = parser.tsql_file(); // begin parsing at init rule
         Mssql_rewriter_visitor visitor = new Mssql_rewriter_visitor();
-        visitor.setConfig(new Config(Config.dbms.MSSQL, true, true));
+        visitor.setConfig(new Config(Config.dbms.POSTGRESQL, true, true));
         visitor.visit(tree);
         return visitor.getSelectCmd().getQueryText();
 

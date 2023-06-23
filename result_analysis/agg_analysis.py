@@ -3,15 +3,15 @@ import re
 import scipy.stats as stats
 import matplotlib.pyplot as plt
 import numpy as np
-
-dbms = 'MSSql'
-has_column = True
-
+#
+# dbms = 'MSSql'
+# has_column = True
+#
 # dbms = 'Postgres'
 # has_column = False
 #
-# dbms = 'Oracle'
-# has_column = False
+dbms = 'Oracle'
+has_column = False
 #
 # dbms = 'MySQL'
 # has_column = False
@@ -38,7 +38,6 @@ data[numeric_cols] = data[numeric_cols].astype(int)
 
 
 
-
 ###########################################################################
 # Filter rows based on conditions and compute statistics
 column_data = data[data['Storage'] == 'COLUMN']
@@ -57,7 +56,12 @@ IB_data = data[data['IDX'].str.contains('I\(B')]
 Not_IB_data = data[~data['IDX'].str.contains('I\(B')]
 IA_data = data[data['IDX'].str.contains('I\(A')]
 Not_IA_data = data[~data['IDX'].str.contains('I\(A')]
+IBA_data = data[data['IDX'].str.contains('I\(BA\)')]
 
+# compute average value of T1
+print(data['T1'].mean())
+print(row_data['T1'].mean())
+print(row_data['T2'].mean())
 
 # Number of rows where T1/T2 is larger than 10 for COLUMN storage
 column_gt_10 = len(column_data[(column_data['T1'] / column_data['T2']) > 10])
@@ -71,7 +75,7 @@ print("Geometric Mean of T1/T2:", geometric_mean)
 
 def all_parameters():
     if has_column:
-        plt.boxplot([data['T1'] / data['T2'],
+        boxplot_dict = plt.boxplot([data['T1'] / data['T2'],
                      column_data['T1'] / column_data['T2'],
                      row_data['T1'] / row_data['T2'],
                      parallel_on['T1'] / parallel_on['T2'],
@@ -82,6 +86,7 @@ def all_parameters():
                      min_data['T1'] / min_data['T2'],
                      PB_data['T1'] / PB_data['T2'],
                      PB_OB_data['T1'] / PB_OB_data['T2'],
+                     IBA_data['T1'] / IBA_data['T2'],
                      IB_data['T1'] / IB_data['T2'],
                      Not_IB_data['T1'] / Not_IB_data['T2'],
                      IC_data['T1'] / IC_data['T2'],
@@ -91,12 +96,19 @@ def all_parameters():
                      ],
 
                     showfliers=False,
-                    positions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
+                    positions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
                     labels=['ALL', 'COLUMN', 'ROW', 'PARALLELIZED', 'SINGLE THREAD', 'PADDING', 'NO PADDING', 'COUNT',
-                            'MIN', 'PB', 'PB_OB', 'I(B)', '~I(B)', 'I(C)', '~I(C)', 'I(A)', '~I(A)']
+                            'MIN', 'PB', 'PB_OB', 'I(BA)', 'I(B)', '~I(B)', 'I(C)', '~I(C)', 'I(A)', '~I(A)']
                     )
+        # Define the colors for the desired boxes
+        colors = ['red', 'red', 'blue', 'blue','green', 'green', 'orange', 'orange', 'cyan', 'cyan', 'magenta', 'magenta', 'brown', 'brown', 'purple', 'purple']
+
+        # Loop through the desired boxes and modify their color
+        for i in range(1, 17):
+            box = boxplot_dict['boxes'][i]
+            box.set(color=colors[i - 1])
     else:
-        plt.boxplot([data['T1'] / data['T2'],
+        boxplot_dict = plt.boxplot([data['T1'] / data['T2'],
                      parallel_on['T1'] / parallel_on['T2'],
                      parallel_off['T1'] / parallel_off['T2'],
                      padding_on['T1'] / padding_on['T2'],
@@ -105,6 +117,7 @@ def all_parameters():
                      min_data['T1'] / min_data['T2'],
                      PB_data['T1'] / PB_data['T2'],
                      PB_OB_data['T1'] / PB_OB_data['T2'],
+                     IBA_data['T1'] / IBA_data['T2'],
                      IB_data['T1'] / IB_data['T2'],
                      Not_IB_data['T1'] / Not_IB_data['T2'],
                      IC_data['T1'] / IC_data['T2'],
@@ -114,18 +127,26 @@ def all_parameters():
                      ],
 
                     showfliers=False,
-                    # positions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
-                    # labels=['ALL', 'COLUMN', 'ROW', 'PARALLELIZED', 'SINGLE THREAD', 'PADDING', 'NO PADDING', 'COUNT', 'MIN', 'PB', 'PB_OB', 'I(A)', '~I(A)']
-                    positions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+                    positions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
                     labels=['ALL', 'PARALLELIZED', 'SINGLE THREAD', 'PADDING', 'NO PADDING', 'COUNT', 'MIN', 'PB',
                             'PB_OB',
-                            'I(B)', '~I(B)', 'I(C)', '~I(C)', 'I(A)', '~I(A)']
+                            'I(BA)', 'I(B)', '~I(B)', 'I(C)', '~I(C)', 'I(A)', '~I(A)']
                     )
+        # Define the colors for the desired boxes
+        colors = ['red', 'blue','green', 'green', 'orange', 'orange', 'cyan', 'cyan', 'magenta', 'magenta', 'brown', 'brown', 'purple', 'purple']
+
+        # Loop through the desired boxes and modify their color
+        for i in range(1, 15):
+            box = boxplot_dict['boxes'][i]
+            box.set(color=colors[i - 1])
     plt.xticks(rotation=45)
     plt.ylabel('T1/T2')
-    plt.title(dbms)
+    plt.title(dbms + " - All parameters")
     plt.yscale('log')  # show the y-axis in log scale
     plt.axhline(y=1, color='r', linestyle='-')  # add horizontal line at value 1
+
+    plt.subplots_adjust(left=0.11, right=0.97, top=0.94, bottom=0.2)  # Adjust the values as per your requirements
+    plt.savefig(dbms + '_boxplot_all.pdf', format='pdf')
     # Show the plot
     plt.show()
 
@@ -153,9 +174,12 @@ def bvalues():
                 )
     plt.xticks(rotation=45)
     plt.ylabel('T1/T2')
-    plt.title(dbms)
+    plt.title(dbms + " BDistinct for ROW")
     plt.yscale('log')  # show the y-axis in log scale
     plt.axhline(y=1, color='r', linestyle='-')  # add horizontal line at value 1
+
+    plt.subplots_adjust(left=0.11, right=0.97, top=0.94, bottom=0.13)  # Adjust the values as per your requirements
+    plt.savefig(dbms + '_boxplot_bdistinct_row.pdf', format='pdf')
     # Show the plot
     plt.show()
 
@@ -181,9 +205,13 @@ def bvalues_Bindex():
                 )
     plt.xticks(rotation=45)
     plt.ylabel('T1/T2')
-    plt.title(dbms)
+    plt.title(dbms + " BDistinct for ROW + I(B)")
     plt.yscale('log')  # show the y-axis in log scale
     plt.axhline(y=1, color='r', linestyle='-')  # add horizontal line at value 1
+
+    plt.subplots_adjust(left=0.11, right=0.97, top=0.94, bottom=0.13)  # Adjust the values as per your requirements
+    plt.savefig(dbms + '_boxplot_bdistinct_row_IB.pdf', format='pdf')
+
     # Show the plot
     plt.show()
 
@@ -207,9 +235,45 @@ def sel():
                 )
     plt.xticks(rotation=45)
     plt.ylabel('T1/T2')
-    plt.title(dbms)
+    plt.title(dbms + " Selectivity for ROW")
     plt.yscale('log')  # show the y-axis in log scale
     plt.axhline(y=1, color='r', linestyle='-')  # add horizontal line at value 1
+
+    plt.subplots_adjust(left=0.11, right=0.97, top=0.94, bottom=0.1)  # Adjust the values as per your requirements
+    plt.savefig(dbms + '_boxplot_sel.pdf', format='pdf')
+    # Show the plot
+    plt.show()
+
+
+def sel_Ib():
+    global i
+    sel_data = []
+    sel_values = ['<1', '<2', '<4', '<8', '<16', '<32']
+    for i in range(len(sel_values)):
+        sel_data.append(IB_data[(IB_data['Sel'] == sel_values[i]) &
+                                (IB_data['PB'] > 100) &
+                                (IB_data['Storage'] == 'ROW')])
+    # Create the box plots for bp_data
+    plt.boxplot([sel_data[0]['T1'] / sel_data[0]['T2'],
+                 sel_data[1]['T1'] / sel_data[1]['T2'],
+                 sel_data[2]['T1'] / sel_data[2]['T2'],
+                 sel_data[3]['T1'] / sel_data[3]['T2'],
+                 sel_data[4]['T1'] / sel_data[4]['T2'],
+                 sel_data[5]['T1'] / sel_data[5]['T2']
+                 ],
+                showfliers=False,
+                positions=[1, 2, 3, 4, 5, 6],
+                labels=sel_values
+                )
+    plt.xticks(rotation=45)
+    plt.ylabel('T1/T2')
+    plt.title(dbms + " Selectivity for ROW + I(B) with PB > 100")
+    plt.yscale('log')  # show the y-axis in log scale
+    plt.axhline(y=1, color='r', linestyle='-')  # add horizontal line at value 1
+
+    plt.subplots_adjust(left=0.11, right=0.97, top=0.94, bottom=0.1)  # Adjust the values as per your requirements
+    plt.savefig(dbms + '_boxplot_sel_IB_gt100.pdf', format='pdf')
+
     # Show the plot
     plt.show()
 
@@ -219,7 +283,7 @@ all_parameters()
 
 ###################################################################
 # Create the next box plot for T1/T2 based on PB value
-bvalues()
+# bvalues()
 
 ###################################################################
 # Create the next box plot for T1/T2 based on PB value
@@ -227,7 +291,11 @@ bvalues()
 
 ###################################################################
 # Create the next box plot for T1/T2 based on Sel value
-sel()
+# sel()
+
+###################################################################
+# Create the next box plot for T1/T2 based on Sel value with I(B) index
+# sel_Ib()
 
 ###################################################################
 # filtered_data = data[(data['Storage'] == 'ROW') &
@@ -273,6 +341,14 @@ if dbms == 'MySQL':
                         (data['Sel'] != '<8') &
                         (data['IDX'].str.contains('I\(B')) ]
 
+if dbms == 'Oracle':
+    data_IB_ROW = data[(data['Storage'] == 'ROW') &
+                        (data['PB'] > 100) &
+                        (data['Sel'] != '<32') &
+                        (data['Sel'] != '<16') &
+                        (data['Sel'] != '<8') &
+                        (data['IDX'].str.contains('I\(BA\)')) ]
+
 print('Data size: ' + str(len(data)))
 print('data_IB_ROW data size: ' + str(len(data_IB_ROW)))
 
@@ -286,6 +362,10 @@ data_IB_ROW_parallelon = data_IB_ROW[data_IB_ROW['Par'] == 'parallel_ON']
 data_IB_ROW_paralleloff = data_IB_ROW[data_IB_ROW['Par'] == 'parallel_OFF']
 data_IB_ROW_paddingon = data_IB_ROW[data_IB_ROW['Padding'] == 'padding_ON']
 data_IB_ROW_paddingoff = data_IB_ROW[data_IB_ROW['Padding'] == 'padding_OFF']
+data_IB_ROW_IA = data_IB_ROW[data_IB_ROW['IDX'].str.contains('I\(A')]
+data_IB_ROW_notIA = data_IB_ROW[~data_IB_ROW['IDX'].str.contains('I\(A')]
+data_IB_ROW_IC = data_IB_ROW[data_IB_ROW['IDX'].str.contains('I\(C')]
+data_IB_ROW_notIC = data_IB_ROW[~data_IB_ROW['IDX'].str.contains('I\(C')]
 
 
 # Create the box plot
@@ -295,19 +375,26 @@ plt.boxplot([data_IB_ROW['T1'] / data_IB_ROW['T2'],
              data_IB_ROW_parallelon['T1'] / data_IB_ROW_parallelon['T2'],
             data_IB_ROW_paralleloff['T1'] / data_IB_ROW_paralleloff['T2'],
              data_IB_ROW_paddingon['T1'] / data_IB_ROW_paddingon['T2'],
-            data_IB_ROW_paddingoff['T1'] / data_IB_ROW_paddingoff['T2']
+             data_IB_ROW_paddingoff['T1'] / data_IB_ROW_paddingoff['T2'],
+             data_IB_ROW_IA['T1'] / data_IB_ROW_IA['T2'],
+             data_IB_ROW_notIA['T1'] / data_IB_ROW_notIA['T2'],
+             data_IB_ROW_IC['T1'] / data_IB_ROW_IC['T2'],
+             data_IB_ROW_notIC['T1'] / data_IB_ROW_notIC['T2']
              ],
             showfliers=False,
-            positions=[1, 2, 3, 4, 5, 6, 7],
-            labels=['all', 'count', 'min', 'parallel_ON', 'parallel_OFF', 'padding_ON', 'padding_OFF'])
+            positions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+            labels=['all', 'count', 'min', 'parallel_ON', 'parallel_OFF', 'padding_ON', 'padding_OFF', 'I(A)', '~I(A)', 'I(C)', '~I(C)'])
 
 plt.xticks(rotation=45)
-plt.xlabel('T1/T2')
-plt.title(dbms)
+plt.ylabel('T1/T2')
+plt.title(dbms + ' - X subset')
 plt.yscale('log') # show the y-axis in log scale
 
 
 plt.axhline(y=1, color='r', linestyle='-') # add horizontal line at value 1
+
+plt.subplots_adjust(left=0.11, right=0.97, top=0.94, bottom=0.2)  # Adjust the values as per your requirements
+plt.savefig(dbms + '_boxplot_parameters_X.pdf', format='pdf')
 
 # Show the plot
 plt.show()

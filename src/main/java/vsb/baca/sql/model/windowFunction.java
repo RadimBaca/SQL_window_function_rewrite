@@ -471,9 +471,12 @@ public class windowFunction {
             }
             builder.append("(" + alias1 + "." + sqlUtil.getText(list.get(i)) + " = ");
             builder.append(alias2 + "." + sqlUtil.getText(list.get(i)));
-            builder.append(" OR (");
-            builder.append(alias1 + "." + sqlUtil.getText(list.get(i)) + " IS NULL AND ");
-            builder.append(alias2 + "." + sqlUtil.getText(list.get(i)) + " IS NULL))");
+            if (config.getAttributesCanBeNull()) {
+                builder.append(" OR (");
+                builder.append(alias1 + "." + sqlUtil.getText(list.get(i)) + " IS NULL AND ");
+                builder.append(alias2 + "." + sqlUtil.getText(list.get(i)) + " IS NULL)");
+            }
+            builder.append(")");
         }
     }
 
@@ -542,11 +545,13 @@ public class windowFunction {
                     builder.append("winfun_subquery." + sqlUtil.getText(orderByList.get(j).a) + " = ");
                     builder.append("main_subquery." + sqlUtil.getText(orderByList.get(j).a));
                     // NULL part
-                    builder.append(" OR (");
-                    builder.append("winfun_subquery." + sqlUtil.getText(orderByList.get(j).a) + " IS NULL AND ");
-                    builder.append("main_subquery." + sqlUtil.getText(orderByList.get(j).a) + " IS NULL");
-                    builder.append(")");
-
+                    if (config.getAttributesCanBeNull())
+                    {
+                        builder.append(" OR (");
+                        builder.append("winfun_subquery." + sqlUtil.getText(orderByList.get(j).a) + " IS NULL AND ");
+                        builder.append("main_subquery." + sqlUtil.getText(orderByList.get(j).a) + " IS NULL");
+                        builder.append(")");
+                    }
                     builder.append(")");
                 }
                 if (i > 0) {
@@ -557,20 +562,22 @@ public class windowFunction {
                 builder.append("winfun_subquery." + sqlUtil.getText(orderByList.get(i).a) + comparisonOpString);
                 builder.append("main_subquery." + sqlUtil.getText(orderByList.get(i).a));
                 // NULL part
-                builder.append(" OR (");
-                if (comparisonOpString.equals("<="))
-                    builder.append("winfun_subquery." + sqlUtil.getText(orderByList.get(i).a) + " IS NULL");
-                if (comparisonOpString.equals(">="))
-                    builder.append("main_subquery." + sqlUtil.getText(orderByList.get(i).a) + " IS NULL");
-                if (comparisonOpString.equals("<")) {
-                    builder.append("winfun_subquery." + sqlUtil.getText(orderByList.get(i).a) + " IS NULL AND ");
-                    builder.append("main_subquery." + sqlUtil.getText(orderByList.get(i).a) + " IS NOT NULL");
+                if (config.getAttributesCanBeNull()) {
+                    builder.append(" OR (");
+                    if (comparisonOpString.equals("<="))
+                        builder.append("winfun_subquery." + sqlUtil.getText(orderByList.get(i).a) + " IS NULL");
+                    if (comparisonOpString.equals(">="))
+                        builder.append("main_subquery." + sqlUtil.getText(orderByList.get(i).a) + " IS NULL");
+                    if (comparisonOpString.equals("<")) {
+                        builder.append("winfun_subquery." + sqlUtil.getText(orderByList.get(i).a) + " IS NULL AND ");
+                        builder.append("main_subquery." + sqlUtil.getText(orderByList.get(i).a) + " IS NOT NULL");
+                    }
+                    if (comparisonOpString.equals(">")) {
+                        builder.append("winfun_subquery." + sqlUtil.getText(orderByList.get(i).a) + " IS NOT NULL AND ");
+                        builder.append("main_subquery." + sqlUtil.getText(orderByList.get(i).a) + " IS NULL");
+                    }
+                    builder.append(")");
                 }
-                if (comparisonOpString.equals(">")) {
-                    builder.append("winfun_subquery." + sqlUtil.getText(orderByList.get(i).a) + " IS NOT NULL AND ");
-                    builder.append("main_subquery." + sqlUtil.getText(orderByList.get(i).a) + " IS NULL");
-                }
-                builder.append(")");
 
                 builder.append(")");
                 builder.append(")");

@@ -84,7 +84,7 @@ def all_parameters():
                             '= N', '< N', 'I(B)', '~I(B)', 'I(A)', '~I(A)']
                     )
         # Define the colors for the desired boxes
-        colors = ['red', 'red', 'blue', 'blue','green', 'green', 'yellow', 'yellow', 'yellow', 'cyan', 'cyan', 'magenta', 'magenta']
+        colors = ['red', 'red', 'blue', 'blue','green', 'green', 'orange', 'orange', 'orange', 'cyan', 'cyan', 'magenta', 'magenta']
 
         # Loop through the desired boxes and modify their color
         for i in range(1, 14):
@@ -111,6 +111,14 @@ def all_parameters():
                     labels=['ALL', 'PARALLELIZED', 'SINGLE THREAD', 'PADDING', 'NO PADDING', '= 1',
                             '= N', '< N', 'I(B)', '~I(B)', 'I(A)', '~I(A)']
                     )
+        # Define the colors for the desired boxes
+        colors = ['blue', 'blue','green', 'green', 'orange', 'orange', 'orange', 'cyan', 'cyan', 'magenta', 'magenta']
+
+        # Loop through the desired boxes and modify their color
+        for i in range(1, 12):
+            box = boxplot_dict['boxes'][i]
+            box.set(color=colors[i - 1])
+
     plt.xticks(rotation=45)
     plt.ylabel('T1/T2')
     plt.title(dbms)

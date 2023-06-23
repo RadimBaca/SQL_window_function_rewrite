@@ -38,14 +38,16 @@ public class benchmark_oracle extends benchmark {
 //            ((OracleConnection) connection).setPropertyCycle(100);
 
             long startTime = System.currentTimeMillis();
-
             ResultSet resultSet = statement.executeQuery(sql);
+            resultSet.setFetchSize(1000);
             int count = 0;
             while (resultSet.next()) {
                 count++;
             }
             long endTime = System.currentTimeMillis();
             resultSet.close();
+
+//            System.out.println("Query time: " + (endTime - startTime) + " [ms]");
 
             return new Pair(endTime - startTime, count);
         }

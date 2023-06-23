@@ -30,7 +30,7 @@ public class oracle_agg_test {
     public static void main(String[] args) throws Exception {
 
         try {
-            Class.forName("oracle.jdbc.driver.OracleDriver");
+            Class.forName("oracle.jdbc.OracleDriver");
         } catch (ClassNotFoundException e) {
             System.out.println("Could not load the driver");
         }

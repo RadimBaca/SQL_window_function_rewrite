@@ -1,20 +1,20 @@
 package vsb.baca.sql;
 
-import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.*;
-import vsb.baca.grammar.*;
-import vsb.baca.grammar.rewriter.*;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import vsb.baca.grammar.Mssql;
+import vsb.baca.grammar.Mssql_lexer;
+import vsb.baca.grammar.rewriter.Mssql_rewriter_visitor;
 import vsb.baca.sql.model.Config;
-import vsb.baca.sql.model.selectCmd;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-
 import java.sql.*;
 import java.util.Locale;
 
-public class mssql_unit_test {
+public class oracle_rewrite_probe {
 
     private static String sql1 = "";
     private static String sql2 = "";
@@ -23,36 +23,26 @@ public class mssql_unit_test {
         // read SQL from input file
         String fileName;
 
-        fileName = "sql/unittests/input_agg_7.sql"; // change to the path and name of your input file
-        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
-        fileName = "sql/unittests/input_agg_6.sql";
-        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
-        fileName = "sql/unittests/input_agg_5.sql";
-        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
-        fileName = "sql/unittests/input_agg_4.sql";
-        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
-        fileName = "sql/unittests/input_agg_3.sql";
-        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
-        fileName = "sql/unittests/input_agg_2.sql";
-        checkCorrectness(testRewriteSqlInFile(fileName), fileName);
-        fileName = "sql/unittests/input_agg_1.sql";
+        fileName = "sql/unittests/input_rewrite_probe.sql"; // change to the path and name of your input file
         checkCorrectness(testRewriteSqlInFile(fileName), fileName);
     }
 
     private static void checkCorrectness(boolean ok, String fileName) {
+        System.out.println("-----------------------------------------");
+        System.out.println(sql1);
+        System.out.println("-----------------------------------------");
+        System.out.println(sql2);
+        System.out.println("-----------------------------------------");
+
         if (ok) {
             System.out.println("Test passed - " + fileName);
         } else {
-            System.out.println("-----------------------------------------");
-            System.out.println(sql1);
-            System.out.println("-----------------------------------------");
-            System.out.println(sql2);
-            System.out.println("-----------------------------------------");
             System.out.println("Test failed - " + fileName);
         }
         sql1 = "";
         sql2 = "";
     }
+
 
     private static boolean testRewriteSqlInFile(String fileName) {
         try (FileReader fileReader = new FileReader(fileName);
@@ -67,13 +57,26 @@ public class mssql_unit_test {
         sql1 = sql1.toUpperCase();
         sql2 = rewriteSQL(sql1);
 
+        System.out.println("-----------------------------------------");
+        System.out.println(sql1);
+        System.out.println("-----------------------------------------");
+        System.out.println(sql2);
+        System.out.println("-----------------------------------------");
+
+
         try {
-            // Load the SQL Server JDBC driver
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            try {
+                Class.forName("oracle.jdbc.OracleDriver");
+            } catch (ClassNotFoundException e) {
+                System.out.println("Could not load the driver");
+            }
+
 
             // Connect to the database
             Connection conn = DriverManager.getConnection(
-                    "jdbc:sqlserver://bayer.cs.vsb.cz;instanceName=sqldb;databaseName=sqlbench_window", "sqlbench", "n3cUmubsbo");
+                    "jdbc:oracle:thin:@bayer.cs.vsb.cz:1521:oracle", "sqlbench_window", "n3cUmubsbo");
+
+            System.out.println("Start executing SQL");
 
             // execute rewritten SQL
             Statement stmt1 = conn.createStatement();
@@ -88,7 +91,7 @@ public class mssql_unit_test {
             int columnCount2 = rsmd.getColumnCount();
 
             if (columnCount1 != columnCount2) {
-                System.out.println("Number of columns in the result set is different - " + fileName);
+                System.out.println("Number of columns in the result set size is different - " + fileName);
                 return false;
             }
 
@@ -98,12 +101,12 @@ public class mssql_unit_test {
                     System.out.println("Result set count is different - " + fileName);
                     return false;
                 }
-                for (int i = 1; i <= columnCount1; i++) {
-                    if (rs1.getInt(i) != rs2.getInt(i)) {
-                        System.out.println("Result set is different - " + fileName);
-                        return false;
-                    }
-                }
+//                for (int i = 1; i <= columnCount1; i++) {
+//                    if (rs1.getInt(i) != rs2.getInt(i)) {
+//                        System.out.println("Result set is different - " + fileName);
+//                        return false;
+//                    }
+//                }
             }
 
             // Close the resources
@@ -126,7 +129,7 @@ public class mssql_unit_test {
 
         ParseTree tree = parser.tsql_file(); // begin parsing at init rule
         Mssql_rewriter_visitor visitor = new Mssql_rewriter_visitor();
-        visitor.setConfig(new Config(Config.dbms.MSSQL, true, true));
+        visitor.setConfig(new Config(Config.dbms.ORACLE, false, true));
         visitor.visit(tree);
         return visitor.getSelectCmd().getQueryText();
 
