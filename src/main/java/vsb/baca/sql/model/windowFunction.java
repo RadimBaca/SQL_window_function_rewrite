@@ -430,8 +430,32 @@ public class windowFunction {
      * @param builder
      */
     private void buildOffsetFetch(StringBuilder builder, String functionName, boolean withTies) {
-        //if (predicateList.size() == 1) // not necessary since we already checked that
-        {
+        if (config.getSelectedDbms() == Config.dbms.MYSQL) {
+            predicate p = predicateList.get(0);
+            if (p.comparisonOp == predicate.comparisonOperator.EQUAL) {
+                builder.append(" LIMIT 1");
+                builder.append(" OFFSET " + (p.right - 1) + " ");
+//                if (withTies) {
+//                    builder.append(" WITH TIES ");
+//                } else {
+//                    builder.append(" ONLY ");
+//                }
+            }
+            if (p.comparisonOp == predicate.comparisonOperator.LESS_THAN || p.comparisonOp == predicate.comparisonOperator.LESS_THAN_OR_EQUAL) {
+                int offset = 1;
+                if (p.comparisonOp == predicate.comparisonOperator.LESS_THAN_OR_EQUAL) {
+                    offset = 0;
+                }
+                builder.append(" LIMIT " + (p.right - offset));
+                builder.append(" OFFSET 0 ");
+//                if (withTies) {
+//                    builder.append(" WITH TIES ");
+//                } else {
+//                    builder.append(" ONLY ");
+//                }
+            }
+        }
+        else {
             predicate p = predicateList.get(0);
             if (p.comparisonOp == predicate.comparisonOperator.EQUAL) {
                 builder.append(" OFFSET " + (p.right - 1) + " ROWS ");

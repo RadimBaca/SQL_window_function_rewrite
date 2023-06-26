@@ -200,11 +200,10 @@ public class querySpecificationCmd extends selectCmd {
             }
             if (config.getSelectedDbms() == Config.dbms.MYSQL) {
                 if (windowFunction.isaAggFunction())
-                {
-                    // The Oracle is not capable to use indexes with OUTER APPLY, so we use CROSS JOIN
-                    builder.append(" CROSS JOIN LATERAL (" + windowFunction.getQueryText(subqueryString, alias) + ") " + alias + " ");
+                {                    // The Oracle is not capable to use indexes with OUTER APPLY, so we use CROSS JOIN
+                    builder.append(" CROSS JOIN LATERAL (" + windowFunction.getQueryText(subqueryString, alias) + ") " + alias + " ON true ");
                 } else {
-                    builder.append(" OUTER APPLY (" + windowFunction.getQueryText(subqueryString, alias) + ") " + alias + " ");
+                    builder.append(" LEFT JOIN LATERAL (" + windowFunction.getQueryText(subqueryString, alias) + ") " + alias + " ON true ");
                 }
             }
 //            builder.append(" OUTER APPLY (" + windowFunction.getQueryText(subqueryString, alias) + ") AS " + alias);

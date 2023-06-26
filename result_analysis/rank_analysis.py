@@ -48,6 +48,8 @@ IB_data = data[data['IDX'].str.contains('I\(B')]
 Not_IB_data = data[~data['IDX'].str.contains('I\(B')]
 IA_data = data[data['IDX'].str.contains('I\(A')]
 Not_IA_data = data[~data['IDX'].str.contains('I\(A')]
+IBA_data = data[data['IDX'].str.contains('I\(BA\)')]
+IAB_data = data[data['IDX'].str.contains('I\(AB\)')]
 
 
 # Number of rows where T1/T2 is larger than 10 for COLUMN storage
@@ -72,22 +74,24 @@ def all_parameters():
                      equal1_data['T1'] / equal1_data['T2'],
                      equalN_data['T1'] / equalN_data['T2'],
                      lessN_data['T1'] / lessN_data['T2'],
-                     IB_data['T1'] / IB_data['T2'],
+                                    IBA_data['T1'] / IBA_data['T2'],
+                                    IAB_data['T1'] / IAB_data['T2'],
+                                    IB_data['T1'] / IB_data['T2'],
                      Not_IB_data['T1'] / Not_IB_data['T2'],
                      IA_data['T1'] / IA_data['T2'],
                      Not_IA_data['T1'] / Not_IA_data['T2']
                      ],
 
                     showfliers=False,
-                    positions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+                    positions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,15,16],
                     labels=['ALL', 'COLUMN', 'ROW', 'PARALLELIZED', 'SINGLE THREAD', 'PADDING', 'NO PADDING', '= 1',
-                            '= N', '< N', 'I(B)', '~I(B)', 'I(A)', '~I(A)']
+                            '= N', '< N', 'I(BA)', 'I(AB)', 'I(B)', '~I(B)', 'I(A)', '~I(A)']
                     )
         # Define the colors for the desired boxes
-        colors = ['red', 'red', 'blue', 'blue','green', 'green', 'orange', 'orange', 'orange', 'cyan', 'cyan', 'magenta', 'magenta']
+        colors = ['red', 'red', 'blue', 'blue','green', 'green', 'orange', 'orange', 'orange', 'brown', 'brown', 'cyan', 'cyan', 'magenta', 'magenta']
 
         # Loop through the desired boxes and modify their color
-        for i in range(1, 14):
+        for i in range(1, 16):
             box = boxplot_dict['boxes'][i]
             box.set(color=colors[i - 1])
 
@@ -100,6 +104,8 @@ def all_parameters():
                      equal1_data['T1'] / equal1_data['T2'],
                      equalN_data['T1'] / equalN_data['T2'],
                      lessN_data['T1'] / lessN_data['T2'],
+                                    IBA_data['T1'] / IBA_data['T2'],
+                                    IAB_data['T1'] / IAB_data['T2'],
                      IB_data['T1'] / IB_data['T2'],
                      Not_IB_data['T1'] / Not_IB_data['T2'],
                      IA_data['T1'] / IA_data['T2'],
@@ -107,15 +113,15 @@ def all_parameters():
                      ],
 
                     showfliers=False,
-                    positions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+                    positions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,13,14],
                     labels=['ALL', 'PARALLELIZED', 'SINGLE THREAD', 'PADDING', 'NO PADDING', '= 1',
-                            '= N', '< N', 'I(B)', '~I(B)', 'I(A)', '~I(A)']
+                            '= N', '< N', 'I(BA)', 'I(AB)', 'I(B)', '~I(B)', 'I(A)', '~I(A)']
                     )
         # Define the colors for the desired boxes
-        colors = ['blue', 'blue','green', 'green', 'orange', 'orange', 'orange', 'cyan', 'cyan', 'magenta', 'magenta']
+        colors = ['blue', 'blue','green', 'green', 'orange', 'orange', 'orange', 'brown', 'brown', 'cyan', 'cyan', 'magenta', 'magenta']
 
         # Loop through the desired boxes and modify their color
-        for i in range(1, 12):
+        for i in range(1, 14):
             box = boxplot_dict['boxes'][i]
             box.set(color=colors[i - 1])
 
@@ -124,6 +130,10 @@ def all_parameters():
     plt.title(dbms)
     plt.yscale('log')  # show the y-axis in log scale
     plt.axhline(y=1, color='r', linestyle='-')  # add horizontal line at value 1
+
+    plt.subplots_adjust(left=0.11, right=0.97, top=0.94, bottom=0.2)  # Adjust the values as per your requirements
+    plt.savefig(dbms + '_rank_all.pdf', format='pdf')
+
     # Show the plot
     plt.show()
 
@@ -185,31 +195,6 @@ def bvalues_Bindex():
     # Show the plot
     plt.show()
 
-def sel():
-    global i
-    sel_data = []
-    sel_values = ['<1', '<2', '<4', '<8', '<16', '<32']
-    for i in range(len(sel_values)):
-        sel_data.append(row_data[row_data['Sel'] == sel_values[i]])
-    # Create the box plots for bp_data
-    plt.boxplot([sel_data[0]['T1'] / sel_data[0]['T2'],
-                 sel_data[1]['T1'] / sel_data[1]['T2'],
-                 sel_data[2]['T1'] / sel_data[2]['T2'],
-                 sel_data[3]['T1'] / sel_data[3]['T2'],
-                 sel_data[4]['T1'] / sel_data[4]['T2'],
-                 sel_data[5]['T1'] / sel_data[5]['T2']
-                 ],
-                showfliers=False,
-                positions=[1, 2, 3, 4, 5, 6],
-                labels=sel_values
-                )
-    plt.xticks(rotation=45)
-    plt.ylabel('T1/T2')
-    plt.title(dbms)
-    plt.yscale('log')  # show the y-axis in log scale
-    plt.axhline(y=1, color='r', linestyle='-')  # add horizontal line at value 1
-    # Show the plot
-    plt.show()
 
 ###################################################################
 # Create the box plot
@@ -221,7 +206,7 @@ bvalues()
 
 ###################################################################
 # Create the next box plot for T1/T2 based on PB value
-# bvalues_Bindex()
+bvalues_Bindex()
 
 ###################################################################
 # Create the next box plot for T1/T2 based on Sel value
@@ -290,9 +275,11 @@ plt.xticks(rotation=45)
 plt.xlabel('T1/T2')
 plt.title(dbms)
 plt.yscale('log') # show the y-axis in log scale
-
-
 plt.axhline(y=1, color='r', linestyle='-') # add horizontal line at value 1
+
+plt.subplots_adjust(left=0.11, right=0.97, top=0.94, bottom=0.2)  # Adjust the values as per your requirements
+plt.savefig(dbms + '_rank_X.pdf', format='pdf')
+
 
 # Show the plot
 plt.show()

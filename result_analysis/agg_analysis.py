@@ -4,17 +4,17 @@ import scipy.stats as stats
 import matplotlib.pyplot as plt
 import numpy as np
 #
-# dbms = 'MSSql'
-# has_column = True
+dbms = 'MSSql'
+has_column = True
 #
 # dbms = 'Postgres'
 # has_column = False
 #
 # dbms = 'Oracle'
 # has_column = False
-#
-dbms = 'MySQL'
-has_column = False
+
+# dbms = 'MySQL'
+# has_column = False
 
 # Read the CSV file into a DataFrame, reading each row as a string
 with open('agg_' + dbms +'.txt', 'r') as file:
@@ -52,11 +52,12 @@ PB_data = data[data['Constructs'] == 'PB']
 PB_OB_data = data[data['Constructs'] == 'PB_OB']
 IC_data = data[data['IDX'].str.startswith('I(C)')]
 Not_IC_data = data[~data['IDX'].str.startswith('I(C)')]
-IB_data = data[data['IDX'].str.contains('I\(B')]
-Not_IB_data = data[~data['IDX'].str.contains('I\(B')]
-IA_data = data[data['IDX'].str.contains('I\(A')]
-Not_IA_data = data[~data['IDX'].str.contains('I\(A')]
+IB_data = data[data['IDX'].str.contains('I\(B\)')]
+Not_IB_data = data[~data['IDX'].str.contains('I\(B\)')]
+IA_data = data[data['IDX'].str.contains('I\(A\)')]
+Not_IA_data = data[~data['IDX'].str.contains('I\(A\)')]
 IBA_data = data[data['IDX'].str.contains('I\(BA\)')]
+IAB_data = data[data['IDX'].str.contains('I\(AB\)')]
 
 # compute average value of T1
 print(data['T1'].mean())
@@ -86,8 +87,9 @@ def all_parameters():
                      min_data['T1'] / min_data['T2'],
                      PB_data['T1'] / PB_data['T2'],
                      PB_OB_data['T1'] / PB_OB_data['T2'],
-                     IBA_data['T1'] / IBA_data['T2'],
-                     IB_data['T1'] / IB_data['T2'],
+                                    IBA_data['T1'] / IBA_data['T2'],
+                                    IAB_data['T1'] / IAB_data['T2'],
+                                    IB_data['T1'] / IB_data['T2'],
                      Not_IB_data['T1'] / Not_IB_data['T2'],
                      IC_data['T1'] / IC_data['T2'],
                      Not_IC_data['T1'] / Not_IC_data['T2'],
@@ -96,9 +98,9 @@ def all_parameters():
                      ],
 
                     showfliers=False,
-                    positions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
+                    positions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
                     labels=['ALL', 'COLUMN', 'ROW', 'PARALLELIZED', 'SINGLE THREAD', 'PADDING', 'NO PADDING', 'COUNT',
-                            'MIN', 'PB', 'PB_OB', 'I(BA)', 'I(B)', '~I(B)', 'I(C)', '~I(C)', 'I(A)', '~I(A)']
+                            'MIN', 'PB', 'PB_OB', 'I(BA)', 'I(AB)', 'I(B)', '~I(B)', 'I(C)', '~I(C)', 'I(A)', '~I(A)']
                     )
         # Define the colors for the desired boxes
         colors = ['red', 'red', 'blue', 'blue','green', 'green', 'orange', 'orange', 'cyan', 'cyan', 'magenta', 'magenta', 'brown', 'brown', 'purple', 'purple']
@@ -118,6 +120,7 @@ def all_parameters():
                      PB_data['T1'] / PB_data['T2'],
                      PB_OB_data['T1'] / PB_OB_data['T2'],
                      IBA_data['T1'] / IBA_data['T2'],
+                                    IAB_data['T1'] / IAB_data['T2'],
                      IB_data['T1'] / IB_data['T2'],
                      Not_IB_data['T1'] / Not_IB_data['T2'],
                      IC_data['T1'] / IC_data['T2'],
@@ -127,10 +130,10 @@ def all_parameters():
                      ],
 
                     showfliers=False,
-                    positions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+                    positions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
                     labels=['ALL', 'PARALLELIZED', 'SINGLE THREAD', 'PADDING', 'NO PADDING', 'COUNT', 'MIN', 'PB',
                             'PB_OB',
-                            'I(BA)', 'I(B)', '~I(B)', 'I(C)', '~I(C)', 'I(A)', '~I(A)']
+                            'I(BA)', 'I(AB)', 'I(B)', '~I(B)', 'I(C)', '~I(C)', 'I(A)', '~I(A)']
                     )
         # Define the colors for the desired boxes
         colors = ['red', 'blue','green', 'green', 'orange', 'orange', 'cyan', 'cyan', 'magenta', 'magenta', 'brown', 'brown', 'purple', 'purple']
@@ -283,11 +286,11 @@ all_parameters()
 
 ###################################################################
 # Create the next box plot for T1/T2 based on PB value
-bvalues()
+# bvalues()
 
 ###################################################################
 # Create the next box plot for T1/T2 based on PB value
-bvalues_Bindex()
+# bvalues_Bindex()
 
 ###################################################################
 # Create the next box plot for T1/T2 based on Sel value
@@ -295,7 +298,7 @@ bvalues_Bindex()
 
 ###################################################################
 # Create the next box plot for T1/T2 based on Sel value with I(B) index
-sel_Ib()
+# sel_Ib()
 
 ###################################################################
 # filtered_data = data[(data['Storage'] == 'ROW') &
@@ -304,10 +307,10 @@ sel_Ib()
 #                      (((data['PB'] > 300) & (data['Par'] == 'parallel_OFF')) |
 #                      ((data['PB'] > 3000) & (data['Par'] == 'parallel_ON')))
 #                         ]
-# print filtered_data size
+# # print filtered_data size
 # print('Data size: ' + str(len(data)))
 # print('Filtered data size: ' + str(len(filtered_data)))
-# print('data_IB_ROW data size: ' + str(len(data_IB_ROW)))
+# # print('data_IB_ROW data size: ' + str(len(data_IB_ROW)))
 #
 # selected_rows = filtered_data[(filtered_data['T1']/filtered_data['T2'] < 0.9)]
 #
@@ -316,15 +319,42 @@ sel_Ib()
 #     row_values = selected_rows.iloc[i].tolist()
 #     row_string = ', '.join(map(str, row_values))
 #     print(row_string)
-#
+
 
 ###################################################################
 data_IB_ROW = data
 if dbms == 'MSSql':
-    data_IB_ROW = data[(data['Storage'] == 'ROW') &
-                        (data['PB'] > 100) &
-                        (data['Sel'] != '<32') &
-                        (data['IDX'].str.contains('I\(B')) ]
+    data_IB_ROW = data[
+                       (
+                            (data['IDX'].str.contains('I\(BA')) &
+                            (data['PB'] > 100) &
+                            ((data['Fun'] == 'min') | (data['Padding'] == 'Padding_ON'))
+                       )
+                       |
+                       (
+                           (data['IDX'].str.contains('I\(BA')) &
+                           (data['PB'] > 30) &
+                           (data['Storage'] == 'ROW')
+                       )
+                        |
+                       (
+                            (data['Storage'] == 'ROW') &
+                            (data['PB'] > 100) &
+                            (data['Sel'] != '<32') &
+                            (data['IDX'].str.contains('I\(B\)')) &
+                            ((data['Par'] == 'parallel_OFF') |
+                            (data['Padding'] == 'padding_ON'))
+                       )
+                       |
+                       (
+                           (data['IDX'].str.contains('I\(B\)')) &
+                           (data['Constructs'] == 'PB') &
+                           (data['PB'] > 30) &
+                           (data['Storage'] == 'ROW') &
+                            ((data['Par'] == 'parallel_OFF') |
+                            (data['Padding'] == 'padding_ON'))
+                       )
+                       ]
 if dbms == 'Postgres':
     data_IB_ROW = data[(data['Storage'] == 'ROW') &
                         (data['PB'] > 100) &
@@ -342,12 +372,15 @@ if dbms == 'MySQL':
                         (data['IDX'].str.contains('I\(B')) ]
 
 if dbms == 'Oracle':
+    # data_IB_ROW = data[(data['Storage'] == 'ROW') &
+    #                     (data['PB'] >= 100) &
+    #                     (data['IDX'].str.contains('I\(BA')) ]
     data_IB_ROW = data[(data['Storage'] == 'ROW') &
-                        (data['PB'] > 100) &
+                        (data['PB'] >= 3000) &
                         (data['Sel'] != '<32') &
-                        (data['Sel'] != '<16') &
-                        (data['Sel'] != '<8') &
-                        (data['IDX'].str.contains('I\(BA\)')) ]
+                        (data['IDX'].str.contains('I\(B\)')) &
+                       ((data['Fun'] == 'min') | (data['Par'] == 'parallel_OFF') |
+                        (data['Padding'] == 'padding_ON'))]
 
 print('Data size: ' + str(len(data)))
 print('data_IB_ROW data size: ' + str(len(data_IB_ROW)))
