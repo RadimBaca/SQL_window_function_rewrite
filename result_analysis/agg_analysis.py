@@ -4,14 +4,14 @@ import scipy.stats as stats
 import matplotlib.pyplot as plt
 import numpy as np
 #
-dbms = 'MSSql'
-has_column = True
+# dbms = 'MSSql'
+# has_column = True
 #
 # dbms = 'Postgres'
 # has_column = False
 #
-# dbms = 'Oracle'
-# has_column = False
+dbms = 'Oracle'
+has_column = False
 
 # dbms = 'MySQL'
 # has_column = False
@@ -375,12 +375,21 @@ if dbms == 'Oracle':
     # data_IB_ROW = data[(data['Storage'] == 'ROW') &
     #                     (data['PB'] >= 100) &
     #                     (data['IDX'].str.contains('I\(BA')) ]
-    data_IB_ROW = data[(data['Storage'] == 'ROW') &
-                        (data['PB'] >= 3000) &
-                        (data['Sel'] != '<32') &
-                        (data['IDX'].str.contains('I\(B\)')) &
-                       ((data['Fun'] == 'min') | (data['Par'] == 'parallel_OFF') |
-                        (data['Padding'] == 'padding_ON'))]
+    data_IB_ROW = data[
+                        (
+                            (data['Storage'] == 'ROW') &
+                            (data['PB'] >= 3000) &
+                            (data['Sel'] != '<32') &
+                            (data['IDX'].str.contains('I\(B\)')) &
+                           ((data['Fun'] == 'min') | (data['Par'] == 'parallel_OFF') |
+                            (data['Padding'] == 'padding_ON'))
+                        ) |
+                        (
+                                (data['Storage'] == 'ROW') &
+                                (data['PB'] > 100) &
+                                (data['IDX'].str.contains('I\(BA'))
+                        )
+    ]
 
 print('Data size: ' + str(len(data)))
 print('data_IB_ROW data size: ' + str(len(data_IB_ROW)))
