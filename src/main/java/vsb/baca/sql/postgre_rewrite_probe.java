@@ -19,8 +19,7 @@ public class postgre_rewrite_probe {
     private static String sql1 = "";
     private static String sql2 = "";
 
-    //private static String connectionString = "jdbc:postgresql://158.196.98.67/sqlbench?user=sqlbench&password=n3cUmubsbo";
-    private static String url = "jdbc:postgresql://bayer.cs.vsb.cz:5432/sqlbench";
+    private static String url = "jdbc:postgresql://bayer.cs.vsb.cz:5433/sqlbench";
     private static String username = "sqlbench";
     private static String password = "n3cUmubsbo";
 

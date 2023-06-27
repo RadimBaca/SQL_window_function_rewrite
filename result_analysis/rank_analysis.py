@@ -3,12 +3,15 @@ import re
 import scipy.stats as stats
 import matplotlib.pyplot as plt
 import numpy as np
-
-dbms = 'MSSql'
-has_column = True
+#
+# dbms = 'MSSql'
+# has_column = True
 
 # dbms = 'Postgres'
 # has_column = False
+
+dbms = 'MySql'
+has_column = False
 
 # Read the CSV file into a DataFrame, reading each row as a string
 with open('rank_' + dbms +'.txt', 'r') as file:
@@ -96,7 +99,7 @@ def all_parameters():
             box.set(color=colors[i - 1])
 
     else:
-        plt.boxplot([data['T1'] / data['T2'],
+        boxplot_dict = plt.boxplot([data['T1'] / data['T2'],
                      parallel_on['T1'] / parallel_on['T2'],
                      parallel_off['T1'] / parallel_off['T2'],
                      padding_on['T1'] / padding_on['T2'],
@@ -202,11 +205,11 @@ all_parameters()
 
 ###################################################################
 # Create the next box plot for T1/T2 based on PB value
-bvalues()
+# bvalues()
 
 ###################################################################
 # Create the next box plot for T1/T2 based on PB value
-bvalues_Bindex()
+# bvalues_Bindex()
 
 ###################################################################
 # Create the next box plot for T1/T2 based on Sel value
@@ -242,6 +245,10 @@ if dbms == 'Postgres':
     data_IB_ROW = data[(data['Storage'] == 'ROW') &
                         (data['PB'] < 1000) &
                         (data['IDX'].str.contains('I\(B')) ]
+if dbms == 'MySql':
+    data_IB_ROW = data[(data['Storage'] == 'ROW') &
+                        (data['PB'] < 1000) &
+                        (data['IDX'].str.contains('I\(B')) ]
 
 print('Data size: ' + str(len(data)))
 print('data_IB_ROW data size: ' + str(len(data_IB_ROW)))
@@ -252,6 +259,7 @@ print("Geometric Mean of T1/T2:", geometric_mean)
 
 data_IB_ROW_equal1 = data_IB_ROW[data_IB_ROW['Cmp'] == '=1']
 data_IB_ROW_equalN = data_IB_ROW[data_IB_ROW['Cmp'] == '=N']
+data_IB_ROW_lessN = data_IB_ROW[data_IB_ROW['Cmp'] == '<N']
 data_IB_ROW_parallelon = data_IB_ROW[data_IB_ROW['Par'] == 'parallel_ON']
 data_IB_ROW_paralleloff = data_IB_ROW[data_IB_ROW['Par'] == 'parallel_OFF']
 data_IB_ROW_paddingon = data_IB_ROW[data_IB_ROW['Padding'] == 'padding_ON']
@@ -262,14 +270,15 @@ data_IB_ROW_paddingoff = data_IB_ROW[data_IB_ROW['Padding'] == 'padding_OFF']
 plt.boxplot([data_IB_ROW['T1'] / data_IB_ROW['T2'],
              data_IB_ROW_equal1['T1'] / data_IB_ROW_equal1['T2'],
              data_IB_ROW_equalN['T1'] / data_IB_ROW_equalN['T2'],
+             data_IB_ROW_lessN['T1'] / data_IB_ROW_lessN['T2'],
              data_IB_ROW_parallelon['T1'] / data_IB_ROW_parallelon['T2'],
              data_IB_ROW_paralleloff['T1'] / data_IB_ROW_paralleloff['T2'],
              data_IB_ROW_paddingon['T1'] / data_IB_ROW_paddingon['T2'],
              data_IB_ROW_paddingoff['T1'] / data_IB_ROW_paddingoff['T2']
              ],
             showfliers=False,
-            positions=[1, 2, 3, 4, 5, 6, 7],
-            labels=['all', '=1', '=N', 'parallel_ON', 'parallel_OFF', 'padding_ON', 'padding_OFF'])
+            positions=[1, 2, 3, 4, 5, 6, 7, 8],
+            labels=['all', '=1', '=N', '<N', 'parallel_ON', 'parallel_OFF', 'padding_ON', 'padding_OFF'])
 
 plt.xticks(rotation=45)
 plt.xlabel('T1/T2')

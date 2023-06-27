@@ -1,7 +1,7 @@
-SELECT  /*+ no_parallel */  A, B, C, countA
+SELECT A, B, C, countA
 FROM (
-         SELECT  /*+ no_parallel */  A, B, C,
-                                     count(A) OVER (PARTITION BY B ORDER BY A) countA
-         FROM R_row_10
+         SELECT A, B, C,
+                count(A) OVER (PARTITION BY B ORDER BY A) countA
+         FROM P_row_10000
      ) T1
-WHERE C < 1
+WHERE C < 2;

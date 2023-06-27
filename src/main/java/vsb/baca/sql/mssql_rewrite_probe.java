@@ -23,7 +23,7 @@ public class mssql_rewrite_probe {
         // read SQL from input file
         String fileName;
 
-        fileName = "sql/unittests/input_test.sql"; // change to the path and name of your input file
+        fileName = "sql/unittests/input_rewrite_probe.sql"; // change to the path and name of your input file
         printQueries(testRewriteSqlInFile(fileName), fileName);
     }
 

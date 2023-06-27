@@ -129,7 +129,7 @@ def all_parameters():
                      Not_IA_data['T1'] / Not_IA_data['T2']
                      ],
 
-                    showfliers=False,
+                    # showfliers=False,
                     positions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
                     labels=['ALL', 'PARALLELIZED', 'SINGLE THREAD', 'PADDING', 'NO PADDING', 'COUNT', 'MIN', 'PB',
                             'PB_OB',
