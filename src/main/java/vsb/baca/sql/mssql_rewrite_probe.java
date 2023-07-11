@@ -60,8 +60,10 @@ public class mssql_rewrite_probe {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
             // Connect to the database
+//            Connection conn = DriverManager.getConnection(
+//                    "jdbc:sqlserver://bayer.cs.vsb.cz;instanceName=sqldb;databaseName=sqlbench_window", "sqlbench", "n3cUmubsbo");
             Connection conn = DriverManager.getConnection(
-                    "jdbc:sqlserver://bayer.cs.vsb.cz;instanceName=sqldb;databaseName=sqlbench_window", "sqlbench", "n3cUmubsbo");
+                    "jdbc:sqlserver://bayer.cs.vsb.cz;instanceName=sqldb;databaseName=sqlbench", "sqlbench", "n3cUmubsbo");
 
             // execute rewritten SQL
             Statement stmt1 = conn.createStatement();
@@ -114,7 +116,7 @@ public class mssql_rewrite_probe {
 
         ParseTree tree = parser.tsql_file(); // begin parsing at init rule
         Mssql_rewriter_visitor visitor = new Mssql_rewriter_visitor();
-        visitor.setConfig(new Config(Config.dbms.MSSQL, false, true));
+        visitor.setConfig(new Config(Config.dbms.MSSQL, true, true));
         visitor.visit(tree);
         return visitor.getSelectCmd().getQueryText();
 

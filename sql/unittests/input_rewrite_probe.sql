@@ -1,7 +1,9 @@
-SELECT A, B, C, countA
-FROM (
-         SELECT A, B, C,
-                count(A) OVER (PARTITION BY B ORDER BY A) countA
-         FROM P_row_10000
-     ) T1
-WHERE C < 2;
+
+select *
+from (
+         select id, search, groupby,
+                rank() over (partition by groupby order by id) rn
+         from A
+     ) t
+where rn = 1 and  search = 200 or groupby >= 1000
+order by id;

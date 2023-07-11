@@ -21,7 +21,7 @@ public class postgre_runner {
     private static final String SET_PARALLEL_WORKERS_PER_GATHER_N = "SET max_parallel_workers_per_gather = 8"; // we allow to use any number of parallel threads per gather
 
 
-    private static Config config = new Config(Config.dbms.POSTGRESQL, false, true);
+    private static Config config = new Config(Config.dbms.POSTGRESQL, false, false);
     private static Logger logger = Logger.getLogger("MyLogger");
     private static FileHandler fileHandler;
 

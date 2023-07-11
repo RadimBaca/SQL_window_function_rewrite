@@ -221,13 +221,16 @@ public class windowFunction {
                 // this is a simple situaton when there is only one order by attribute
                 builder.append(" SELECT ");
                 buildSimpleListFromPartitionBy(builder, false, "");
-                builder.append(", MIN("); // TODO: if ordering is DESC then use MAX
+                if (partitionByList.size() > 0) builder.append(", ");
+                builder.append(" MIN("); // TODO: if ordering is DESC then use MAX
                 String minAttribute = sqlUtil.getText(orderByList.get(0).a).trim();
                 builder.append(minAttribute);
                 builder.append(") min_" + minAttribute + ", 1 " + winFunAlias);
                 builder.append(" FROM (" + subqueryString + ") winfun_subquery");
-                builder.append(" GROUP BY ");
-                buildSimpleListFromPartitionBy(builder, false, "");
+                if (partitionByList.size() > 0) {
+                    builder.append(" GROUP BY ");
+                    buildSimpleListFromPartitionBy(builder, false, "");
+                }
                 // remainder builder
                 StringBuilder remainder_builder = new StringBuilder();
                 buildEqualityWhereCondition(partitionByList, remainder_builder, alias, "main_subquery");

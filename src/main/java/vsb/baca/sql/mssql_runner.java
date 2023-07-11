@@ -14,7 +14,7 @@ public class mssql_runner {
     private static final String MAXDOP_1 = "\nOPTION(MAXDOP 1)";
     private static final String MAXDOP_8 = "\nOPTION(MAXDOP 8)";
 
-    private static Config config = new Config(Config.dbms.MSSQL, false, true);
+    private static Config config = new Config(Config.dbms.MSSQL, false, false);
     private static Logger logger = Logger.getLogger("MyLogger");
     private static FileHandler fileHandler;
 

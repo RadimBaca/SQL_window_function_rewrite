@@ -15,7 +15,7 @@ public class oracle_runner {
     private static final String PARALLEL_0 = " /*+ no_parallel */ ";
     private static final String PARALLEL_8 = " /*+ PARALLEL(8) */ ";
 
-    private static Config config = new Config(Config.dbms.ORACLE, false, true);
+    private static Config config = new Config(Config.dbms.ORACLE, false, false);
     private static Logger logger = Logger.getLogger("MyLogger");
     private static FileHandler fileHandler;
 

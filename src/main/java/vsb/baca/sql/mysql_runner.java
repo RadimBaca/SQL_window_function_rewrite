@@ -15,7 +15,7 @@ public class mysql_runner {
     private static final String PARALLEL_1 = "SET LOCAL innodb_parallel_read_threads=1";
     private static final String PARALLEL_8 = "SET LOCAL innodb_parallel_read_threads=8";
 
-    private static Config config = new Config(Config.dbms.MYSQL, false, true);
+    private static Config config = new Config(Config.dbms.MYSQL, false, false);
     private static Logger logger = Logger.getLogger("MyLogger");
     private static FileHandler fileHandler;
 
