@@ -22,6 +22,7 @@ Datum add_number(PG_FUNCTION_ARGS)
     int j = input_len - 1;
     ArrayType *new_arr;
 
+
     deconstruct_array(input_arr, INT4OID, 4, true, 'i', &input_elems, &input_nulls, &input_len);
 
     if (DatumGetInt32(input_elems[j]) > insert_var) {
