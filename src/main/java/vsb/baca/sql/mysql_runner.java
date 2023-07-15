@@ -15,7 +15,6 @@ public class mysql_runner {
     private static final String PARALLEL_1 = "SET LOCAL innodb_parallel_read_threads=1";
     private static final String PARALLEL_8 = "SET LOCAL innodb_parallel_read_threads=8";
 
-    private static Config config = new Config(Config.dbms.MYSQL, false, false);
     private static Logger logger = Logger.getLogger("MyLogger");
     private static FileHandler fileHandler;
 
@@ -45,12 +44,12 @@ public class mysql_runner {
             bench_config_mysql bench_config = null;
             if (rs.parallelism == vsb.baca.sql.benchmark.bench_config.Parallelism.ON) {
                 bench_config = new bench_config_mysql(createindexesFilename, dropindexesFilename,
-                        CONNECTION_STRING, USERNAME, PASSWORD, config, logger, fileHandler,
+                        CONNECTION_STRING, USERNAME, PASSWORD, rs.config, logger, fileHandler,
                         rs.queryFileNames, rs.tab_prefix, PARALLEL_8,
                         rs.padding, rs.storage, rs.parallelism);
             } else {
                 bench_config = new bench_config_mysql(createindexesFilename, dropindexesFilename,
-                        CONNECTION_STRING, USERNAME, PASSWORD, config, logger, fileHandler,
+                        CONNECTION_STRING, USERNAME, PASSWORD, rs.config, logger, fileHandler,
                         rs.queryFileNames, rs.tab_prefix, PARALLEL_1,
                         rs.padding, rs.storage, rs.parallelism);
             }

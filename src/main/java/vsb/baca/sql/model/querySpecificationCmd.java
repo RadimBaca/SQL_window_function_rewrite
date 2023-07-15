@@ -179,7 +179,8 @@ public class querySpecificationCmd extends selectCmd {
         String alias = "win_subquery_" + counter;
         // if window function is rank or dense_rank, the order by clouse attributes are not null,
         // and rank equals to one, than use JOIN
-        if (windowFunction.isJoinRewrite()) {
+        if (windowFunction.isJoinRewrite() &&  (config.getSelectedRankAlgorithm() == Config.rank_algorithm.JoinMin ||
+                config.getSelectedRankAlgorithm() == Config.rank_algorithm.BestFit)) {
             builder.append(" JOIN (" + windowFunction.getQueryText(subqueryString, alias) + ") " + alias + " ON " + windowFunction.getRemainderEqualityCondition());
             windowFunction.resetRemainderEqualityCondition();
         } else {

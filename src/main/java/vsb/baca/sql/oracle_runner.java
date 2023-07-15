@@ -15,7 +15,6 @@ public class oracle_runner {
     private static final String PARALLEL_0 = " /*+ no_parallel */ ";
     private static final String PARALLEL_8 = " /*+ PARALLEL(8) */ ";
 
-    private static Config config = new Config(Config.dbms.ORACLE, false, false);
     private static Logger logger = Logger.getLogger("MyLogger");
     private static FileHandler fileHandler;
 
@@ -45,12 +44,12 @@ public class oracle_runner {
             bench_config_oracle bench_config = null;
             if (rs.parallelism == vsb.baca.sql.benchmark.bench_config.Parallelism.ON) {
                 bench_config = new bench_config_oracle(createindexesFilename, dropindexesFilename,
-                        CONNECTION_STRING, USERNAME, PASSWORD, config, logger, fileHandler,
+                        CONNECTION_STRING, USERNAME, PASSWORD, rs.config, logger, fileHandler,
                         rs.queryFileNames, rs.tab_prefix, PARALLEL_8,
                         rs.padding, rs.storage, rs.parallelism);
             } else {
                 bench_config = new bench_config_oracle(createindexesFilename, dropindexesFilename,
-                        CONNECTION_STRING, USERNAME, PASSWORD, config, logger, fileHandler,
+                        CONNECTION_STRING, USERNAME, PASSWORD, rs.config, logger, fileHandler,
                         rs.queryFileNames, rs.tab_prefix, PARALLEL_0,
                         rs.padding, rs.storage, rs.parallelism);
             }

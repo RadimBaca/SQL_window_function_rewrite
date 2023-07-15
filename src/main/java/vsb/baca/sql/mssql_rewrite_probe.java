@@ -63,7 +63,7 @@ public class mssql_rewrite_probe {
 //            Connection conn = DriverManager.getConnection(
 //                    "jdbc:sqlserver://bayer.cs.vsb.cz;instanceName=sqldb;databaseName=sqlbench_window", "sqlbench", "n3cUmubsbo");
             Connection conn = DriverManager.getConnection(
-                    "jdbc:sqlserver://bayer.cs.vsb.cz;instanceName=sqldb;databaseName=sqlbench", "sqlbench", "n3cUmubsbo");
+                    "jdbc:sqlserver://bayer.cs.vsb.cz;instanceName=sqldb;databaseName=sqlbench_window", "sqlbench", "n3cUmubsbo");
 
             // execute rewritten SQL
             Statement stmt1 = conn.createStatement();
@@ -90,7 +90,7 @@ public class mssql_rewrite_probe {
                 }
                 for (int i = 1; i <= columnCount1; i++) {
                     if (rs1.getInt(i) != rs2.getInt(i)) {
-                        System.out.println("Result set is different - " + fileName);
+                        System.out.println("Result set values are different - " + fileName);
                         return false;
                     }
                 }
@@ -116,7 +116,7 @@ public class mssql_rewrite_probe {
 
         ParseTree tree = parser.tsql_file(); // begin parsing at init rule
         Mssql_rewriter_visitor visitor = new Mssql_rewriter_visitor();
-        visitor.setConfig(new Config(Config.dbms.MSSQL, true, true));
+        visitor.setConfig(new Config(Config.dbms.MSSQL, false, Config.rank_algorithm.LateralAgg));
         visitor.visit(tree);
         return visitor.getSelectCmd().getQueryText();
 

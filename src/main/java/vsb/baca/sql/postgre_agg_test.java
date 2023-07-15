@@ -3,6 +3,7 @@ package vsb.baca.sql;
 
 import org.antlr.v4.runtime.misc.Pair;
 import vsb.baca.sql.benchmark.*;
+import vsb.baca.sql.model.Config;
 
 import java.util.ArrayList;
 
@@ -23,6 +24,8 @@ public class postgre_agg_test {
 
     private static final String MIN_PB_TEMP = "sql/agg_test/min_pb_temp.sql";
     private static final String MIN_PB_TEMP_PADDING = "sql/agg_test/min_pb_temp_padding.sql";
+
+    private static Config config = new Config(Config.dbms.POSTGRESQL, false, Config.rank_algorithm.BestFit);
 
 
     public static void main(String[] args) throws Exception {
@@ -47,10 +50,10 @@ public class postgre_agg_test {
         ArrayList<Pair<String, String>> queriesPadding = benchmark_mssql.generateQueriesWithSelectivity(selectivity, COUNT_PB_OB_TEMP_PADDING);
 
         ArrayList<run_setup> run_setups = new ArrayList<run_setup>();
-        run_setups.add(new run_setup("R_row_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF));
-        run_setups.add(new run_setup("P_row_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF));
-        run_setups.add(new run_setup("R_row_", queriesNoPadding,  "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON));
-        run_setups.add(new run_setup("P_row_", queriesPadding,  "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON));
+        run_setups.add(new run_setup("R_row_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config));
+        run_setups.add(new run_setup("P_row_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config));
+        run_setups.add(new run_setup("R_row_", queriesNoPadding,  "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON, config));
+        run_setups.add(new run_setup("P_row_", queriesPadding,  "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON, config));
 
         postgre_runner.prepare_run(run_setups, DROPINDEXES_PB_OB, CREATEINDEXES_PB_OB);
     }
@@ -60,10 +63,10 @@ public class postgre_agg_test {
         ArrayList<Pair<String, String>> queriesPadding = benchmark_mssql.generateQueriesWithSelectivity(selectivity, COUNT_PB_TEMP_PADDING);
 
         ArrayList<run_setup> run_setups = new ArrayList<run_setup>();
-        run_setups.add(new run_setup("R_row_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF));
-        run_setups.add(new run_setup("P_row_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF));
-        run_setups.add(new run_setup("R_row_", queriesNoPadding,  "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON));
-        run_setups.add(new run_setup("P_row_", queriesPadding,  "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON));
+        run_setups.add(new run_setup("R_row_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config));
+        run_setups.add(new run_setup("P_row_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config));
+        run_setups.add(new run_setup("R_row_", queriesNoPadding,  "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON, config));
+        run_setups.add(new run_setup("P_row_", queriesPadding,  "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON, config));
 
         postgre_runner.prepare_run(run_setups, DROPINDEXES_PB, CREATEINDEXES_PB);
     }
@@ -73,10 +76,10 @@ public class postgre_agg_test {
         ArrayList<Pair<String, String>> queriesPadding = benchmark_mssql.generateQueriesWithSelectivity(selectivity, MIN_PB_OB_TEMP_PADDING);
 
         ArrayList<run_setup> run_setups = new ArrayList<run_setup>();
-        run_setups.add(new run_setup("R_row_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF));
-        run_setups.add(new run_setup("P_row_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF));
-        run_setups.add(new run_setup("R_row_", queriesNoPadding,  "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON));
-        run_setups.add(new run_setup("P_row_", queriesPadding,  "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON));
+        run_setups.add(new run_setup("R_row_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config));
+        run_setups.add(new run_setup("P_row_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config));
+        run_setups.add(new run_setup("R_row_", queriesNoPadding,  "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON, config));
+        run_setups.add(new run_setup("P_row_", queriesPadding,  "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON, config));
 
         postgre_runner.prepare_run(run_setups, DROPINDEXES_PB_OB, CREATEINDEXES_PB_OB);
     }
@@ -86,10 +89,10 @@ public class postgre_agg_test {
         ArrayList<Pair<String, String>> queriesPadding = benchmark_mssql.generateQueriesWithSelectivity(selectivity, MIN_PB_TEMP_PADDING);
 
         ArrayList<run_setup> run_setups = new ArrayList<run_setup>();
-        run_setups.add(new run_setup("R_row_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF));
-        run_setups.add(new run_setup("P_row_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF));
-        run_setups.add(new run_setup("R_row_", queriesNoPadding,  "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON));
-        run_setups.add(new run_setup("P_row_", queriesPadding,  "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON));
+        run_setups.add(new run_setup("R_row_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config));
+        run_setups.add(new run_setup("P_row_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config));
+        run_setups.add(new run_setup("R_row_", queriesNoPadding,  "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON, config));
+        run_setups.add(new run_setup("P_row_", queriesPadding,  "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON, config));
 
         postgre_runner.prepare_run(run_setups, DROPINDEXES_PB_OB, CREATEINDEXES_PB_OB);
     }

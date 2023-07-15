@@ -14,7 +14,6 @@ public class mssql_runner {
     private static final String MAXDOP_1 = "\nOPTION(MAXDOP 1)";
     private static final String MAXDOP_8 = "\nOPTION(MAXDOP 8)";
 
-    private static Config config = new Config(Config.dbms.MSSQL, false, false);
     private static Logger logger = Logger.getLogger("MyLogger");
     private static FileHandler fileHandler;
 
@@ -44,12 +43,12 @@ public class mssql_runner {
             bench_config_mssql bench_config = null;
             if (rs.parallelism == vsb.baca.sql.benchmark.bench_config.Parallelism.ON) {
                 bench_config = new bench_config_mssql(createindexesFilename, dropindexesFilename,
-                        CONNECTION_STRING, USERNAME, PASSWORD, config, logger, fileHandler,
+                        CONNECTION_STRING, USERNAME, PASSWORD, rs.config, logger, fileHandler,
                         rs.queryFileNames, rs.tab_prefix, MAXDOP_8,
                         rs.padding, rs.storage, rs.parallelism);
             } else {
                 bench_config = new bench_config_mssql(createindexesFilename, dropindexesFilename,
-                        CONNECTION_STRING, USERNAME, PASSWORD, config, logger, fileHandler,
+                        CONNECTION_STRING, USERNAME, PASSWORD, rs.config, logger, fileHandler,
                         rs.queryFileNames, rs.tab_prefix, MAXDOP_1,
                         rs.padding, rs.storage, rs.parallelism);
             }

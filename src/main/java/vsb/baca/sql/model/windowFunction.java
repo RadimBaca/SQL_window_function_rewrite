@@ -129,7 +129,7 @@ public class windowFunction {
             // window function should be preserved in the main subquery
             // however in such case the rewrite may loose the meaning
             if (predicateList.size() == 0) throw new RuntimeException("There is no predicate allowing rewriting of "+ functionName);
-            if (predicateList.size() > 1)  throw new RuntimeException("There is more than one predicate in outer query referencing the alias of window function. Unfortunately such rewrite is not supported");
+            if (predicateList.size() > 1)  throw new RuntimeException("There is more than one predicate in outer query referencing the alias of window function. Unfortunately such rewrite is not supported yet.");
             predicate p = predicateList.get(0); // we assume that there is only one predicate
             if (p.comparisonOp != predicate.comparisonOperator.EQUAL &&
                     p.comparisonOp != predicate.comparisonOperator.LESS_THAN_OR_EQUAL &&
@@ -210,110 +210,137 @@ public class windowFunction {
                         boolean withTies,
                         int rankValue)
     {
-        if (isJoinRewrite()) {
-            // JOIN+Min variant
-            if (orderByList.size() > 1) {
-                builder.append(" SELECT * FROM ( SELECT ");
-                buildSimpleListFromPartitionBy(builder, false, "");
-                throw new RuntimeException("There is more than one order by attribute. Unfortunately such rewrite is not implemented yet.");
-                // TODO: finish a situation when there are more than one order by attributes
-            } else {
-                // this is a simple situaton when there is only one order by attribute
-                builder.append(" SELECT ");
-                buildSimpleListFromPartitionBy(builder, false, "");
-                if (partitionByList.size() > 0) builder.append(", ");
-                builder.append(" MIN("); // TODO: if ordering is DESC then use MAX
-                String minAttribute = sqlUtil.getText(orderByList.get(0).a).trim();
-                builder.append(minAttribute);
-                builder.append(") min_" + minAttribute + ", 1 " + winFunAlias);
+        if (config.getSelectedRankAlgorithm() == Config.rank_algorithm.LateralAgg) {
+            // LateralAgg algorithm
+            builder.append(" SELECT COUNT(*");
+//            if (functionName.equalsIgnoreCase("RANK") ||
+//                functionName.equalsIgnoreCase("ROW_NUMBER")) {
+//                builder.append("*"); // TODO: order by attributes?
+//            }
+//            if (functionName.equalsIgnoreCase("DENSE_RANK")) {
+//                builder.append("DISTINCT ");
+//                buildSimpleListFromOrderBy(builder, false, "");
+//            }
+            builder.append(") " + winFunAlias);
+            builder.append(" FROM (" + subqueryString + ") winfun_subquery");
+            if (partitionByList.size() > 0 || orderByList.size() > 0) {
+                builder.append(" WHERE ");
+            }
+            if (partitionByList.size() > 0) {
+                buildEqualityWhereCondition(partitionByList, builder, null, "main_subquery");
+            }
+            if (orderByList.size() > 0) {
+                buildOrderByWhereCondition(builder, predicate.comparisonOperator.LESS_THAN_OR_EQUAL);
+            }
+        }
+        else {
+            if (isJoinRewrite() && (config.getSelectedRankAlgorithm() == Config.rank_algorithm.JoinMin ||
+                    config.getSelectedRankAlgorithm() == Config.rank_algorithm.BestFit)) {
+                // JoinMin variant
+                if (orderByList.size() > 1) {
+                    builder.append(" SELECT * FROM ( SELECT ");
+                    buildSimpleListFromPartitionBy(builder, false, "");
+                    throw new RuntimeException("There is more than one order by attribute. Unfortunately such rewrite is not implemented yet.");
+                    // TODO: finish a situation when there are more than one order by attributes
+                } else {
+                    // this is a simple situaton when there is only one order by attribute
+                    builder.append(" SELECT ");
+                    buildSimpleListFromPartitionBy(builder, false, "");
+                    if (partitionByList.size() > 0) builder.append(", ");
+                    builder.append(" MIN("); // TODO: if ordering is DESC then use MAX
+                    String minAttribute = sqlUtil.getText(orderByList.get(0).a).trim();
+                    builder.append(minAttribute);
+                    builder.append(") min_" + minAttribute + ", 1 " + winFunAlias);
+                    builder.append(" FROM (" + subqueryString + ") winfun_subquery");
+                    if (partitionByList.size() > 0) {
+                        builder.append(" GROUP BY ");
+                        buildSimpleListFromPartitionBy(builder, false, "");
+                    }
+                    // remainder builder
+                    StringBuilder remainder_builder = new StringBuilder();
+                    buildEqualityWhereCondition(partitionByList, remainder_builder, alias, "main_subquery");
+                    if (partitionByList.size() > 0)
+                        remainder_builder.append(" AND ");
+                    remainder_builder.append(alias + ".min_" + minAttribute + " = main_subquery." + minAttribute);
+                    remainder_equality_condition = remainder_builder.toString();
+                }
+            }
+            else {
+                if (config.lateralDistinctLimit()) {
+                    // LateralDistinctLimit variant
+                    builder.append(" SELECT " + winFunAlias);
+                    buildSimpleListFromOrderBy(builder, true, "T.");
+                    buildSimpleListFromPartitionBy(builder, true, "T.");
+                    builder.append(" FROM ( ");
+                    builder.append(" SELECT DISTINCT ");
+                    buildSimpleListFromPartitionBy(builder, false, "");
+                    builder.append(" FROM ( " + subqueryString + " ) T");
+                    builder.append(" ) distinct_subquery ");
+                    if (config.getSelectedDbms() == Config.dbms.MSSQL || config.getSelectedDbms() == Config.dbms.ORACLE) {
+                        builder.append(" OUTER APPLY ( ");
+                    } else {
+                        builder.append(" LEFT JOIN LATERAL ( ");
+                    }
+                }
+                if (config.getSelectedDbms() == Config.dbms.MSSQL && withTies) {
+                    builder.append(" SELECT ");
+                    predicate p = predicateList.get(0); // we assume that there is only one predicate (it is controled in getQueryText method)
+                    if (p.comparisonOp == predicate.comparisonOperator.EQUAL) {
+                        builder.append(" TOP " + p.right + " WITH TIES ");
+                    }
+                    if (p.comparisonOp == predicate.comparisonOperator.LESS_THAN || p.comparisonOp == predicate.comparisonOperator.LESS_THAN_OR_EQUAL) {
+                        int equal_correction = 1;
+                        if (p.comparisonOp == predicate.comparisonOperator.LESS_THAN_OR_EQUAL) {
+                            equal_correction = 0;
+                        }
+                        builder.append(" TOP " + (p.right - equal_correction) + " WITH TIES ");
+                    }
+                    builder.append(" " + rankValue + " " + winFunAlias);
+                } else {
+                    builder.append(" SELECT " + rankValue + " " + winFunAlias);
+                }
+                buildSimpleListFromOrderBy(builder, true, "");
+                if (config.lateralDistinctLimit()) {
+                    buildSimpleListFromPartitionBy(builder, true, "");
+                }
                 builder.append(" FROM (" + subqueryString + ") winfun_subquery");
                 if (partitionByList.size() > 0) {
-                    builder.append(" GROUP BY ");
-                    buildSimpleListFromPartitionBy(builder, false, "");
+                    builder.append(" WHERE ");
+                    if (config.lateralDistinctLimit()) {
+                        buildEqualityWhereCondition(partitionByList, builder, null, "distinct_subquery");
+                    } else {
+                        buildEqualityWhereCondition(partitionByList, builder, null, "main_subquery");
+                    }
                 }
+                builder.append(" ORDER BY ");
+                buildOrderBy(builder, simpleOrdering);
+                if (config.getSelectedDbms() != Config.dbms.MSSQL || !withTies) {
+                    // MSSQL does not support OFFSET/FETCH WITH TIES, therefore, we use TOP N WITH TIES
+                    buildOffsetFetch(builder, functionName, withTies);
+                }
+                if (config.lateralDistinctLimit()) {
+                    if (config.getSelectedDbms() == Config.dbms.MSSQL || config.getSelectedDbms() == Config.dbms.ORACLE) {
+                        builder.append(" ) T ");
+                    } else {
+                        builder.append(" ) T ON true ");
+                    }
+                }
+
                 // remainder builder
                 StringBuilder remainder_builder = new StringBuilder();
-                buildEqualityWhereCondition(partitionByList, remainder_builder, alias, "main_subquery");
-                if (partitionByList.size() > 0)
-                    remainder_builder.append(" AND ");
-                remainder_builder.append(alias + ".min_" + minAttribute + " = main_subquery." + minAttribute);
+                ArrayList<ParserRuleContext> list = new ArrayList<ParserRuleContext>();
+                for (int i = 0; i < orderByList.size(); i++) {
+                    list.add(orderByList.get(i).a);
+                }
+                buildEqualityWhereCondition(list, remainder_builder, alias, "main_subquery");
+                if (config.lateralDistinctLimit()) {
+                    if (orderByList.size() > 0 && partitionByList.size() > 0) {
+                        remainder_builder.append(" AND ");
+                    }
+                    buildEqualityWhereCondition(partitionByList, remainder_builder, alias, "main_subquery");
+                }
                 remainder_equality_condition = remainder_builder.toString();
             }
-        } else {
-            // Lateral+Offset
-            if (config.getRankRewriteIsDoubleSubquery()) {
-                builder.append(" SELECT " + winFunAlias);
-                buildSimpleListFromOrderBy(builder, true, "T.");
-                buildSimpleListFromPartitionBy(builder, true, "T.");
-                builder.append(" FROM ( ");
-                builder.append(" SELECT DISTINCT ");
-                buildSimpleListFromPartitionBy(builder, false, "");
-                builder.append(" FROM ( " + subqueryString + " ) T");
-                builder.append(" ) distinct_subquery ");
-                if (config.getSelectedDbms() == Config.dbms.MSSQL || config.getSelectedDbms() == Config.dbms.ORACLE) {
-                    builder.append(" OUTER APPLY ( ");
-                } else {
-                    builder.append(" LEFT JOIN LATERAL ( ");
-                }
-            }
-            if (config.getSelectedDbms() == Config.dbms.MSSQL && withTies) {
-                builder.append(" SELECT ");
-                predicate p = predicateList.get(0); // we assume that there is only one predicate (it is controled in getQueryText method)
-                if (p.comparisonOp == predicate.comparisonOperator.EQUAL) {
-                    builder.append(" TOP " + p.right + " WITH TIES ");
-                }
-                if (p.comparisonOp == predicate.comparisonOperator.LESS_THAN || p.comparisonOp == predicate.comparisonOperator.LESS_THAN_OR_EQUAL) {
-                    int equal_correction = 1;
-                    if (p.comparisonOp == predicate.comparisonOperator.LESS_THAN_OR_EQUAL) {
-                        equal_correction = 0;
-                    }
-                    builder.append(" TOP " + (p.right - equal_correction) + " WITH TIES ");
-                }
-                builder.append(" " + rankValue +" " + winFunAlias);
-            } else {
-                builder.append(" SELECT " + rankValue + " " + winFunAlias);
-            }
-            buildSimpleListFromOrderBy(builder, true, "");
-            if (config.getRankRewriteIsDoubleSubquery()) {
-                buildSimpleListFromPartitionBy(builder, true, "");
-            }
-            builder.append(" FROM (" + subqueryString + ") winfun_subquery");
-            if (partitionByList.size() > 0) {
-                builder.append(" WHERE ");
-                if (config.getRankRewriteIsDoubleSubquery()) {
-                    buildEqualityWhereCondition(partitionByList, builder, null, "distinct_subquery");
-                } else {
-                    buildEqualityWhereCondition(partitionByList, builder, null, "main_subquery");
-                }
-            }
-            builder.append(" ORDER BY ");
-            buildOrderBy(builder, simpleOrdering);
-            if (config.getSelectedDbms() != Config.dbms.MSSQL || !withTies) {
-                // MSSQL does not support OFFSET/FETCH WITH TIES, therefore, we use TOP N WITH TIES
-                buildOffsetFetch(builder, functionName, withTies);
-            }
-            if (config.getRankRewriteIsDoubleSubquery()) {
-                if (config.getSelectedDbms() == Config.dbms.MSSQL || config.getSelectedDbms() == Config.dbms.ORACLE) {
-                    builder.append(" ) T ");
-                } else {
-                    builder.append(" ) T ON true ");
-                }
-            }
-
-            // remainder builder
-            StringBuilder remainder_builder = new StringBuilder();
-            ArrayList<ParserRuleContext> list = new ArrayList<ParserRuleContext>();
-            for (int i = 0; i < orderByList.size(); i++) {
-                list.add(orderByList.get(i).a);
-            }
-            buildEqualityWhereCondition(list, remainder_builder, alias, "main_subquery");
-            if (config.getRankRewriteIsDoubleSubquery()) {
-                if (orderByList.size() > 0 && partitionByList.size() > 0) {
-                    remainder_builder.append(" AND ");
-                }
-                buildEqualityWhereCondition(partitionByList, remainder_builder, alias,"main_subquery");
-            }
-            remainder_equality_condition = remainder_builder.toString();
         }
     }
 
@@ -382,11 +409,15 @@ public class windowFunction {
     }
 
      private void wfRangeAggregate(String subqueryString, StringBuilder builder) {
+        String funExpression;
         if (functionExpression == null) {
-            builder.append(" SELECT " + functionName + "(*) " + winFunAlias);
+            funExpression = "*";
         } else {
-            builder.append(" SELECT " + functionName + "(" + sqlUtil.getText(functionExpression) + ") " + winFunAlias);
+            funExpression = sqlUtil.getText(functionExpression);
         }
+
+        // LateralAgg
+        builder.append(" SELECT " + functionName + "(" + funExpression + ") " + winFunAlias);
         builder.append(" FROM (" + subqueryString + ") winfun_subquery");
         if (partitionByList.size() > 0 || orderByList.size() > 0) {
             builder.append(" WHERE ");

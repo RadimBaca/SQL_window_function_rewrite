@@ -5,6 +5,7 @@ import org.antlr.v4.runtime.misc.Pair;
 import vsb.baca.sql.benchmark.bench_config;
 import vsb.baca.sql.benchmark.benchmark_oracle;
 import vsb.baca.sql.benchmark.run_setup;
+import vsb.baca.sql.model.Config;
 
 import java.util.ArrayList;
 
@@ -26,6 +27,7 @@ public class oracle_agg_test {
     private static final String MIN_PB_TEMP = "sql/agg_test/min_pb_temp.sql";
     private static final String MIN_PB_TEMP_PADDING = "sql/agg_test/min_pb_temp_padding.sql";
 
+    private static Config config = new Config(Config.dbms.ORACLE, false, Config.rank_algorithm.BestFit);
 
     public static void main(String[] args) throws Exception {
 
@@ -81,14 +83,14 @@ public class oracle_agg_test {
 
     private static ArrayList<run_setup> generate_run_setups(ArrayList<Pair<String, String>> queriesNoPadding, ArrayList<Pair<String, String>> queriesPadding) {
         ArrayList<run_setup> run_setups = new ArrayList<run_setup>();
-        run_setups.add(new run_setup("R_row_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF));
-        run_setups.add(new run_setup("P_row_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF));
-        run_setups.add(new run_setup("R_row_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON));
-        run_setups.add(new run_setup("P_row_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON));
-//        run_setups.add(new run_setup("R_column_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.COLUMN, bench_config.Parallelism.OFF));
-//        run_setups.add(new run_setup("P_column_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.COLUMN, bench_config.Parallelism.OFF));
-//        run_setups.add(new run_setup("R_column_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.COLUMN, bench_config.Parallelism.ON));
-//        run_setups.add(new run_setup("P_column_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.COLUMN, bench_config.Parallelism.ON));
+        run_setups.add(new run_setup("R_row_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config));
+        run_setups.add(new run_setup("P_row_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config));
+        run_setups.add(new run_setup("R_row_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON, config));
+        run_setups.add(new run_setup("P_row_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON, config));
+//        run_setups.add(new run_setup("R_column_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.COLUMN, bench_config.Parallelism.OFF, config));
+//        run_setups.add(new run_setup("P_column_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.COLUMN, bench_config.Parallelism.OFF, config));
+//        run_setups.add(new run_setup("R_column_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.COLUMN, bench_config.Parallelism.ON, config));
+//        run_setups.add(new run_setup("P_column_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.COLUMN, bench_config.Parallelism.ON, config));
         return run_setups;
     }
 }

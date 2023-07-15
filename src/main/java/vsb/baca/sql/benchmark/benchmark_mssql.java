@@ -16,9 +16,10 @@ public class benchmark_mssql extends benchmark {
     }
 
     @Override protected Pair<Long, Integer> getQueryProcessingTime(String sql) {
+        int queryTimeout = 300;
         try (Connection connection = DriverManager.getConnection(bconfig.CONNECTION_STRING);
              Statement statement = connection.createStatement()) {
-
+            statement.setQueryTimeout(queryTimeout);
             statement.execute("SET STATISTICS TIME ON");
             ResultSet resultSet = statement.executeQuery(sql);
 
@@ -50,7 +51,11 @@ public class benchmark_mssql extends benchmark {
 
             //return measureUsingSystemCatalog(sql, connection);
 
-        } catch (SQLException e) {
+        }
+        catch (SQLTimeoutException e) {
+            return new Pair((long)queryTimeout * 1000, -1);
+        }
+        catch (SQLException e) {
             e.printStackTrace();
         }
         return new Pair(-1, -1);
@@ -60,9 +65,11 @@ public class benchmark_mssql extends benchmark {
     {
         return sql1_query_time + "," + sql2_query_time + "," + B_count + "," + result_size + "," +
                 bconfig.storage.toString() + "," + index + ",padding_" + bconfig.padding.toString() +
-                ",parallel_" + bconfig.parallelism.toString() + "," + query;
+                ",parallel_" + bconfig.parallelism.toString() + "," + bconfig.config.getSelectedRankAlgorithm().toString() +
+                "," + query;
     }
 
+    // Not used
     private long measureUsingSystemCatalog(String sql, Connection connection) throws SQLException {
         // Get the SQL handle for the executed query
         String sqlHandleQuery = "SELECT plan_handle FROM sys.dm_exec_query_stats CROSS APPLY sys.dm_exec_sql_text(sql_handle) WHERE text LIKE ?";

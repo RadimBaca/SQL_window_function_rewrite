@@ -36,6 +36,8 @@ public class postgre_rank_test {
     private static final String DROPINDEXES_FILENAME = "sql/rank_test/rownumber_dropindexes_postgre.sql";
     private static final String CREATEINDEXES_FILENAME = "sql/rank_test/rownumber_createindexes.sql";
 
+    private static Config config = new Config(Config.dbms.POSTGRESQL, false, Config.rank_algorithm.BestFit);
+
     public static void main(String[] args) throws Exception {
 
         ArrayList<Pair<String,String>> queryFileNamesPadding = new ArrayList<Pair<String,String>>();
@@ -47,10 +49,10 @@ public class postgre_rank_test {
         queryFileNamesNoPadding.add(benchmark_mssql.readQueryFromFile(SQL_ROWNUMBER_EQUAL_N_FILENAME));
         queryFileNamesNoPadding.add(benchmark_mssql.readQueryFromFile(SQL_ROWNUMBER_LESS_N_FILENAME));
 
-        run_setups.add(new run_setup("R_row_", queryFileNamesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF));
-        run_setups.add(new run_setup("P_row_", queryFileNamesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF));
-        run_setups.add(new run_setup("R_row_", queryFileNamesNoPadding,  "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON));
-        run_setups.add(new run_setup("P_row_", queryFileNamesPadding,  "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON));
+        run_setups.add(new run_setup("R_row_", queryFileNamesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config));
+        run_setups.add(new run_setup("P_row_", queryFileNamesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config));
+        run_setups.add(new run_setup("R_row_", queryFileNamesNoPadding,  "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON, config));
+        run_setups.add(new run_setup("P_row_", queryFileNamesPadding,  "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON, config));
 
         postgre_runner.prepare_run(run_setups, DROPINDEXES_FILENAME, CREATEINDEXES_FILENAME);
     }

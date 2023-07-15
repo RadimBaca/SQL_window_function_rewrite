@@ -126,7 +126,7 @@ public class mysql_unit_test {
 
         ParseTree tree = parser.tsql_file(); // begin parsing at init rule
         Mssql_rewriter_visitor visitor = new Mssql_rewriter_visitor();
-        visitor.setConfig(new Config(Config.dbms.MYSQL, false, true));
+        visitor.setConfig(new Config(Config.dbms.MYSQL, false, Config.rank_algorithm.BestFit));
         visitor.visit(tree);
         return visitor.getSelectCmd().getQueryText();
 

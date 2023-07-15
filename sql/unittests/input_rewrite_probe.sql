@@ -1,9 +1,9 @@
 
-select *
-from (
-         select id, search, groupby,
-                rank() over (partition by groupby order by id) rn
-         from A
-     ) t
-where rn = 1 and  search = 200 or groupby >= 1000
-order by id;
+
+    SELECT A, B
+    FROM (
+             SELECT A, B,
+                    ROW_NUMBER() OVER (PARTITION BY B ORDER BY A) RN
+             FROM R_row_300
+         ) T1
+    WHERE RN = 1;

@@ -8,14 +8,22 @@ public class Config {
         ORACLE
     }
 
+    public enum rank_algorithm {
+        LateralAgg,
+        LateralLimit,
+        LateralDistinctLimit,
+        JoinMin,
+        BestFit
+    }
+
     private dbms selectedDbms;
-    private boolean rank_rewrite_is_double_subquery = true; // if true, then the rank rewrite with cross apply lead to two subqueries
+    private rank_algorithm selectedRankAlgorithm; // use this algortihm if possible
     private boolean attributes_can_be_null = true;
 
-    public Config(dbms selectedDbms, boolean attributes_can_be_null, boolean rank_rewrite_is_double_subquery) {
+    public Config(dbms selectedDbms, boolean attributes_can_be_null, rank_algorithm rank_algorithm) {
         this.selectedDbms = selectedDbms;
         this.attributes_can_be_null = attributes_can_be_null;
-        this.rank_rewrite_is_double_subquery = rank_rewrite_is_double_subquery;
+        this.selectedRankAlgorithm = rank_algorithm;
     }
 
     public dbms getSelectedDbms() {
@@ -30,7 +38,17 @@ public class Config {
         return attributes_can_be_null;
     }
 
-    public boolean getRankRewriteIsDoubleSubquery() {
-        return rank_rewrite_is_double_subquery;
+    public rank_algorithm getSelectedRankAlgorithm() {
+        return selectedRankAlgorithm;
+    }
+
+    public boolean lateralDistinctLimit() {
+        return selectedRankAlgorithm == rank_algorithm.LateralDistinctLimit ||
+                selectedRankAlgorithm == rank_algorithm.JoinMin ||
+                selectedRankAlgorithm == rank_algorithm.BestFit;
+    }
+
+    public void setRankAlgorithm(rank_algorithm rankAlg) {
+        selectedRankAlgorithm = rankAlg;
     }
 }
