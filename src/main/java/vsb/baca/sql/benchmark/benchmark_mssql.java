@@ -56,7 +56,11 @@ public class benchmark_mssql extends benchmark {
             return new Pair((long)queryTimeout * 1000, -1);
         }
         catch (SQLException e) {
-            e.printStackTrace();
+            if (e.getMessage().equals("The query has timed out.")) {
+                return new Pair((long)queryTimeout * 1000, -1);
+            } else {
+                e.printStackTrace();
+            }
         }
         return new Pair(-1, -1);
     }
