@@ -95,7 +95,8 @@ public class benchmark_oracle extends benchmark {
     {
         return sql1_query_time + "," + sql2_query_time + "," + B_count + "," + result_size + "," +
                 bconfig.storage.toString() + "," + index + ",padding_" + bconfig.padding.toString() +
-                ",parallel_" + bconfig.parallelism.toString() + "," + query;
+                ",parallel_" + bconfig.parallelism.toString()+ "," + bconfig.config.getSelectedRankAlgorithm().toString() +
+                "," + query;
     }
 
 }

@@ -129,7 +129,7 @@ public class oracle_rewrite_probe {
 
         ParseTree tree = parser.tsql_file(); // begin parsing at init rule
         Mssql_rewriter_visitor visitor = new Mssql_rewriter_visitor();
-        visitor.setConfig(new Config(Config.dbms.ORACLE, false, Config.rank_algorithm.BestFit));
+        visitor.setConfig(new Config(Config.dbms.ORACLE, false, Config.rank_algorithm.LateralAgg));
         visitor.visit(tree);
         return visitor.getSelectCmd().getQueryText();
 
