@@ -1,5 +1,3 @@
-
-DDL:  
 856,3732,10,119,ROW, ,padding_OFF,parallel_OFF,count,PB_OB,<1
 904,3463,30,119,ROW, ,padding_OFF,parallel_OFF,count,PB_OB,<1
 923,3354,100,119,ROW, ,padding_OFF,parallel_OFF,count,PB_OB,<1

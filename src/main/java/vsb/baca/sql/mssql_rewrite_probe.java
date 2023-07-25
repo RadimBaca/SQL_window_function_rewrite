@@ -116,7 +116,7 @@ public class mssql_rewrite_probe {
 
         ParseTree tree = parser.tsql_file(); // begin parsing at init rule
         Mssql_rewriter_visitor visitor = new Mssql_rewriter_visitor();
-        visitor.setConfig(new Config(Config.dbms.MSSQL, false, Config.rank_algorithm.LateralAgg));
+        visitor.setConfig(new Config(Config.dbms.MSSQL, false, Config.rank_algorithm.LateralDistinctLimit));
         visitor.visit(tree);
         return visitor.getSelectCmd().getQueryText();
 

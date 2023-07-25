@@ -4,7 +4,7 @@ import scipy.stats as stats
 import matplotlib.pyplot as plt
 import numpy as np
 
-def dbms_results(dbms, has_column):
+def dbms_results(dbms, has_column, print_caption):
     global file, lines, pattern, line, data, column_data, row_data, parallel_on, parallel_off, padding_on, padding_off, count_data, min_data, PB_data, PB_OB_data, IC_data, Not_IC_data, IB_data, Not_IB_data, IA_data, Not_IA_data, IBA_data, IAB_data, X
     # Read the CSV file into a DataFrame, reading each row as a string
     with open('agg_' + dbms + '.txt', 'r') as file:
@@ -53,6 +53,7 @@ def dbms_results(dbms, has_column):
     print("DBMS: " + dbms)
     print("Average WF strategy time: ", data['T1'].mean() / 1000.0)
     print("Average Self-join strategy time: ", data['T2'].mean() / 1000.0)
+    print("Number of tests: ", len(data))
 
     # Compute the geometric mean of T1/T2
     geometric_mean = stats.gmean(data['T1'] / data['T2'].replace(0, 1))
@@ -116,10 +117,10 @@ def dbms_results(dbms, has_column):
                                         np.log10(IAB_data['T1'] / IAB_data['T2']),
                                         np.log10(IB_data['T1'] / IB_data['T2']),
                                         np.log10(Not_IB_data['T1'] / Not_IB_data['T2']),
-                                        np.log10(IC_data['T1'] / IC_data['T2']),
-                                        np.log10(Not_IC_data['T1'] / Not_IC_data['T2']),
                                         np.log10(IA_data['T1'] / IA_data['T2']),
-                                        np.log10(Not_IA_data['T1'] / Not_IA_data['T2'])
+                                        np.log10(Not_IA_data['T1'] / Not_IA_data['T2']),
+                                        np.log10(IC_data['T1'] / IC_data['T2']),
+                                        np.log10(Not_IC_data['T1'] / Not_IC_data['T2'])
                                         ],
 
                                        showfliers=True,
@@ -127,7 +128,7 @@ def dbms_results(dbms, has_column):
                                        labels=['ALL', 'PARALLELIZED', 'SINGLE THREAD', 'PADDING', 'NO PADDING', 'COUNT',
                                                'MIN', 'PB',
                                                'PB_OB',
-                                               'I(BA)', 'I(AB)', 'I(B)', '~I(B)', 'I(C)', '~I(C)', 'I(A)', '~I(A)']
+                                               'I(BA)', 'I(AB)', 'I(B)', '~I(B)', 'I(A)', '~I(A)', 'I(C)', '~I(C)']
                                        )
 
             # Modify the fliers marker style
@@ -136,22 +137,22 @@ def dbms_results(dbms, has_column):
                 flier.set(**flier_marker_style)
 
             # Define the colors for the desired boxes
-            colors = ['red', 'blue', 'green', 'green', 'orange', 'orange', 'cyan', 'cyan', 'magenta', 'magenta',
-                      'brown', 'brown', 'purple', 'purple']
+            colors = ['red', 'red', 'green', 'green', 'orange', 'orange', 'cyan', 'cyan', 'magenta', 'magenta',
+                      'brown', 'brown', 'purple', 'purple', 'blue', 'blue']
 
             # Loop through the desired boxes and modify their color
-            for i in range(1, 15):
+            for i in range(1, 17):
                 box = boxplot_dict['boxes'][i]
                 box.set(color=colors[i - 1])
-        plt.xticks(rotation=45)
-        plt.ylabel('T1/T2')
-        plt.title(dbms + " - All parameters")
+        plt.xticks(rotation=60)
+        plt.ylabel(r'$T_{lin}\,/\,T_{sj}$')
+        plt.title(print_caption)
         # plt.yscale('log')  # show the y-axis in log scale
         plt.yticks(np.arange(-3, 5), 10.0 ** np.arange(-3, 5))
         plt.axhline(y=0, color='r', linestyle='-')  # add horizontal line at value 1
 
-        plt.subplots_adjust(left=0.11, right=0.97, top=0.94, bottom=0.2)  # Adjust the values as per your requirements
-        plt.savefig(dbms + '_boxplot_all.pdf', format='pdf')
+        plt.subplots_adjust(left=0.16, right=0.97, top=0.94, bottom=0.25)  # Adjust the values as per your requirements
+        plt.savefig(dbms + '_agg_all.pdf', format='pdf')
         # Show the plot
         plt.show()
 
@@ -427,7 +428,7 @@ def dbms_results(dbms, has_column):
     # X()
 
 
-dbms_results('MSSql', True)
-dbms_results('Postgres', False)
-dbms_results('Oracle', False)
-dbms_results('MySQL', False)
+dbms_results('MSSql', True, 'DBMS1')
+dbms_results('Postgres', False, 'PostgreSql')
+# dbms_results('Oracle', False)
+# dbms_results('MySQL', False)
