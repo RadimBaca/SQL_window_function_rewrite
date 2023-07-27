@@ -11,21 +11,20 @@ import java.util.ArrayList;
 
 public class oracle_agg_test {
 
-    private static final String COUNT_PB_OB_TEMP = "sql/agg_test/count_pb_ob_temp.sql";
-    private static final String COUNT_PB_OB_TEMP_PADDING = "sql/agg_test/count_pb_ob_temp_padding.sql";
     private static final String DROPINDEXES_PB_OB = "sql/agg_test/agg_pb_ob_dropindexes_oracle.sql";
     private static final String CREATEINDEXES_PB_OB = "sql/agg_test/agg_pb_ob_createindexes.sql";
-
-    private static final String COUNT_PB_TEMP = "sql/agg_test/count_pb_temp.sql";
-    private static final String COUNT_PB_TEMP_PADDING = "sql/agg_test/count_pb_temp_padding.sql";
-    private static final String DROPINDEXES_PB = "sql/agg_test/agg_pb_dropindexes_oracle.sql";
-    private static final String CREATEINDEXES_PB = "sql/agg_test/agg_pb_createindexes.sql";
+    private static final String DROPINDEXES_PB = "sql/agg_test/agg_pb_ob_dropindexes_oracle.sql";
+    private static final String CREATEINDEXES_PB = "sql/agg_test/agg_pb_ob_createindexes.sql";
 
     private static final String MIN_PB_OB_TEMP = "sql/agg_test/min_pb_ob_temp.sql";
     private static final String MIN_PB_OB_TEMP_PADDING = "sql/agg_test/min_pb_ob_temp_padding.sql";
-
     private static final String MIN_PB_TEMP = "sql/agg_test/min_pb_temp.sql";
     private static final String MIN_PB_TEMP_PADDING = "sql/agg_test/min_pb_temp_padding.sql";
+
+    private static final String COUNT_PB_OB_TEMP = "sql/agg_test/count_pb_ob_temp.sql";
+    private static final String COUNT_PB_OB_TEMP_PADDING = "sql/agg_test/count_pb_ob_temp_padding.sql";
+    private static final String COUNT_PB_TEMP = "sql/agg_test/count_pb_temp.sql";
+    private static final String COUNT_PB_TEMP_PADDING = "sql/agg_test/count_pb_temp_padding.sql";
 
     private static Config config = new Config(Config.dbms.ORACLE, false, Config.rank_algorithm.BestFit);
 
@@ -48,7 +47,7 @@ public class oracle_agg_test {
 
 //        count_bp_ob_test(selectivity);
 //        count_bp_test(selectivity);
-        min_bp_ob_test(selectivity);
+//        min_bp_ob_test(selectivity);
         min_bp_test(selectivity);
     }
 

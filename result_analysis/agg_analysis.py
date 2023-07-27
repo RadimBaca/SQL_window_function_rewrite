@@ -16,7 +16,7 @@ def dbms_results(dbms, has_column, print_caption):
     wrong_lines = [line for line in valid_lines if not len(line) == 11]
     # Create a DataFrame from the filtered lines
     data = pd.DataFrame(valid_lines,
-                        columns=['T1', 'T2', 'PB', 'RS', 'Storage', 'IDX', 'Padding', 'Par', 'Fun', 'Constructs',
+                        columns=['T1', 'T2', 'PB', 'RS', 'Storage', 'IDX', 'Padding', 'Par', 'Alg', 'Fun', 'Constructs',
                                  'Sel'])
     # Convert numeric columns to the appropriate data types
     numeric_cols = ['T1', 'T2', 'PB', 'RS']
@@ -430,5 +430,5 @@ def dbms_results(dbms, has_column, print_caption):
 
 dbms_results('MSSql', True, 'DBMS1')
 dbms_results('Postgres', False, 'PostgreSql')
-# dbms_results('Oracle', False)
+dbms_results('Oracle', False, 'DBMS2')
 # dbms_results('MySQL', False)
