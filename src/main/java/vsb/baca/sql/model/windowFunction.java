@@ -265,6 +265,31 @@ public class windowFunction {
                     remainder_equality_condition = remainder_builder.toString();
                 }
             }
+            else if (config.getSelectedRankAlgorithm() == Config.rank_algorithm.JoinNMin) {
+                assert (config.getSelectedDbms() == Config.dbms.POSTGRESQL);
+                assert (orderByList.size() == 1);
+                // JoinNMin variant
+                predicate p = predicateList.get(0); // we assume that there is only one predicate (it is controlled in getQueryText method)
+                builder.append(" SELECT ");
+                buildSimpleListFromPartitionBy(builder, false, "");
+                if (partitionByList.size() > 0) builder.append(", ");
+                builder.append(" NMIN("); // TODO: if ordering is DESC then use MAX
+                String minAttribute = sqlUtil.getText(orderByList.get(0).a).trim();
+                builder.append(minAttribute);
+                builder.append("," + p.right + ") min_" + minAttribute + ", " + p.right + " " + winFunAlias);
+                builder.append(" FROM (" + subqueryString + ") winfun_subquery");
+                if (partitionByList.size() > 0) {
+                    builder.append(" GROUP BY ");
+                    buildSimpleListFromPartitionBy(builder, false, "");
+                }
+                // remainder builder
+                StringBuilder remainder_builder = new StringBuilder();
+                buildEqualityWhereCondition(partitionByList, remainder_builder, alias, "main_subquery");
+                if (partitionByList.size() > 0)
+                    remainder_builder.append(" AND ");
+                remainder_builder.append(alias + ".min_" + minAttribute + " = main_subquery." + minAttribute);
+                remainder_equality_condition = remainder_builder.toString();
+            }
             else {
                 if (config.lateralDistinctLimit()) {
                     // LateralDistinctLimit variant
@@ -284,7 +309,7 @@ public class windowFunction {
                 }
                 if (config.getSelectedDbms() == Config.dbms.MSSQL && withTies) {
                     builder.append(" SELECT ");
-                    predicate p = predicateList.get(0); // we assume that there is only one predicate (it is controled in getQueryText method)
+                    predicate p = predicateList.get(0); // we assume that there is only one predicate (it is controlled in getQueryText method)
                     if (p.comparisonOp == predicate.comparisonOperator.EQUAL) {
                         builder.append(" TOP " + p.right + " WITH TIES ");
                     }

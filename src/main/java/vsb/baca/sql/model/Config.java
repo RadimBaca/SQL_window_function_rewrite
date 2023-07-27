@@ -13,7 +13,8 @@ public class Config {
         LateralLimit,
         LateralDistinctLimit,
         JoinMin,
-        BestFit
+        JoinNMin,
+        BestFit // Best fit do not consider the JoinNMin algorithm
     }
 
     private dbms selectedDbms;

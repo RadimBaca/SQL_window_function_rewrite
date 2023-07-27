@@ -6,4 +6,4 @@
                     ROW_NUMBER() OVER (PARTITION BY B ORDER BY A) RN
              FROM R_row_300
          ) T1
-    WHERE RN = 1;
+    WHERE RN = 10;
