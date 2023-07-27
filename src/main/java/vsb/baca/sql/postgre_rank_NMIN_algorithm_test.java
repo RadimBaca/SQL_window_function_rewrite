@@ -28,8 +28,8 @@ public class postgre_rank_NMIN_algorithm_test {
         ArrayList<Pair<String,String>> queryFileNamesNoPadding = new ArrayList<Pair<String,String>>();
         queryFileNamesNoPadding.add(benchmark_mssql.readQueryFromFile(SQL_ROWNUMBER_EQUAL_N_FILENAME));
         ArrayList<Config> configs = new ArrayList<Config>();
-        configs.add(new Config(Config.dbms.POSTGRESQL, false, Config.rank_algorithm.LateralDistinctLimit));
         configs.add(new Config(Config.dbms.POSTGRESQL, false, Config.rank_algorithm.JoinNMin));
+        configs.add(new Config(Config.dbms.POSTGRESQL, false, Config.rank_algorithm.LateralDistinctLimit));
 
         for (Config config : configs) {
             run_setups.add(new run_setup("R_row_", queryFileNamesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config));
