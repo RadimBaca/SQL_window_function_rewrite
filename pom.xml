@@ -74,7 +74,7 @@
             <artifactId>ojdbc11</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>c:/Users/bac027/Git/mycode/SQL_window_function_rewrite/jar/ojdbc11.jar</systemPath>
+            <systemPath>E:/users/bac027/git/SQL_window_function_rewrite/jar/ojdbc11.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
