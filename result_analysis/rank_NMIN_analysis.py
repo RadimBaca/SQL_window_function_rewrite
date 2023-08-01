@@ -8,7 +8,7 @@ import numpy as np
 def dbms_results(dbms, print_caption, has_column):
     global file, lines, pattern, line, data, column_data, row_data, parallel_on, parallel_off, padding_on, padding_off, equal1_data, equalN_data, lessN_data, IB_data, Not_IB_data, IA_data, Not_IA_data, IBA_data, IAB_data, X
     # Read the CSV file into a DataFrame, reading each row as a string
-    with open('rank_algorithms_' + dbms + '.txt', 'r') as file:
+    with open('rank_NMIN_' + dbms + '.txt', 'r') as file:
         lines = file.readlines()
     # Define the regular expression pattern for valid rows
     pattern = r'^\d+,\d+,\d+,\d+,(?:ROW|COLUMN),.*$'
@@ -37,10 +37,8 @@ def dbms_results(dbms, print_caption, has_column):
     parallel_off = data[data['Par'] == 'parallel_OFF']
     padding_on = data[data['Padding'] == 'padding_ON']
     padding_off = data[data['Padding'] == 'padding_OFF']
-    lateralagg_data = data[data['Alg'] == 'LateralAgg']
-    laterallimit_data = data[data['Alg'] == 'LateralLimit']
     lateraldistinctlimit_data = data[data['Alg'] == 'LateralDistinctLimit']
-    joinmin_data = data[data['Alg'] == 'JoinMin']
+    joinmin_data = data[data['Alg'] == 'JoinNMin']
     IB_data = data[data['IDX'].str.contains('I\(B')]
     Not_IB_data = data[~data['IDX'].str.contains('I\(B')]
     IA_data = data[data['IDX'].str.contains('I\(A')]
@@ -55,6 +53,7 @@ def dbms_results(dbms, print_caption, has_column):
     print("DBMS: " + dbms)
     print("Average WF strategy time: ", data['T1'].mean() / 1000.0)
     print("Average Self-join strategy time: ", data['T2'].mean() / 1000.0)
+    print("Nmber of tests: ", len(data))
 
     # Compute the geometric mean of T1/T2
     geometric_mean = stats.gmean(data['T1'] / data['T2'].replace(0, 1))
@@ -62,106 +61,59 @@ def dbms_results(dbms, print_caption, has_column):
 
     # find number of rows where T2 >= 300000 for LateralAgg
     print("Number of rows reaching the 300s limit")
-    print("LateralAgg: ", len(lateralagg_data[lateralagg_data['T2'] >= 300000])/len(lateralagg_data)*100 , "% (", len(lateralagg_data[lateralagg_data['T2'] >= 300000]), "/", len(lateralagg_data), ")")
-    print("LateralLimit: ", len(laterallimit_data[laterallimit_data['T2'] >= 300000])/len(laterallimit_data)*100 , "%", "(", len(laterallimit_data[laterallimit_data['T2'] >= 300000]), "/", len(laterallimit_data), ")")
     print("LateralDistinctLimit: ", len(lateraldistinctlimit_data[lateraldistinctlimit_data['T2'] >= 300000])/len(lateraldistinctlimit_data)*100 , "%", "(", len(lateraldistinctlimit_data[lateraldistinctlimit_data['T2'] >= 300000]), "/", len(lateraldistinctlimit_data), ")" )
     print("JoinMin: ", len(joinmin_data[joinmin_data['T2'] >= 300000])/len(joinmin_data)*100 , "%", "(", len(joinmin_data[joinmin_data['T2'] >= 300000]), "/", len(joinmin_data), ")" )
 
-    plt.rcParams['font.size'] = 14
     def all_parameters():
-        if has_column:
-            boxplot_dict = plt.boxplot([np.log10(data['T1'] / data['T2']),
-                                        np.log10(column_data['T1'] / column_data['T2']),
-                                        np.log10(row_data['T1'] / row_data['T2']),
-                                        np.log10(parallel_on['T1'] / parallel_on['T2']),
-                                        np.log10(parallel_off['T1'] / parallel_off['T2']),
-                                        np.log10(padding_on['T1'] / padding_on['T2']),
-                                        np.log10(padding_off['T1'] / padding_off['T2']),
-                                        np.log10(lateralagg_data['T1'] / lateralagg_data['T2']),
-                                        np.log10(laterallimit_data['T1'] / laterallimit_data['T2']),
-                                        np.log10(lateraldistinctlimit_data['T1'] / lateraldistinctlimit_data['T2']),
-                                        np.log10(joinmin_data['T1'] / joinmin_data['T2']),
-                                        np.log10(IBA_data['T1'] / IBA_data['T2']),
-                                        np.log10(IAB_data['T1'] / IAB_data['T2']),
-                                        np.log10(IB_data['T1'] / IB_data['T2']),
-                                        np.log10(Not_IB_data['T1'] / Not_IB_data['T2']),
-                                        np.log10(IA_data['T1'] / IA_data['T2']),
-                                        np.log10(Not_IA_data['T1'] / Not_IA_data['T2'])
-                                        ],
 
-                                       showfliers=True,
-                                       positions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
-                                       labels=['ALL', 'COLUMN', 'ROW', 'PARALLELIZED', 'SINGLE THREAD', 'PADDING',
-                                               'NO PADDING', 'LateralAgg', 'LateralLimit', 'LateralDistinctLimit', 'JoinMin',
-                                               'I(BA)', 'I(AB)', 'I(B)', '~I(B)', 'I(A)', '~I(A)']
-                                       )
+        boxplot_dict = plt.boxplot([np.log10(data['T1'] / data['T2']),
+                                    np.log10(lateraldistinctlimit_data['T1'] / lateraldistinctlimit_data['T2']),
+                                    np.log10(joinmin_data['T1'] / joinmin_data['T2']),
+                                    np.log10(parallel_on['T1'] / parallel_on['T2']),
+                                    np.log10(parallel_off['T1'] / parallel_off['T2']),
+                                    np.log10(padding_on['T1'] / padding_on['T2']),
+                                    np.log10(padding_off['T1'] / padding_off['T2']),
+                                    np.log10(IBA_data['T1'] / IBA_data['T2']),
+                                    np.log10(IAB_data['T1'] / IAB_data['T2']),
+                                    np.log10(IB_data['T1'] / IB_data['T2']),
+                                    np.log10(Not_IB_data['T1'] / Not_IB_data['T2']),
+                                    np.log10(IA_data['T1'] / IA_data['T2']),
+                                    np.log10(Not_IA_data['T1'] / Not_IA_data['T2'])
+                                    ],
 
-            # Modify the fliers marker style
-            flier_marker_style = dict(marker='+', markerfacecolor='red', markersize=3, linestyle='none')
-            for flier in boxplot_dict['fliers']:
-                flier.set(**flier_marker_style)
+                                   showfliers=True,
+                                   positions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+                                   labels=['ALL', 'LateralDistinctLimit', 'JoinNMin',
+                                           'PARALLELIZED', 'SINGLE THREAD', 'PADDING', 'NO PADDING',
+                                           'I(BA)', 'I(AB)', 'I(B)', '~I(B)', 'I(A)', '~I(A)']
+                                   )
 
-            # Define the colors for the desired boxes
-            colors = ['red', 'red', 'blue', 'blue', 'green', 'green', 'orange', 'orange', 'orange', 'orange', 'brown', 'brown',
-                      'cyan', 'cyan', 'magenta', 'magenta']
+        # Modify the fliers marker style
+        flier_marker_style = dict(marker='+', markerfacecolor='red', markersize=3, linestyle='none')
+        for flier in boxplot_dict['fliers']:
+            flier.set(**flier_marker_style)
 
-            # Loop through the desired boxes and modify their color
-            for i in range(1, 17):
-                box = boxplot_dict['boxes'][i]
-                box.set(color=colors[i - 1])
+        # Define the colors for the desired boxes
+        colors = ['orange', 'orange', 'blue', 'blue', 'green', 'green', 'brown', 'brown', 'cyan', 'cyan',
+                  'magenta', 'magenta']
 
-        else:
-            boxplot_dict = plt.boxplot([np.log10(data['T1'] / data['T2']),
-                                        np.log10(lateralagg_data['T1'] / lateralagg_data['T2']),
-                                        np.log10(laterallimit_data['T1'] / laterallimit_data['T2']),
-                                        np.log10(lateraldistinctlimit_data['T1'] / lateraldistinctlimit_data['T2']),
-                                        np.log10(joinmin_data['T1'] / joinmin_data['T2']),
-                                        np.log10(parallel_on['T1'] / parallel_on['T2']),
-                                        np.log10(parallel_off['T1'] / parallel_off['T2']),
-                                        np.log10(padding_on['T1'] / padding_on['T2']),
-                                        np.log10(padding_off['T1'] / padding_off['T2']),
-                                        np.log10(IBA_data['T1'] / IBA_data['T2']),
-                                        np.log10(IAB_data['T1'] / IAB_data['T2']),
-                                        np.log10(IB_data['T1'] / IB_data['T2']),
-                                        np.log10(Not_IB_data['T1'] / Not_IB_data['T2']),
-                                        np.log10(IA_data['T1'] / IA_data['T2']),
-                                        np.log10(Not_IA_data['T1'] / Not_IA_data['T2'])
-                                        ],
+        # Loop through the desired boxes and modify their color
+        for i in range(1, len(colors) + 1):
+            box = boxplot_dict['boxes'][i]
+            box.set(color=colors[i - 1])
 
-                                       showfliers=True,
-                                       positions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
-                                       labels=['ALL', 'LateralAgg', 'LateralLimit', 'LateralDistinctLimit', 'JoinMin',
-                                               'PARALLELIZED', 'SINGLE THREAD', 'PADDING', 'NO PADDING',
-                                               'I(BA)', 'I(AB)', 'I(B)', '~I(B)', 'I(A)', '~I(A)']
-                                       )
-
-            # Modify the fliers marker style
-            flier_marker_style = dict(marker='+', markerfacecolor='red', markersize=3, linestyle='none')
-            for flier in boxplot_dict['fliers']:
-                flier.set(**flier_marker_style)
-
-            # Define the colors for the desired boxes
-            colors = ['orange', 'orange', 'orange', 'orange', 'blue', 'blue', 'green', 'green', 'brown', 'brown', 'cyan', 'cyan',
-                      'magenta', 'magenta']
-
-            # Loop through the desired boxes and modify their color
-            for i in range(1, 15):
-                box = boxplot_dict['boxes'][i]
-                box.set(color=colors[i - 1])
-
-        plt.xticks(rotation=80)
+        plt.xticks(rotation=65)
         plt.ylabel(r'$T_{lin}\,/\,T_{sj}$')
         plt.title(print_caption)
 
         # plt.yscale('log')  # show the y-axis in log scale
         # plt.axhline(y=1, color='r', linestyle='-')  # add horizontal line at value 1
         # if we use np.log10, we need to use the following lines
-        plt.yticks(np.arange(-4, 3), 10.0 ** np.arange(-4, 3))
+        plt.yticks(np.arange(-3, 3), 10.0 ** np.arange(-3, 3))
         plt.axhline(y=0, color='r', linestyle='-')  # add horizontal line at value 1
 
-        plt.subplots_adjust(left=0.18, right=0.97, top=0.94, bottom=0.43)  # Adjust the values as per your requirements
-
-        plt.savefig(print_caption + '_rank_algorithms.pdf', format='pdf')
+        plt.subplots_adjust(left=0.15, right=0.97, top=0.94, bottom=0.31)  # Adjust the values as per your requirements
+        plt.savefig(print_caption + '_rank_NMIN.pdf', format='pdf')
 
         # Show the plot
         plt.show()
@@ -204,7 +156,7 @@ def dbms_results(dbms, print_caption, has_column):
         plt.axhline(y=0, color='r', linestyle='-')  # add horizontal line at value 1
 
 
-        plt.subplots_adjust(left=0.15, right=0.97, top=0.94, bottom=0.2)  # Adjust the values as per your requirements
+        plt.subplots_adjust(left=0.13, right=0.97, top=0.94, bottom=0.2)  # Adjust the values as per your requirements
         plt.savefig(print_caption + '_bdistinct.pdf', format='pdf')
 
         # Show the plot
@@ -237,7 +189,7 @@ def dbms_results(dbms, print_caption, has_column):
         # plt.axhline(y=0, color='r', linestyle='-')  # add horizontal line at value 1
 
 
-        plt.subplots_adjust(left=0.2, right=0.97, top=0.94, bottom=0.1)  # Adjust the values as per your requirements
+        plt.subplots_adjust(left=0.16, right=0.97, top=0.94, bottom=0.1)  # Adjust the values as per your requirements
         plt.savefig(dbms + '_times.pdf', format='pdf')
 
         # Show the plot
@@ -253,9 +205,7 @@ def dbms_results(dbms, print_caption, has_column):
     bvalues(lateraldistinctlimit_data, print_caption + ' LateralDistinctLimit')
 
     ###################################################################
-    times(data, print_caption + ' Query Processing Times')
+    # times(data, print_caption + ' Query Processing Times')
 
-dbms_results('MSSql', 'DBMS1', False)
+
 dbms_results('Postgres', 'PostgreSql', False)
-dbms_results('Oracle', 'DBMS2', False)
-# dbms_results('MySQL', False)

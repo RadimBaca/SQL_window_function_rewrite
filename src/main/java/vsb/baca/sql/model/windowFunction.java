@@ -7,20 +7,25 @@ import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.util.ArrayList;
 
+/**
+ * windowFunction class represents one window function in a input SQL.
+ * Class store information about the window function that are necessary to build a subquery that corresponds to the WF semantics.
+ * This class contains main logic for subquery generation.
+ */
 public class windowFunction {
-    private String                  functionName;
-    private String                  winFunAlias;
+    private String                  functionName; // LAG, LEAD, SUM, AVG, COUNT, RANK, ROW_NUMBER etc.
+    private String                  winFunAlias; // alias taken from the input query
     private String                  range_row_frameBounds; // possible values are RANGE, ROWS, NONE
-    private String                  frameStart;
-    private String                  frameEnd;
-    private ParserRuleContext       functionExpression;
-    private ParserRuleContext       functionContext; // expression element rooting whole window function
-    private ArrayList<ParserRuleContext> partitionByList = new ArrayList<ParserRuleContext>();
-    private ArrayList<Pair<ParserRuleContext,Boolean>> orderByList = new ArrayList<Pair<ParserRuleContext,Boolean>>();
-    private ArrayList<predicate>    predicateList = new ArrayList<predicate>();
+    private String                  frameStart; // possible values are CURRENT, UNBOUNDED or null
+    private String                  frameEnd; // possible values are CURRENT, UNBOUNDED or null
+    private ParserRuleContext       functionExpression; // Expression within a window function. It is null for some window functions (RANK, ROW_NUMBER).
+    private ParserRuleContext       functionContext; // Expression element rooting whole window function of the derivation tree.
+    private ArrayList<ParserRuleContext> partitionByList = new ArrayList<ParserRuleContext>(); // PARTITION BY list of the window function
+    private ArrayList<Pair<ParserRuleContext,Boolean>> orderByList = new ArrayList<Pair<ParserRuleContext,Boolean>>(); // ORDER BY list of the window function. Boolean value indicates ASC/DESC ordering.
+    private ArrayList<predicate>    predicateList = new ArrayList<predicate>(); // list of predicates that are using the alias of this window function (beta predicates relevant to this window function)
     private String                  remainder_equality_condition;
-    private Config                  config;
-    private selectCmd               root;
+    private Config                  config; // configuration of the rewrite
+    private selectCmd               root; // SELECT statement that contains this window function
 
     interface OrderByCondition {
         boolean check(int index, String functionName);
@@ -98,6 +103,10 @@ public class windowFunction {
         predicateList.add(pred);
     }
 
+    /**
+     * This method checks whether we can use JoinMin logical tree
+     * @return
+     */
     public boolean isJoinRewrite() {
         if ((functionName.equalsIgnoreCase("RANK") ||
                 functionName.equalsIgnoreCase("DENSE_RANK")||
@@ -115,6 +124,13 @@ public class windowFunction {
     //////////////////////////////////// Query building methods /////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+    /**
+     * Core function that builds a subquery for a window function.
+     * @param subqueryString The alpha subquery
+     * @param alias The alias of this subquery
+     * @return The subquery representing this window function
+     */
     public String getQueryText(String subqueryString, String alias)
     {
         StringBuilder builder = new StringBuilder();
@@ -196,6 +212,7 @@ public class windowFunction {
         return builder.toString();
     }
 
+
     public boolean isaAggFunction() {
         return functionName.equalsIgnoreCase("MAX") ||
                 functionName.equalsIgnoreCase("AVG") ||
@@ -203,6 +220,7 @@ public class windowFunction {
                 functionName.equalsIgnoreCase("SUM") ||
                 functionName.equalsIgnoreCase("COUNT");
     }
+
 
     private void wfRank(String subqueryString,
                         String alias,
@@ -483,6 +501,13 @@ public class windowFunction {
         builder.append(" OFFSET 0 ROWS ");
         builder.append(" FETCH FIRST 1 ROWS ONLY ");
     }
+
+
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////// Support methods ////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     /**
      * Build a OFFSET and FETCH for a DENSE_RANK window function

@@ -108,8 +108,8 @@ public class querySpecificationCmd extends selectCmd {
 
 
     /**
-     * Main transformed SQL select build method.
-     * Window function is transformed into CROSS APPLY.
+     * Main SQL select build method.
+     * Window function is transformed into a appropriate CROSS APPLY/JOIN/CROSS JOIN.
      * @return
      */
     @Override public String getQueryText() {
@@ -173,7 +173,13 @@ public class querySpecificationCmd extends selectCmd {
         return builder.toString();
     }
 
-
+    /**
+     * Method creates a subquery for a window function.
+     * @param windowFunction
+     * @param counter Order of the window function in the query.
+     * @param subqueryString Alpha subquery
+     * @return
+     */
     private String getWindowFunctionSubquery(windowFunction windowFunction, int counter, String subqueryString) {
         StringBuilder builder = new StringBuilder();
         String alias = "win_subquery_" + counter;
@@ -191,14 +197,7 @@ public class querySpecificationCmd extends selectCmd {
                 builder.append(" LEFT JOIN LATERAL (" + windowFunction.getQueryText(subqueryString, alias) + ") " + alias + " ON true ");
             }
             if (config.getSelectedDbms() == Config.dbms.ORACLE) {
-//                if (windowFunction.isaAggFunction())
-                {
-                    // The Oracle is not capable to use indexes with OUTER APPLY syntax, so we use CROSS JOIN LATERAL
-                    builder.append(" CROSS JOIN LATERAL (" + windowFunction.getQueryText(subqueryString, alias) + ") " + alias + " ");
-                }
-//                else {
-//                    builder.append(" OUTER APPLY (" + windowFunction.getQueryText(subqueryString, alias) + ") " + alias + " ");
-//                }
+                builder.append(" CROSS JOIN LATERAL (" + windowFunction.getQueryText(subqueryString, alias) + ") " + alias + " ");
             }
             if (config.getSelectedDbms() == Config.dbms.MYSQL) {
                 if (windowFunction.isaAggFunction())
@@ -208,7 +207,6 @@ public class querySpecificationCmd extends selectCmd {
                     builder.append(" LEFT JOIN LATERAL (" + windowFunction.getQueryText(subqueryString, alias) + ") " + alias + " ON true ");
                 }
             }
-//            builder.append(" OUTER APPLY (" + windowFunction.getQueryText(subqueryString, alias) + ") AS " + alias);
         }
         return builder.toString();
     }
