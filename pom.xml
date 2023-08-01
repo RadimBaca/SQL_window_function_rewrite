@@ -8,6 +8,12 @@
     <artifactId>sql</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+  <packaging>jar</packaging> 
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
+
     <build>
         <plugins>
             <plugin>
@@ -22,15 +28,47 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
+
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <arguments>
+                        <argument>-visitor</argument>
+                        <!-- Add other ANTLR options here if needed -->
+                    </arguments>
+                    <sourceDirectory>${project.basedir}/grammar</sourceDirectory>
+                    <outputDirectory>${project.basedir}/src/main/java/vsb/baca/grammar</outputDirectory>
                 </configuration>
             </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>
+								${project.build.directory}/libs
+							</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>libs/</classpathPrefix>
+							<mainClass>vsb.baca.sql.wf_microbenchmark</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
         </plugins>
     </build>
 

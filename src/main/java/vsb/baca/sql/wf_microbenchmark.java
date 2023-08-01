@@ -81,6 +81,7 @@ public class wf_microbenchmark {
             else if (testType.contains("probe"))
                 oracle_rewrite_probe.run(connection_string, username, password);
         }
+		
         if (dbSystem.contains("mssql"))
         {
             String connection_string = "jdbc:sqlserver://" + hostname + ";user=" + username + ";password=" + password + ";";
@@ -96,6 +97,7 @@ public class wf_microbenchmark {
             else if (testType.contains("unit_test"))
                 mssql_unit_test.run(connection_string, "", "");
         }
+		
         if (dbSystem.contains("postgresql"))
         {
             String connection_string = "jdbc:postgresql://" + hostname;
@@ -113,6 +115,7 @@ public class wf_microbenchmark {
             else if (testType.contains("unit_test"))
                 postgre_unit_test.run(connection_string, username, password);
         }
+		
         if (dbSystem.contains("mysql"))
         {
             String connection_string = "jdbc:mysql://" + hostname;
@@ -121,8 +124,6 @@ public class wf_microbenchmark {
                 mysql_agg_test.run(connection_string, username, password);
             else if (testType.contains("rank"))
                 mysql_rank_test.run(connection_string, username, password);
-            else if (testType.contains("unit_test"))
-                mysql_unit_test.run(connection_string, username, password);
         }
     }
 
@@ -132,5 +133,6 @@ public class wf_microbenchmark {
         System.out.println("-d: Oracle, PostgreSql, MSSql");
         System.out.println("-d: Hostname including port and database (SID) name if necessary");
         System.out.println("-t: Agg, Rank_alg");
+
     }
 }
