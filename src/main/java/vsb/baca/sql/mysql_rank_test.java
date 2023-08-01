@@ -23,7 +23,14 @@ public class mysql_rank_test {
 
     private static Config config = new Config(Config.dbms.MYSQL, false, Config.rank_algorithm.BestFit);
 
-    public static void main(String[] args) throws Exception {
+    private static String connection_string;
+    private static String username;
+    private static String password;
+
+    public static void run(String connection_string, String username, String password) throws Exception {
+        mysql_rank_test.connection_string = connection_string;
+        mysql_rank_test.username = username;
+        mysql_rank_test.password = password;
 
         ArrayList<Pair<String,String>> queryFileNamesPadding = new ArrayList<Pair<String,String>>();
         queryFileNamesPadding.add(benchmark_mssql.readQueryFromFile(SQL_ROWNUMBER_EQUAL_1_PADDING_FILENAME));
@@ -34,10 +41,10 @@ public class mysql_rank_test {
         queryFileNamesNoPadding.add(benchmark_mssql.readQueryFromFile(SQL_ROWNUMBER_EQUAL_N_FILENAME));
         queryFileNamesNoPadding.add(benchmark_mssql.readQueryFromFile(SQL_ROWNUMBER_LESS_N_FILENAME));
 
-        run_setups.add(new run_setup("R_row_", queryFileNamesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config));
-        run_setups.add(new run_setup("P_row_", queryFileNamesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config));
-        run_setups.add(new run_setup("R_row_", queryFileNamesNoPadding,  "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON, config));
-        run_setups.add(new run_setup("P_row_", queryFileNamesPadding,  "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON, config));
+        run_setups.add(new run_setup("R_row_", queryFileNamesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config, mysql_rank_test.connection_string, mysql_rank_test.username, mysql_rank_test.password));
+        run_setups.add(new run_setup("P_row_", queryFileNamesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config, mysql_rank_test.connection_string, mysql_rank_test.username, mysql_rank_test.password));
+        run_setups.add(new run_setup("R_row_", queryFileNamesNoPadding,  "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON, config, mysql_rank_test.connection_string, mysql_rank_test.username, mysql_rank_test.password));
+        run_setups.add(new run_setup("P_row_", queryFileNamesPadding,  "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON, config, mysql_rank_test.connection_string, mysql_rank_test.username, mysql_rank_test.password));
 
         mysql_runner.prepare_run(run_setups, DROPINDEXES_FILENAME, CREATEINDEXES_FILENAME);
     }

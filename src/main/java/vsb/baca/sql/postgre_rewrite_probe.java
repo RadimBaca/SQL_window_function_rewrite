@@ -19,11 +19,15 @@ public class postgre_rewrite_probe {
     private static String sql1 = "";
     private static String sql2 = "";
 
-    private static String url = "jdbc:postgresql://bayer.cs.vsb.cz:5433/sqlbench";
-    private static String username = "sqlbench";
-    private static String password = "n3cUmubsbo";
+    private static String connection_string;
+    private static String username;
+    private static String password;
 
-    public static void main(String[] args) throws Exception {
+    public static void run(String connection_string, String username, String password) throws Exception {
+        postgre_rewrite_probe.connection_string = connection_string;
+        postgre_rewrite_probe.username = username;
+        postgre_rewrite_probe.password = password;
+
         // read SQL from input file
         String fileName;
 
@@ -37,14 +41,6 @@ public class postgre_rewrite_probe {
         System.out.println("-----------------------------------------");
         System.out.println(sql2);
         System.out.println("-----------------------------------------");
-
-        if (ok) {
-            System.out.println("Test passed - " + fileName);
-        } else {
-            System.out.println("Test failed - " + fileName);
-        }
-        sql1 = "";
-        sql2 = "";
     }
 
     private static boolean testRewriteSqlInFile(String fileName) {
@@ -62,10 +58,7 @@ public class postgre_rewrite_probe {
 
 
         try {
-            Connection connection = DriverManager.getConnection(url, username, password);
-
-            // Your code for executing SQL commands will go here
-
+            Connection connection = DriverManager.getConnection(connection_string, username, password);
 
             // execute rewritten SQL
             Statement stmt1 = connection.createStatement();

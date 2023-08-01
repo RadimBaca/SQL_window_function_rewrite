@@ -19,7 +19,16 @@ public class oracle_rewrite_probe {
     private static String sql1 = "";
     private static String sql2 = "";
 
-    public static void main(String[] args) throws Exception {
+    private static String connection_string;
+    private static String username;
+    private static String password;
+
+    public static void run(String connection_string, String username, String password) throws Exception {
+
+        oracle_rewrite_probe.connection_string = connection_string;
+        oracle_rewrite_probe.username = username;
+        oracle_rewrite_probe.password = password;
+
         // read SQL from input file
         String fileName;
 
@@ -34,11 +43,6 @@ public class oracle_rewrite_probe {
         System.out.println(sql2);
         System.out.println("-----------------------------------------");
 
-        if (ok) {
-            System.out.println("Test passed - " + fileName);
-        } else {
-            System.out.println("Test failed - " + fileName);
-        }
         sql1 = "";
         sql2 = "";
     }
@@ -73,8 +77,7 @@ public class oracle_rewrite_probe {
 
 
             // Connect to the database
-            Connection conn = DriverManager.getConnection(
-                    "jdbc:oracle:thin:@bayer.cs.vsb.cz:1521:oracle", "sqlbench_window", "n3cUmubsbo");
+            Connection conn = DriverManager.getConnection(connection_string, username, password);
 
             System.out.println("Start executing SQL");
 
@@ -101,12 +104,6 @@ public class oracle_rewrite_probe {
                     System.out.println("Result set count is different - " + fileName);
                     return false;
                 }
-//                for (int i = 1; i <= columnCount1; i++) {
-//                    if (rs1.getInt(i) != rs2.getInt(i)) {
-//                        System.out.println("Result set is different - " + fileName);
-//                        return false;
-//                    }
-//                }
             }
 
             // Close the resources

@@ -19,7 +19,12 @@ public class mssql_rewrite_probe {
     private static String sql1 = "";
     private static String sql2 = "";
 
-    public static void main(String[] args) throws Exception {
+    private static String connection_string;
+
+    public static void run(String connection_string) throws Exception {
+
+        mssql_rewrite_probe.connection_string = connection_string;
+
         // read SQL from input file
         String fileName;
 
@@ -33,13 +38,6 @@ public class mssql_rewrite_probe {
         System.out.println("-----------------------------------------");
         System.out.println(sql2);
         System.out.println("-----------------------------------------");
-        if (ok) {
-            System.out.println("Test passed - " + fileName);
-        } else {
-            System.out.println("Test failed - " + fileName);
-        }
-        sql1 = "";
-        sql2 = "";
     }
 
     private static boolean testRewriteSqlInFile(String fileName) {
@@ -60,10 +58,7 @@ public class mssql_rewrite_probe {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
             // Connect to the database
-//            Connection conn = DriverManager.getConnection(
-//                    "jdbc:sqlserver://bayer.cs.vsb.cz;instanceName=sqldb;databaseName=sqlbench_window", "sqlbench", "n3cUmubsbo");
-            Connection conn = DriverManager.getConnection(
-                    "jdbc:sqlserver://bayer.cs.vsb.cz;instanceName=sqldb;databaseName=sqlbench_window", "sqlbench", "n3cUmubsbo");
+            Connection conn = DriverManager.getConnection(connection_string);
 
             // execute rewritten SQL
             Statement stmt1 = conn.createStatement();

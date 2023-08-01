@@ -20,12 +20,16 @@ public class postgre_unit_test {
     private static String sql1 = "";
     private static String sql2 = "";
 
-    //private static String connectionString = "jdbc:postgresql://158.196.98.67/sqlbench?user=sqlbench&password=n3cUmubsbo";
-    private static String url = "jdbc:postgresql://158.196.98.67:5432/sqlbench";
-    private static String username = "sqlbench";
-    private static String password = "n3cUmubsbo";
 
-    public static void main(String[] args) throws Exception {
+    private static String connection_string;
+    private static String username;
+    private static String password;
+
+    public static void run(String connection_string, String username, String password) throws Exception {
+        postgre_unit_test.connection_string = connection_string;
+        postgre_unit_test.username = username;
+        postgre_unit_test.password = password;
+
         // read SQL from input file
         String fileName;
 
@@ -75,7 +79,7 @@ public class postgre_unit_test {
 
 
         try {
-            Connection connection = DriverManager.getConnection(url, username, password);
+            Connection connection = DriverManager.getConnection(connection_string, username, password);
 
             // Your code for executing SQL commands will go here
 

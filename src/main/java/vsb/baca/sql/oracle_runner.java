@@ -8,10 +8,6 @@ import java.util.logging.*;
 
 public class oracle_runner {
 
-    private static final String CONNECTION_STRING = "jdbc:oracle:thin:@bayer.cs.vsb.cz:1521:oracle";
-    private static final String USERNAME = "sqlbench_window";
-    private static final String PASSWORD = "n3cUmubsbo";
-
     private static final String PARALLEL_0 = " /*+ no_parallel */ ";
     private static final String PARALLEL_8 = " /*+ PARALLEL(8) */ ";
 
@@ -44,12 +40,12 @@ public class oracle_runner {
             bench_config_oracle bench_config = null;
             if (rs.parallelism == vsb.baca.sql.benchmark.bench_config.Parallelism.ON) {
                 bench_config = new bench_config_oracle(createindexesFilename, dropindexesFilename,
-                        CONNECTION_STRING, USERNAME, PASSWORD, rs.config, logger, fileHandler,
+                        rs.connection_string, rs.username, rs.password, rs.config, logger, fileHandler,
                         rs.queryFileNames, rs.tab_prefix, PARALLEL_8,
                         rs.padding, rs.storage, rs.parallelism);
             } else {
                 bench_config = new bench_config_oracle(createindexesFilename, dropindexesFilename,
-                        CONNECTION_STRING, USERNAME, PASSWORD, rs.config, logger, fileHandler,
+                        rs.connection_string, rs.username, rs.password, rs.config, logger, fileHandler,
                         rs.queryFileNames, rs.tab_prefix, PARALLEL_0,
                         rs.padding, rs.storage, rs.parallelism);
             }
