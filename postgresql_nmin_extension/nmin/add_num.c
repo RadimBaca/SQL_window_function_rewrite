@@ -83,7 +83,7 @@ Datum add_numberN(PG_FUNCTION_ARGS)
     if (input_len < N)
     {
         // this is possible just during the first call of the aggregate
-        elog(NOTICE, "Array smaller than N, so we reset it");
+        // elog(NOTICE, "Array smaller than N, so we reset it");
         input_elems = (Datum*)palloc(N * sizeof(Datum));
 
         input_elems[i] = insert_var;
