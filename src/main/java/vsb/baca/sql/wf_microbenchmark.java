@@ -55,7 +55,7 @@ public class wf_microbenchmark {
         }
 
         // Check the number of input parameters
-        if ((option == modes.microbenchmark && (args.length < 11 || args.length > 12)) ||
+        if ((option == modes.microbenchmark && (args.length < 11 || args.length > 13)) ||
                 (option == modes.rewrite && args.length != 7)) {
             System.out.println("Invalid number of parameters");
             printHelp();
