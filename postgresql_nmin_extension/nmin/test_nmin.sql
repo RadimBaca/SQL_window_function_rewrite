@@ -33,5 +33,5 @@ select g, nmin(m, 10) from tab group by g;
 
 -- The expected result is
 -- g,nmin
--- 1,10
--- 2,2147483647
+-- 1,9
+-- 2,null
