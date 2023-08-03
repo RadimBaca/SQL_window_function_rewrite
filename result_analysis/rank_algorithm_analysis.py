@@ -67,6 +67,7 @@ def dbms_results(dbms, print_caption, has_column):
     print("LateralDistinctLimit: ", len(lateraldistinctlimit_data[lateraldistinctlimit_data['T2'] >= 300000])/len(lateraldistinctlimit_data)*100 , "%", "(", len(lateraldistinctlimit_data[lateraldistinctlimit_data['T2'] >= 300000]), "/", len(lateraldistinctlimit_data), ")" )
     print("JoinMin: ", len(joinmin_data[joinmin_data['T2'] >= 300000])/len(joinmin_data)*100 , "%", "(", len(joinmin_data[joinmin_data['T2'] >= 300000]), "/", len(joinmin_data), ")" )
 
+    plt.rcParams['font.size'] = 14
     def all_parameters():
         if has_column:
             boxplot_dict = plt.boxplot([np.log10(data['T1'] / data['T2']),
@@ -148,7 +149,7 @@ def dbms_results(dbms, print_caption, has_column):
                 box = boxplot_dict['boxes'][i]
                 box.set(color=colors[i - 1])
 
-        plt.xticks(rotation=65)
+        plt.xticks(rotation=80)
         plt.ylabel(r'$T_{lin}\,/\,T_{sj}$')
         plt.title(print_caption)
 
@@ -158,7 +159,8 @@ def dbms_results(dbms, print_caption, has_column):
         plt.yticks(np.arange(-4, 3), 10.0 ** np.arange(-4, 3))
         plt.axhline(y=0, color='r', linestyle='-')  # add horizontal line at value 1
 
-        plt.subplots_adjust(left=0.15, right=0.97, top=0.94, bottom=0.31)  # Adjust the values as per your requirements
+        plt.subplots_adjust(left=0.18, right=0.97, top=0.94, bottom=0.43)  # Adjust the values as per your requirements
+
         plt.savefig(print_caption + '_rank_algorithms.pdf', format='pdf')
 
         # Show the plot
@@ -202,7 +204,7 @@ def dbms_results(dbms, print_caption, has_column):
         plt.axhline(y=0, color='r', linestyle='-')  # add horizontal line at value 1
 
 
-        plt.subplots_adjust(left=0.13, right=0.97, top=0.94, bottom=0.2)  # Adjust the values as per your requirements
+        plt.subplots_adjust(left=0.15, right=0.97, top=0.94, bottom=0.2)  # Adjust the values as per your requirements
         plt.savefig(print_caption + '_bdistinct.pdf', format='pdf')
 
         # Show the plot
@@ -235,7 +237,7 @@ def dbms_results(dbms, print_caption, has_column):
         # plt.axhline(y=0, color='r', linestyle='-')  # add horizontal line at value 1
 
 
-        plt.subplots_adjust(left=0.16, right=0.97, top=0.94, bottom=0.1)  # Adjust the values as per your requirements
+        plt.subplots_adjust(left=0.2, right=0.97, top=0.94, bottom=0.1)  # Adjust the values as per your requirements
         plt.savefig(dbms + '_times.pdf', format='pdf')
 
         # Show the plot
@@ -247,8 +249,8 @@ def dbms_results(dbms, print_caption, has_column):
     all_parameters()
     ###################################################################
     # Create the next box plot for T1/T2 based on PB value
-    # bvalues(joinmin_data, print_caption + ' JoinMin')
-    # bvalues(lateraldistinctlimit_data, print_caption + ' LateralDistinctLimit')
+    bvalues(joinmin_data, print_caption + ' JoinMin')
+    bvalues(lateraldistinctlimit_data, print_caption + ' LateralDistinctLimit')
 
     ###################################################################
     times(data, print_caption + ' Query Processing Times')
@@ -256,4 +258,3 @@ def dbms_results(dbms, print_caption, has_column):
 dbms_results('MSSql', 'DBMS1', False)
 dbms_results('Postgres', 'PostgreSql', False)
 dbms_results('Oracle', 'DBMS2', False)
-# dbms_results('MySQL', False)

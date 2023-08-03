@@ -19,7 +19,15 @@ public class mssql_unit_test {
     private static String sql1 = "";
     private static String sql2 = "";
 
-    public static void main(String[] args) throws Exception {
+    private static String connection_string;
+    private static String username;
+    private static String password;
+
+    public static void run(String connection_string, String username, String password) throws Exception {
+        mssql_unit_test.connection_string = connection_string;
+        mssql_unit_test.username = username;
+        mssql_unit_test.password = password;
+
         // read SQL from input file
         String fileName;
 
@@ -72,8 +80,7 @@ public class mssql_unit_test {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
             // Connect to the database
-            Connection conn = DriverManager.getConnection(
-                    "jdbc:sqlserver://bayer.cs.vsb.cz;instanceName=sqldb;databaseName=sqlbench_window", "sqlbench", "n3cUmubsbo");
+            Connection conn = DriverManager.getConnection(connection_string, username, password);
 
             // execute rewritten SQL
             Statement stmt1 = conn.createStatement();

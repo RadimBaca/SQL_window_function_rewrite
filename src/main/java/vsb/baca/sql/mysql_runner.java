@@ -8,9 +8,7 @@ import java.util.logging.*;
 
 public class mysql_runner {
 
-    private static final String CONNECTION_STRING = "jdbc:mysql://bayer.cs.vsb.cz:3306/sqlbench";
-    private static final String USERNAME = "sqlbench";
-    private static final String PASSWORD = "n3cUmubsbo";
+
 
     private static final String PARALLEL_1 = "SET LOCAL innodb_parallel_read_threads=1";
     private static final String PARALLEL_8 = "SET LOCAL innodb_parallel_read_threads=8";
@@ -44,12 +42,12 @@ public class mysql_runner {
             bench_config_mysql bench_config = null;
             if (rs.parallelism == vsb.baca.sql.benchmark.bench_config.Parallelism.ON) {
                 bench_config = new bench_config_mysql(createindexesFilename, dropindexesFilename,
-                        CONNECTION_STRING, USERNAME, PASSWORD, rs.config, logger, fileHandler,
+                        rs.connection_string, rs.username, rs.password, rs.config, logger, fileHandler,
                         rs.queryFileNames, rs.tab_prefix, PARALLEL_8,
                         rs.padding, rs.storage, rs.parallelism);
             } else {
                 bench_config = new bench_config_mysql(createindexesFilename, dropindexesFilename,
-                        CONNECTION_STRING, USERNAME, PASSWORD, rs.config, logger, fileHandler,
+                        rs.connection_string, rs.username, rs.password, rs.config, logger, fileHandler,
                         rs.queryFileNames, rs.tab_prefix, PARALLEL_1,
                         rs.padding, rs.storage, rs.parallelism);
             }

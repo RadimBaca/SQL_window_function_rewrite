@@ -27,8 +27,14 @@ public class postgre_agg_test {
 
     private static Config config = new Config(Config.dbms.POSTGRESQL, false, Config.rank_algorithm.BestFit);
 
+    private static String connection_string;
+    private static String username;
+    private static String password;
 
-    public static void main(String[] args) throws Exception {
+    public static void run(String connection_string, String username, String password) throws Exception {
+        postgre_agg_test.connection_string = connection_string;
+        postgre_agg_test.username = username;
+        postgre_agg_test.password = password;
 
         ////////////////////////////////////////////
         ArrayList<Integer> selectivity = new ArrayList<Integer>();
@@ -46,53 +52,53 @@ public class postgre_agg_test {
 
 
     private static void count_bp_ob_test(ArrayList<Integer> selectivity) throws Exception {
-        ArrayList<Pair<String, String>> queriesNoPadding = benchmark_mssql.generateQueriesWithSelectivity(selectivity, COUNT_PB_OB_TEMP);
-        ArrayList<Pair<String, String>> queriesPadding = benchmark_mssql.generateQueriesWithSelectivity(selectivity, COUNT_PB_OB_TEMP_PADDING);
+        ArrayList<Pair<String, String>> queriesNoPadding = benchmark_postgresql.generateQueriesWithSelectivity(selectivity, COUNT_PB_OB_TEMP);
+        ArrayList<Pair<String, String>> queriesPadding = benchmark_postgresql.generateQueriesWithSelectivity(selectivity, COUNT_PB_OB_TEMP_PADDING);
 
         ArrayList<run_setup> run_setups = new ArrayList<run_setup>();
-        run_setups.add(new run_setup("R_row_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config));
-        run_setups.add(new run_setup("P_row_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config));
-        run_setups.add(new run_setup("R_row_", queriesNoPadding,  "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON, config));
-        run_setups.add(new run_setup("P_row_", queriesPadding,  "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON, config));
+        run_setups.add(new run_setup("R_row_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config, postgre_agg_test.connection_string, postgre_agg_test.username, postgre_agg_test.password));
+        run_setups.add(new run_setup("P_row_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config, postgre_agg_test.connection_string, postgre_agg_test.username, postgre_agg_test.password));
+        run_setups.add(new run_setup("R_row_", queriesNoPadding,  "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON, config, postgre_agg_test.connection_string, postgre_agg_test.username, postgre_agg_test.password));
+        run_setups.add(new run_setup("P_row_", queriesPadding,  "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON, config, postgre_agg_test.connection_string, postgre_agg_test.username, postgre_agg_test.password));
 
         postgre_runner.prepare_run(run_setups, DROPINDEXES_PB_OB, CREATEINDEXES_PB_OB);
     }
 
     private static void count_bp_test(ArrayList<Integer> selectivity) throws Exception {
-        ArrayList<Pair<String, String>> queriesNoPadding = benchmark_mssql.generateQueriesWithSelectivity(selectivity, COUNT_PB_TEMP);
-        ArrayList<Pair<String, String>> queriesPadding = benchmark_mssql.generateQueriesWithSelectivity(selectivity, COUNT_PB_TEMP_PADDING);
+        ArrayList<Pair<String, String>> queriesNoPadding = benchmark_postgresql.generateQueriesWithSelectivity(selectivity, COUNT_PB_TEMP);
+        ArrayList<Pair<String, String>> queriesPadding = benchmark_postgresql.generateQueriesWithSelectivity(selectivity, COUNT_PB_TEMP_PADDING);
 
         ArrayList<run_setup> run_setups = new ArrayList<run_setup>();
-        run_setups.add(new run_setup("R_row_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config));
-        run_setups.add(new run_setup("P_row_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config));
-        run_setups.add(new run_setup("R_row_", queriesNoPadding,  "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON, config));
-        run_setups.add(new run_setup("P_row_", queriesPadding,  "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON, config));
+        run_setups.add(new run_setup("R_row_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config, postgre_agg_test.connection_string, postgre_agg_test.username, postgre_agg_test.password));
+        run_setups.add(new run_setup("P_row_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config, postgre_agg_test.connection_string, postgre_agg_test.username, postgre_agg_test.password));
+        run_setups.add(new run_setup("R_row_", queriesNoPadding,  "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON, config, postgre_agg_test.connection_string, postgre_agg_test.username, postgre_agg_test.password));
+        run_setups.add(new run_setup("P_row_", queriesPadding,  "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON, config, postgre_agg_test.connection_string, postgre_agg_test.username, postgre_agg_test.password));
 
         postgre_runner.prepare_run(run_setups, DROPINDEXES_PB, CREATEINDEXES_PB);
     }
 
     private static void min_bp_ob_test(ArrayList<Integer> selectivity) throws Exception {
-        ArrayList<Pair<String, String>> queriesNoPadding = benchmark_mssql.generateQueriesWithSelectivity(selectivity, MIN_PB_OB_TEMP);
-        ArrayList<Pair<String, String>> queriesPadding = benchmark_mssql.generateQueriesWithSelectivity(selectivity, MIN_PB_OB_TEMP_PADDING);
+        ArrayList<Pair<String, String>> queriesNoPadding = benchmark_postgresql.generateQueriesWithSelectivity(selectivity, MIN_PB_OB_TEMP);
+        ArrayList<Pair<String, String>> queriesPadding = benchmark_postgresql.generateQueriesWithSelectivity(selectivity, MIN_PB_OB_TEMP_PADDING);
 
         ArrayList<run_setup> run_setups = new ArrayList<run_setup>();
-        run_setups.add(new run_setup("R_row_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config));
-        run_setups.add(new run_setup("P_row_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config));
-        run_setups.add(new run_setup("R_row_", queriesNoPadding,  "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON, config));
-        run_setups.add(new run_setup("P_row_", queriesPadding,  "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON, config));
+        run_setups.add(new run_setup("R_row_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config, postgre_agg_test.connection_string, postgre_agg_test.username, postgre_agg_test.password));
+        run_setups.add(new run_setup("P_row_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config, postgre_agg_test.connection_string, postgre_agg_test.username, postgre_agg_test.password));
+        run_setups.add(new run_setup("R_row_", queriesNoPadding,  "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON, config, postgre_agg_test.connection_string, postgre_agg_test.username, postgre_agg_test.password));
+        run_setups.add(new run_setup("P_row_", queriesPadding,  "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON, config, postgre_agg_test.connection_string, postgre_agg_test.username, postgre_agg_test.password));
 
         postgre_runner.prepare_run(run_setups, DROPINDEXES_PB_OB, CREATEINDEXES_PB_OB);
     }
 
     private static void min_bp_test(ArrayList<Integer> selectivity) throws Exception {
-        ArrayList<Pair<String, String>> queriesNoPadding = benchmark_mssql.generateQueriesWithSelectivity(selectivity, MIN_PB_TEMP);
-        ArrayList<Pair<String, String>> queriesPadding = benchmark_mssql.generateQueriesWithSelectivity(selectivity, MIN_PB_TEMP_PADDING);
+        ArrayList<Pair<String, String>> queriesNoPadding = benchmark_postgresql.generateQueriesWithSelectivity(selectivity, MIN_PB_TEMP);
+        ArrayList<Pair<String, String>> queriesPadding = benchmark_postgresql.generateQueriesWithSelectivity(selectivity, MIN_PB_TEMP_PADDING);
 
         ArrayList<run_setup> run_setups = new ArrayList<run_setup>();
-        run_setups.add(new run_setup("R_row_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config));
-        run_setups.add(new run_setup("P_row_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config));
-        run_setups.add(new run_setup("R_row_", queriesNoPadding,  "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON, config));
-        run_setups.add(new run_setup("P_row_", queriesPadding,  "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON, config));
+        run_setups.add(new run_setup("R_row_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config, postgre_agg_test.connection_string, postgre_agg_test.username, postgre_agg_test.password));
+        run_setups.add(new run_setup("P_row_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config, postgre_agg_test.connection_string, postgre_agg_test.username, postgre_agg_test.password));
+        run_setups.add(new run_setup("R_row_", queriesNoPadding,  "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON, config, postgre_agg_test.connection_string, postgre_agg_test.username, postgre_agg_test.password));
+        run_setups.add(new run_setup("P_row_", queriesPadding,  "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON, config, postgre_agg_test.connection_string, postgre_agg_test.username, postgre_agg_test.password));
 
         postgre_runner.prepare_run(run_setups, DROPINDEXES_PB_OB, CREATEINDEXES_PB_OB);
     }

@@ -11,17 +11,11 @@ import java.util.logging.*;
 
 public class postgre_runner {
 
-    private static final String CONNECTION_STRING = "jdbc:postgresql://bayer.cs.vsb.cz:5433/sqlbench";
-    private static final String USERNAME = "sqlbench";
-    private static final String PASSWORD = "n3cUmubsbo";
-
     private static final String SET_PARALLEL_WORKERS_0 = "SET max_parallel_workers = 0";
     private static final String SET_PARALLEL_WORKERS_PER_GATHER_0 = "SET max_parallel_workers_per_gather = 0";
     private static final String SET_PARALLEL_WORKERS_N = "SET max_parallel_workers = 8"; // we allow to use any number of parallel threads
     private static final String SET_PARALLEL_WORKERS_PER_GATHER_N = "SET max_parallel_workers_per_gather = 8"; // we allow to use any number of parallel threads per gather
 
-
-//    private static Config config = new Config(Config.dbms.POSTGRESQL, false, Config.rank_algorithm.BestFit);
     private static Logger logger = Logger.getLogger("MyLogger");
     private static FileHandler fileHandler;
 
@@ -51,12 +45,12 @@ public class postgre_runner {
             bench_config_postgresql bench_config = null;
             if (rs.parallelism == vsb.baca.sql.benchmark.bench_config.Parallelism.ON) {
                 bench_config = new bench_config_postgresql(createindexesFilename, dropindexesFilename,
-                        CONNECTION_STRING, USERNAME, PASSWORD, rs.config, logger, fileHandler,
+                        rs.connection_string, rs.username, rs.password, rs.config, logger, fileHandler,
                         rs.queryFileNames, rs.tab_prefix, SET_PARALLEL_WORKERS_N, SET_PARALLEL_WORKERS_PER_GATHER_N,
                         rs.padding, rs.storage, rs.parallelism);
             } else {
                 bench_config = new bench_config_postgresql(createindexesFilename, dropindexesFilename,
-                        CONNECTION_STRING, USERNAME, PASSWORD, rs.config, logger, fileHandler,
+                        rs.connection_string, rs.username, rs.password, rs.config, logger, fileHandler,
                         rs.queryFileNames, rs.tab_prefix, SET_PARALLEL_WORKERS_0, SET_PARALLEL_WORKERS_PER_GATHER_0,
                         rs.padding, rs.storage, rs.parallelism);
             }

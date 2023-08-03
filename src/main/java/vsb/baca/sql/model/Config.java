@@ -1,5 +1,7 @@
 package vsb.baca.sql.model;
 
+import java.util.Locale;
+
 public class Config {
     public enum dbms {
         MSSQL,
@@ -13,7 +15,8 @@ public class Config {
         LateralLimit,
         LateralDistinctLimit,
         JoinMin,
-        BestFit
+        JoinNMin,
+        BestFit // Best fit do not consider the JoinNMin algorithm
     }
 
     private dbms selectedDbms;
@@ -50,5 +53,35 @@ public class Config {
 
     public void setRankAlgorithm(rank_algorithm rankAlg) {
         selectedRankAlgorithm = rankAlg;
+    }
+
+
+    public static Config.dbms getSelectedDbms(String dbSystem) {
+        dbSystem  = dbSystem.toLowerCase();
+        Config.dbms selectedDbms = null;
+        if (dbSystem.equals("oracle")) {
+            selectedDbms = Config.dbms.ORACLE;
+        } else if (dbSystem.equals("postgresql")) {
+            selectedDbms = Config.dbms.POSTGRESQL;
+        } else if (dbSystem.equals("mssql")) {
+            selectedDbms = Config.dbms.MSSQL;
+        }
+        return selectedDbms;
+    }
+
+
+    public static Config.rank_algorithm getRank_algorithm(String logicalTree) {
+        Config.rank_algorithm selectedRankAlgorithm = null;
+        logicalTree  = logicalTree.toLowerCase(Locale.ROOT);
+        if (logicalTree.equals("lateralagg")) {
+            selectedRankAlgorithm = Config.rank_algorithm.LateralAgg;
+        } else if (logicalTree.equals("laterallimitties") || logicalTree.equals("laterallimit")) {
+            selectedRankAlgorithm = Config.rank_algorithm.LateralLimit;
+        } else if (logicalTree.equals("lateraldistinctlimitties") || logicalTree.equals("lateraldistinctlimit")) {
+            selectedRankAlgorithm = Config.rank_algorithm.LateralDistinctLimit;
+        } else if (logicalTree.equals("joinMin")) {
+            selectedRankAlgorithm = Config.rank_algorithm.JoinMin;
+        }
+        return selectedRankAlgorithm;
     }
 }

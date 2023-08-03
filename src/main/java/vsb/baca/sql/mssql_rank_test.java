@@ -29,26 +29,19 @@ public class mssql_rank_test {
     private static Logger logger = Logger.getLogger("MyLogger");
     private static FileHandler fileHandler;
 
-    public static void main(String[] args) throws Exception {
 
-        // Disable console logging
-        Logger rootLogger = Logger.getLogger("");
-        Handler[] handlers = rootLogger.getHandlers();
-        for (Handler handler : handlers) {
-            if (handler instanceof ConsoleHandler) {
-                rootLogger.removeHandler(handler);
-            }
-        }
+    private static String connection_string;
+    private static String username;
+    private static String password;
+    private static String storage;
 
-        try {
-            // Set up the file path and limit the log file size
-            fileHandler = new FileHandler("log_mssql.txt", 1024 * 1024, 1, true);
-            logger.addHandler(fileHandler);
-            SimpleFormatter formatter = new SimpleFormatter();
-            fileHandler.setFormatter(formatter);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public static void run(String connection_string, String username, String password, String storage) throws Exception {
+
+        mssql_rank_test.connection_string = connection_string;
+        mssql_rank_test.username = username;
+        mssql_rank_test.password = password;
+        mssql_rank_test.storage = storage;
+
 
         ArrayList<Pair<String,String>> queryFileNamesPadding = new ArrayList<Pair<String,String>>();
         queryFileNamesPadding.add(benchmark_mssql.readQueryFromFile(SQL_ROWNUMBER_EQUAL_1_PADDING_FILENAME));
@@ -59,25 +52,14 @@ public class mssql_rank_test {
         queryFileNamesNoPadding.add(benchmark_mssql.readQueryFromFile(SQL_ROWNUMBER_EQUAL_N_FILENAME));
         queryFileNamesNoPadding.add(benchmark_mssql.readQueryFromFile(SQL_ROWNUMBER_LESS_N_FILENAME));
 
-        run_setups.add(new run_setup("R_row_", queryFileNamesNoPadding, "\nOPTION(MAXDOP 1)", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config));
-        run_setups.add(new run_setup("R_column_", queryFileNamesNoPadding, "\nOPTION(MAXDOP 1)", bench_config.Padding.OFF, bench_config.Storage.COLUMN, bench_config.Parallelism.OFF, config));
-        run_setups.add(new run_setup("P_row_", queryFileNamesPadding, "\nOPTION(MAXDOP 1)", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config));
-        run_setups.add(new run_setup("P_column_", queryFileNamesPadding, "\nOPTION(MAXDOP 1)", bench_config.Padding.ON, bench_config.Storage.COLUMN, bench_config.Parallelism.OFF, config));
-        run_setups.add(new run_setup("R_row_", queryFileNamesNoPadding, "\nOPTION(MAXDOP 8)", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON, config));
-        run_setups.add(new run_setup("R_column_", queryFileNamesNoPadding, "\nOPTION(MAXDOP 8)", bench_config.Padding.OFF, bench_config.Storage.COLUMN, bench_config.Parallelism.ON, config));
-        run_setups.add(new run_setup("P_row_", queryFileNamesPadding, "\nOPTION(MAXDOP 8)", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON, config));
-        run_setups.add(new run_setup("P_column_", queryFileNamesPadding, "\nOPTION(MAXDOP 8)", bench_config.Padding.ON, bench_config.Storage.COLUMN, bench_config.Parallelism.ON, config));
-
-        for (run_setup run_setup : run_setups) {
-            bench_config_mssql bench_config = new bench_config_mssql(CREATEINDEXES_FILENAME, DROPINDEXES_FILENAME,
-                    CONNECTION_STRING, "", "", config, logger, fileHandler,
-                    run_setup.queryFileNames, run_setup.tab_prefix, run_setup.option_maxdop, run_setup.padding, run_setup.storage, run_setup.parallelism);
-
-            benchmark_mssql rank_benchmark = new benchmark_mssql(bench_config);
-            rank_benchmark.run();
+        if (mssql_rank_test.storage.contains("row")) {
+            run_setups.add(new run_setup("R_row_", queryFileNamesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config, mssql_rank_test.connection_string, mssql_rank_test.username, mssql_rank_test.password));
+            run_setups.add(new run_setup("P_row_", queryFileNamesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config, mssql_rank_test.connection_string, mssql_rank_test.username, mssql_rank_test.password));
+            run_setups.add(new run_setup("R_row_", queryFileNamesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON, config, mssql_rank_test.connection_string, mssql_rank_test.username, mssql_rank_test.password));
+            run_setups.add(new run_setup("P_row_", queryFileNamesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON, config, mssql_rank_test.connection_string, mssql_rank_test.username, mssql_rank_test.password));
         }
 
-        fileHandler.close();
+        mssql_runner.prepare_run(run_setups, DROPINDEXES_FILENAME, CREATEINDEXES_FILENAME);
     }
 }
 

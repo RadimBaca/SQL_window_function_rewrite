@@ -59,6 +59,7 @@ def dbms_results(dbms, has_column, print_caption):
     geometric_mean = stats.gmean(data['T1'] / data['T2'].replace(0, 1))
     print("Geometric Mean of T1/T2:", geometric_mean)
 
+    plt.rcParams['font.size'] = 14
     def all_parameters():
         if has_column:
             boxplot_dict = plt.boxplot([np.log10(data['T1'] / data['T2']),
@@ -144,14 +145,15 @@ def dbms_results(dbms, has_column, print_caption):
             for i in range(1, 17):
                 box = boxplot_dict['boxes'][i]
                 box.set(color=colors[i - 1])
-        plt.xticks(rotation=60)
+
+        plt.xticks(rotation=80)
         plt.ylabel(r'$T_{lin}\,/\,T_{sj}$')
         plt.title(print_caption)
         # plt.yscale('log')  # show the y-axis in log scale
         plt.yticks(np.arange(-3, 5), 10.0 ** np.arange(-3, 5))
         plt.axhline(y=0, color='r', linestyle='-')  # add horizontal line at value 1
 
-        plt.subplots_adjust(left=0.16, right=0.97, top=0.94, bottom=0.25)  # Adjust the values as per your requirements
+        plt.subplots_adjust(left=0.2, right=0.97, top=0.94, bottom=0.35)  # Adjust the values as per your requirements
         plt.savefig(dbms + '_agg_all.pdf', format='pdf')
         # Show the plot
         plt.show()
@@ -222,9 +224,9 @@ def dbms_results(dbms, has_column, print_caption):
     def sel():
         global i
         sel_data = []
-        sel_values = ['<1', '<2', '<4', '<8', '<16', '<32']
+        sel_values = ['1', '2', '4', '8', '16', '32']
         for i in range(len(sel_values)):
-            sel_data.append(row_data[row_data['Sel'] == sel_values[i]])
+            sel_data.append(row_data[row_data['Sel'] == "<" + sel_values[i]])
         # Create the box plots for bp_data
         plt.boxplot([sel_data[0]['T1'] / sel_data[0]['T2'],
                      sel_data[1]['T1'] / sel_data[1]['T2'],
@@ -238,12 +240,13 @@ def dbms_results(dbms, has_column, print_caption):
                     labels=sel_values
                     )
         plt.xticks(rotation=45)
-        plt.ylabel('T1/T2')
-        plt.title(dbms + " Selectivity for ROW")
+        plt.ylabel(r'$T_{lin}\,/\,T_{sj}$')
+        plt.xlabel('SEL')
+        plt.title(print_caption + " Selectivity")
         plt.yscale('log')  # show the y-axis in log scale
         plt.axhline(y=1, color='r', linestyle='-')  # add horizontal line at value 1
 
-        plt.subplots_adjust(left=0.11, right=0.97, top=0.94, bottom=0.1)  # Adjust the values as per your requirements
+        plt.subplots_adjust(left=0.15, right=0.97, top=0.94, bottom=0.15)  # Adjust the values as per your requirements
         plt.savefig(dbms + '_boxplot_sel.pdf', format='pdf')
         # Show the plot
         plt.show()
@@ -401,7 +404,7 @@ def dbms_results(dbms, has_column, print_caption):
     # bvalues_Bindex()
     ###################################################################
     # Create the next box plot for T1/T2 based on Sel value
-    # sel()
+    sel()
     ###################################################################
     # Create the next box plot for T1/T2 based on Sel value with I(B) index
     # sel_Ib()
@@ -431,4 +434,3 @@ def dbms_results(dbms, has_column, print_caption):
 dbms_results('MSSql', True, 'DBMS1')
 dbms_results('Postgres', False, 'PostgreSql')
 dbms_results('Oracle', False, 'DBMS2')
-# dbms_results('MySQL', False)

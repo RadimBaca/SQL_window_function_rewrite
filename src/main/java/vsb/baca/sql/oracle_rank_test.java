@@ -3,7 +3,7 @@ package vsb.baca.sql;
 
 import org.antlr.v4.runtime.misc.Pair;
 import vsb.baca.sql.benchmark.bench_config;
-import vsb.baca.sql.benchmark.benchmark_mssql;
+import vsb.baca.sql.benchmark.benchmark_oracle;
 import vsb.baca.sql.benchmark.run_setup;
 import vsb.baca.sql.model.Config;
 
@@ -24,7 +24,16 @@ public class oracle_rank_test {
 
     private static Config config = new Config(Config.dbms.ORACLE, false, Config.rank_algorithm.BestFit);
 
-    public static void main(String[] args) throws Exception {
+    private static String connection_string;
+    private static String username;
+    private static String password;
+
+    public static void run(String connection_string, String username, String password) throws Exception {
+
+        oracle_rank_test.connection_string = connection_string;
+        oracle_rank_test.username = username;
+        oracle_rank_test.password = password;
+
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
         } catch (ClassNotFoundException e) {
@@ -32,18 +41,18 @@ public class oracle_rank_test {
         }
 
         ArrayList<Pair<String,String>> queryFileNamesPadding = new ArrayList<Pair<String,String>>();
-        queryFileNamesPadding.add(benchmark_mssql.readQueryFromFile(SQL_ROWNUMBER_EQUAL_1_PADDING_FILENAME));
-        queryFileNamesPadding.add(benchmark_mssql.readQueryFromFile(SQL_ROWNUMBER_EQUAL_N_PADDING_FILENAME));
-        queryFileNamesPadding.add(benchmark_mssql.readQueryFromFile(SQL_ROWNUMBER_LESS_N_PADDING_FILENAME));
+        queryFileNamesPadding.add(benchmark_oracle.readQueryFromFile(SQL_ROWNUMBER_EQUAL_1_PADDING_FILENAME));
+        queryFileNamesPadding.add(benchmark_oracle.readQueryFromFile(SQL_ROWNUMBER_EQUAL_N_PADDING_FILENAME));
+        queryFileNamesPadding.add(benchmark_oracle.readQueryFromFile(SQL_ROWNUMBER_LESS_N_PADDING_FILENAME));
         ArrayList<Pair<String,String>> queryFileNamesNoPadding = new ArrayList<Pair<String,String>>();
-        queryFileNamesNoPadding.add(benchmark_mssql.readQueryFromFile(SQL_ROWNUMBER_EQUAL_1_FILENAME));
-        queryFileNamesNoPadding.add(benchmark_mssql.readQueryFromFile(SQL_ROWNUMBER_EQUAL_N_FILENAME));
-        queryFileNamesNoPadding.add(benchmark_mssql.readQueryFromFile(SQL_ROWNUMBER_LESS_N_FILENAME));
+        queryFileNamesNoPadding.add(benchmark_oracle.readQueryFromFile(SQL_ROWNUMBER_EQUAL_1_FILENAME));
+        queryFileNamesNoPadding.add(benchmark_oracle.readQueryFromFile(SQL_ROWNUMBER_EQUAL_N_FILENAME));
+        queryFileNamesNoPadding.add(benchmark_oracle.readQueryFromFile(SQL_ROWNUMBER_LESS_N_FILENAME));
 
-        run_setups.add(new run_setup("R_row_", queryFileNamesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config));
-        run_setups.add(new run_setup("P_row_", queryFileNamesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config));
-        run_setups.add(new run_setup("R_row_", queryFileNamesNoPadding,  "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON, config));
-        run_setups.add(new run_setup("P_row_", queryFileNamesPadding,  "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON, config));
+        run_setups.add(new run_setup("R_row_", queryFileNamesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config, oracle_rank_test.connection_string, oracle_rank_test.username, oracle_rank_test.password));
+        run_setups.add(new run_setup("P_row_", queryFileNamesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config, oracle_rank_test.connection_string, oracle_rank_test.username, oracle_rank_test.password));
+        run_setups.add(new run_setup("R_row_", queryFileNamesNoPadding,  "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON, config, oracle_rank_test.connection_string, oracle_rank_test.username, oracle_rank_test.password));
+        run_setups.add(new run_setup("P_row_", queryFileNamesPadding,  "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON, config, oracle_rank_test.connection_string, oracle_rank_test.username, oracle_rank_test.password));
 
         oracle_runner.prepare_run(run_setups, DROPINDEXES_FILENAME, CREATEINDEXES_FILENAME);
     }

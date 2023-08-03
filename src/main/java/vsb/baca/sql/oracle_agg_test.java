@@ -28,7 +28,15 @@ public class oracle_agg_test {
 
     private static Config config = new Config(Config.dbms.ORACLE, false, Config.rank_algorithm.BestFit);
 
-    public static void main(String[] args) throws Exception {
+    private static String connection_string;
+    private static String username;
+    private static String password;
+
+    public static void run(String connection_string, String username, String password) throws Exception {
+
+        oracle_agg_test.connection_string = connection_string;
+        oracle_agg_test.username = username;
+        oracle_agg_test.password = password;
 
         try {
             Class.forName("oracle.jdbc.OracleDriver");
@@ -46,9 +54,9 @@ public class oracle_agg_test {
         }
 
 
-//        count_bp_ob_test(selectivity);
-//        count_bp_test(selectivity);
-//        min_bp_ob_test(selectivity);
+        count_bp_ob_test(selectivity);
+        count_bp_test(selectivity);
+        min_bp_ob_test(selectivity);
         min_bp_test(selectivity);
     }
 
@@ -83,14 +91,10 @@ public class oracle_agg_test {
 
     private static ArrayList<run_setup> generate_run_setups(ArrayList<Pair<String, String>> queriesNoPadding, ArrayList<Pair<String, String>> queriesPadding) {
         ArrayList<run_setup> run_setups = new ArrayList<run_setup>();
-        run_setups.add(new run_setup("R_row_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config));
-        run_setups.add(new run_setup("P_row_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config));
-        run_setups.add(new run_setup("R_row_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON, config));
-        run_setups.add(new run_setup("P_row_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON, config));
-//        run_setups.add(new run_setup("R_column_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.COLUMN, bench_config.Parallelism.OFF, config));
-//        run_setups.add(new run_setup("P_column_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.COLUMN, bench_config.Parallelism.OFF, config));
-//        run_setups.add(new run_setup("R_column_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.COLUMN, bench_config.Parallelism.ON, config));
-//        run_setups.add(new run_setup("P_column_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.COLUMN, bench_config.Parallelism.ON, config));
+        run_setups.add(new run_setup("R_row_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config, oracle_agg_test.connection_string, oracle_agg_test.username, oracle_agg_test.password));
+        run_setups.add(new run_setup("P_row_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config, oracle_agg_test.connection_string, oracle_agg_test.username, oracle_agg_test.password));
+        run_setups.add(new run_setup("R_row_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON, config, oracle_agg_test.connection_string, oracle_agg_test.username, oracle_agg_test.password));
+        run_setups.add(new run_setup("P_row_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON, config, oracle_agg_test.connection_string, oracle_agg_test.username, oracle_agg_test.password));
         return run_setups;
     }
 }
