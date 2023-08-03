@@ -258,4 +258,3 @@ def dbms_results(dbms, print_caption, has_column):
 dbms_results('MSSql', 'DBMS1', False)
 dbms_results('Postgres', 'PostgreSql', False)
 dbms_results('Oracle', 'DBMS2', False)
-# dbms_results('MySQL', False)

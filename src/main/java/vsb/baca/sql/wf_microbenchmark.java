@@ -238,6 +238,6 @@ public class wf_microbenchmark {
         System.out.println("  -d: Oracle, PostgreSql, MSSql");
         System.out.println("  -h: Hostname including port and database (SID) name if necessary. Use predefined connection string format of that database system. Start with host name.");
         System.out.println("  -t: Agg, Rank_alg, Rank, Probe, JoinNMin");
-        System.out.println("  -t: LateralAgg, LateralLimitTies, LateralDistinctLimitTies, JoinMin, BestFit");
+        System.out.println("  -l: LateralAgg, LateralLimitTies, LateralDistinctLimitTies, JoinMin, BestFit");
     }
 }

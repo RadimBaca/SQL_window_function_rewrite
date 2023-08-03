@@ -43,25 +43,16 @@ Run the tool with the following command:
 java -jar target/sql-1.0-SNAPSHOT.jar -m -d MSSql -h hostname.com;instanceName=sqldb;databaseName=sqlbench_window -u username -p password -t agg
 ```
 
-# Result analysis (python)
+## Rewrite
 
-Files produced by the microbenchmark can be analyzed using python scripts in the `result_analysis` directory. 
-The directory currently contains result text files for the microbenchmarks used in the paper. 
-For example to get result graphs for the aggrewgate window function microbenchmark run the following command:
+Microbenchmark mode is run with `-r` option.
 
-```shell
-python agg_analysis.py
-```
+The necessary options are 
+- `-d` - database system (MSSql, PostgreSql, Oracle)
+- `-l` - type of logical tree (LateralAgg, LateralLimitTies, LateralDistinctLimitTies, JoinMin, BestFit)
+- `-f` - file name with input SQL query
 
-# PostgreSQL C-function
-
-The `postgre_nmin_extention` directory contains a PostgreSQL C-function that implements the necessary logic to create PostgreSql aggregate function.
-First it is necessary to [compile](https://www.postgresql.org/docs/current/xfunc-c.html) the C-function. 
-You need to have PostgreSQL installed on your computer. 
-Copy the *.so/*.dll files and libraries to the PostgreSQL library directory. 
-Then run the `nmin.sql` script to create the function in the database.
-
-To test that the function works correctly you may run the `test_nmin.sql` script.
+The output is a rewritten SQL query. Please remember that despite the fact that we can specify the DBMS type, the input SQL query must correspond to the MSSql syntax.
 
 # Build ANTLR4 classes
 
