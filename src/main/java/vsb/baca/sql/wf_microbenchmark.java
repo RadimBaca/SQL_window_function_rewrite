@@ -104,8 +104,8 @@ public class wf_microbenchmark {
                 case "-f":
                     fileName = value;
                     break;
-                case "-column":
-                    storage = "column";
+                case "-s":
+                    storage = value.toLowerCase();
                     break;
                 default:
                     System.out.println("Invalid parameter: " + key);
