@@ -27,6 +27,7 @@ public class wf_microbenchmark {
         String testType = null;
         String logicalTree = null;
         String fileName = null;
+        String storage = "row";
 
         // Define the possible values for database system and test type
         List<String> possibleDbSystems = Arrays.asList("oracle", "postgresql", "mssql", "mysql");
@@ -54,7 +55,7 @@ public class wf_microbenchmark {
         }
 
         // Check the number of input parameters
-        if ((option == modes.microbenchmark && args.length != 11) ||
+        if ((option == modes.microbenchmark && (args.length < 11 || args.length > 12)) ||
                 (option == modes.rewrite && args.length != 7)) {
             System.out.println("Invalid number of parameters");
             printHelp();
@@ -103,6 +104,9 @@ public class wf_microbenchmark {
                 case "-f":
                     fileName = value;
                     break;
+                case "-column":
+                    storage = "column";
+                    break;
                 default:
                     System.out.println("Invalid parameter: " + key);
                     printHelp();
@@ -124,7 +128,7 @@ public class wf_microbenchmark {
 
         // perform the main logic
         if (option == modes.microbenchmark) {
-            run_microbenchmark(dbSystem, hostname, username, password, testType);
+            run_microbenchmark(dbSystem, hostname, username, password, testType, storage);
         }
         else if (option == modes.rewrite) {
             run_rewrite(dbSystem, logicalTree, fileName);
@@ -144,7 +148,7 @@ public class wf_microbenchmark {
         System.out.println(outputSql);
     }
 
-    private static void run_microbenchmark(String dbSystem, String hostname, String username, String password, String testType) throws Exception {
+    private static void run_microbenchmark(String dbSystem, String hostname, String username, String password, String testType, String storage) throws Exception {
         if (dbSystem.contains("oracle")) {
             String connection_string = "jdbc:oracle:thin:@" + hostname;
             System.out.println("Connection string: " + connection_string);
@@ -162,11 +166,11 @@ public class wf_microbenchmark {
             String connection_string = "jdbc:sqlserver://" + hostname + ";user=" + username + ";password=" + password + ";";
             System.out.println("Connection string: " + connection_string);
             if (testType.contains("agg"))
-                mssql_agg_test.run(connection_string, "", "", "row");
+                mssql_agg_test.run(connection_string, "", "", storage);
             else if (testType.contains("rank_alg"))
-                mssql_rank_algorithm_test.run(connection_string, "", "", "row");
+                mssql_rank_algorithm_test.run(connection_string, "", "", storage);
             else if (testType.contains("rank"))
-                mssql_rank_test.run(connection_string, "", "", "row");
+                mssql_rank_test.run(connection_string, "", "", storage);
             else if (testType.contains("probe"))
                 mssql_rewrite_probe.run(connection_string);
             else if (testType.contains("unit_test"))
