@@ -15,6 +15,8 @@ DROP TABLE IF EXISTS dbo.R_row_100000
 DROP TABLE IF EXISTS dbo.R_row_300000
 GO
 
+-- Create table R_row_10 - R_row_300000
+-- They represent different BDistinct values
 WITH x AS
          (
              SELECT n FROM (VALUES (0),(1),(2),(3),(4),(5),(6),(7),(8),(9)) v(n)
@@ -172,6 +174,8 @@ DROP TABLE IF EXISTS DBO.R_column_100000
 DROP TABLE IF EXISTS DBO.R_column_300000
 GO
 
+-- Create column store tables R_column_10 - R_column_300000
+-- Tables are create from the row store tables R_row_10 - R_row_300000
 SELECT * INTO R_column_10 FROM R_row_10
 CREATE CLUSTERED COLUMNSTORE INDEX IDX_R_column_10 ON R_column_10
 
@@ -221,6 +225,7 @@ DROP TABLE IF EXISTS dbo.P_row_100000
 DROP TABLE IF EXISTS dbo.P_row_300000
 GO
 
+-- Create row store tables P_row_10 - P_row_300000 with 100 bytes padding attribute
 WITH x AS
          (
              SELECT n FROM (VALUES (0),(1),(2),(3),(4),(5),(6),(7),(8),(9)) v(n)

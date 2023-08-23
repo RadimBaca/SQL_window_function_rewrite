@@ -33,10 +33,10 @@ public class postgre_rank_algorithm_test {
         ArrayList<Pair<String,String>> queryFileNamesNoPadding = new ArrayList<Pair<String,String>>();
         queryFileNamesNoPadding.add(benchmark_postgresql.readQueryFromFile(SQL_ROWNUMBER_EQUAL_1_FILENAME));
         ArrayList<Config> configs = new ArrayList<Config>();
-        configs.add(new Config(Config.dbms.POSTGRESQL, false, Config.rank_algorithm.LateralAgg));
-        configs.add(new Config(Config.dbms.POSTGRESQL, false, Config.rank_algorithm.LateralLimit));
-        configs.add(new Config(Config.dbms.POSTGRESQL, false, Config.rank_algorithm.LateralDistinctLimit));
         configs.add(new Config(Config.dbms.POSTGRESQL, false, Config.rank_algorithm.JoinMin));
+        configs.add(new Config(Config.dbms.POSTGRESQL, false, Config.rank_algorithm.LateralDistinctLimit));
+        configs.add(new Config(Config.dbms.POSTGRESQL, false, Config.rank_algorithm.LateralLimit));
+        configs.add(new Config(Config.dbms.POSTGRESQL, false, Config.rank_algorithm.LateralAgg));
 
         for (Config config : configs) {
             run_setups.add(new run_setup("R_row_", queryFileNamesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config, postgre_rank_algorithm_test.connection_string, postgre_rank_algorithm_test.username, postgre_rank_algorithm_test.password));

@@ -38,10 +38,10 @@ public class mssql_rank_algorithm_test {
         queryFileNamesNoPadding.add(benchmark_mssql.readQueryFromFile(SQL_ROWNUMBER_EQUAL_1_FILENAME));
 
         ArrayList<Config> configs = new ArrayList<Config>();
-        configs.add(new Config(Config.dbms.MSSQL, false, Config.rank_algorithm.LateralAgg));
-        configs.add(new Config(Config.dbms.MSSQL, false, Config.rank_algorithm.LateralLimit));
-        configs.add(new Config(Config.dbms.MSSQL, false, Config.rank_algorithm.LateralDistinctLimit));
         configs.add(new Config(Config.dbms.MSSQL, false, Config.rank_algorithm.JoinMin));
+        configs.add(new Config(Config.dbms.MSSQL, false, Config.rank_algorithm.LateralDistinctLimit));
+        configs.add(new Config(Config.dbms.MSSQL, false, Config.rank_algorithm.LateralLimit));
+        configs.add(new Config(Config.dbms.MSSQL, false, Config.rank_algorithm.LateralAgg));
 
         for (Config config : configs) {
             if (mssql_rank_algorithm_test.storage.contains("row")) {

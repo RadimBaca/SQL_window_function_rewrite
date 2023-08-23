@@ -205,8 +205,8 @@ def dbms_results(dbms, print_caption, storage):
     all_parameters()
     ###################################################################
     # Create the next box plot for T1/T2 based on PB value
-    bvalues(joinmin_data, print_caption + ' JoinMin')
-    bvalues(lateraldistinctlimit_data, print_caption + ' LateralDistinctLimit')
+    # bvalues(joinmin_data, print_caption + ' JoinMin')
+    # bvalues(lateraldistinctlimit_data, print_caption + ' LateralDistinctLimit')
 
     ###################################################################
     times(data, print_caption + ' Query Processing Times')

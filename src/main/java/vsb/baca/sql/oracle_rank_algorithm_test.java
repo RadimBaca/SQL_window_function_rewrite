@@ -21,12 +21,14 @@ public class oracle_rank_algorithm_test {
     private static String connection_string;
     private static String username;
     private static String password;
+    private static String storage;
 
-    public static void run(String connection_string, String username, String password) throws Exception {
+    public static void run(String connection_string, String username, String password, String storage) throws Exception {
 
         oracle_rank_algorithm_test.connection_string = connection_string;
         oracle_rank_algorithm_test.username = username;
         oracle_rank_algorithm_test.password = password;
+        oracle_rank_algorithm_test.storage = storage;
 
         try {
             Class.forName("oracle.jdbc.driver.OracleDriver");
@@ -40,16 +42,24 @@ public class oracle_rank_algorithm_test {
         queryFileNamesNoPadding.add(benchmark_oracle.readQueryFromFile(SQL_ROWNUMBER_EQUAL_1_FILENAME));
 
         ArrayList<Config> configs = new ArrayList<Config>();
-        configs.add(new Config(Config.dbms.ORACLE, false, Config.rank_algorithm.LateralAgg));
-        configs.add(new Config(Config.dbms.ORACLE, false, Config.rank_algorithm.LateralLimit));
-        configs.add(new Config(Config.dbms.ORACLE, false, Config.rank_algorithm.LateralDistinctLimit));
         configs.add(new Config(Config.dbms.ORACLE, false, Config.rank_algorithm.JoinMin));
+        configs.add(new Config(Config.dbms.ORACLE, false, Config.rank_algorithm.LateralDistinctLimit));
+        configs.add(new Config(Config.dbms.ORACLE, false, Config.rank_algorithm.LateralLimit));
+        configs.add(new Config(Config.dbms.ORACLE, false, Config.rank_algorithm.LateralAgg));
 
         for (Config config : configs) {
-            run_setups.add(new run_setup("R_row_", queryFileNamesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config, oracle_rank_algorithm_test.connection_string, oracle_rank_algorithm_test.username, oracle_rank_algorithm_test.password));
-            run_setups.add(new run_setup("P_row_", queryFileNamesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config, oracle_rank_algorithm_test.connection_string, oracle_rank_algorithm_test.username, oracle_rank_algorithm_test.password));
-            run_setups.add(new run_setup("R_row_", queryFileNamesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON, config, oracle_rank_algorithm_test.connection_string, oracle_rank_algorithm_test.username, oracle_rank_algorithm_test.password));
-            run_setups.add(new run_setup("P_row_", queryFileNamesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON, config, oracle_rank_algorithm_test.connection_string, oracle_rank_algorithm_test.username, oracle_rank_algorithm_test.password));
+            if (oracle_rank_algorithm_test.storage.contains("row")) {
+                run_setups.add(new run_setup("R_row_", queryFileNamesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config, oracle_rank_algorithm_test.connection_string, oracle_rank_algorithm_test.username, oracle_rank_algorithm_test.password));
+                run_setups.add(new run_setup("P_row_", queryFileNamesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config, oracle_rank_algorithm_test.connection_string, oracle_rank_algorithm_test.username, oracle_rank_algorithm_test.password));
+                run_setups.add(new run_setup("R_row_", queryFileNamesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON, config, oracle_rank_algorithm_test.connection_string, oracle_rank_algorithm_test.username, oracle_rank_algorithm_test.password));
+                run_setups.add(new run_setup("P_row_", queryFileNamesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON, config, oracle_rank_algorithm_test.connection_string, oracle_rank_algorithm_test.username, oracle_rank_algorithm_test.password));
+            }
+            if (oracle_rank_algorithm_test.storage.contains("column")) {
+                //run_setups.add(new run_setup("R_column_", queryFileNamesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.COLUMN, bench_config.Parallelism.OFF, config, oracle_rank_algorithm_test.connection_string, oracle_rank_algorithm_test.username, oracle_rank_algorithm_test.password));
+                run_setups.add(new run_setup("P_column_", queryFileNamesPadding, "", bench_config.Padding.ON, bench_config.Storage.COLUMN, bench_config.Parallelism.OFF, config, oracle_rank_algorithm_test.connection_string, oracle_rank_algorithm_test.username, oracle_rank_algorithm_test.password));
+                run_setups.add(new run_setup("R_column_", queryFileNamesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.COLUMN, bench_config.Parallelism.ON, config, oracle_rank_algorithm_test.connection_string, oracle_rank_algorithm_test.username, oracle_rank_algorithm_test.password));
+                run_setups.add(new run_setup("P_column_", queryFileNamesPadding, "", bench_config.Padding.ON, bench_config.Storage.COLUMN, bench_config.Parallelism.ON, config, oracle_rank_algorithm_test.connection_string, oracle_rank_algorithm_test.username, oracle_rank_algorithm_test.password));
+            }
         }
 
         oracle_runner.prepare_run(run_setups, DROPINDEXES_FILENAME, CREATEINDEXES_FILENAME);

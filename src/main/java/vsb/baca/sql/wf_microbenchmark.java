@@ -155,7 +155,7 @@ public class wf_microbenchmark {
             if (testType.contains("agg"))
                 oracle_agg_test.run(connection_string, username, password);
             else if (testType.contains("rank_alg"))
-                oracle_rank_algorithm_test.run(connection_string, username, password);
+                oracle_rank_algorithm_test.run(connection_string, username, password, storage);
             else if (testType.contains("rank"))
                 oracle_rank_test.run(connection_string, username, password);
             else if (testType.contains("probe"))
