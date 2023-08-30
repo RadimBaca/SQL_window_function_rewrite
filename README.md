@@ -12,11 +12,11 @@ The tool uses ANTLR MSSql grammar to parse the SQL query, therefore, it may fail
 
 Microbenchmark mode is run with `-m` option.
 
-There are two microbenchmarks:
+We need to specify the microbenchmark type using the `-t` option. There are two basic microbenchmarks types:
 - **Rank_alg** - compares the efficiency of different logical trees for the greatest per group problem.
 - **Agg** - runs an aggregate window function microbenchmark.
 
-There are also other test-type options that may be used together with `-m` option:
+There are also other microbenchmark type options that may be used together with `-t` option:
 - **Rank** - runs a rank window function microbenchmark. Very similar to rank_alg but it uses the best logical tree. It is not used in the paper.
 - **JoinNMin** - this is available only for PostgreSQL 
 - **Unit_test** - runs few unit_test. Requires specific database setup (sql/unittest directory).
