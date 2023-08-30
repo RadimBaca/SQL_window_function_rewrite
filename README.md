@@ -1,6 +1,6 @@
 # SQL Rewriting Tool
 
-The main part of this repository is a Java SQL rewriting tool. There are also Python code for result analysis and PostgreSQL NMIN C-function. 
+The main part of this repository is a Java SQL rewriting tool. There is also Python code for a result analysis and PostgreSQL NMIN C-function. 
 
 The tool works in two modes:
 1. Microbenchmark - performs a test suite on a prepared database
