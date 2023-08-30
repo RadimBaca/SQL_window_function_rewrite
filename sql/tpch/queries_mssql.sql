@@ -1,4 +1,3 @@
--- PostgreSQL 
 
 -- Q2
 -- Original query

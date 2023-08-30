@@ -1,5 +1,10 @@
 -- "Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production Version 19.3.0.0.0"
 
+-- Author : Radim Baca
+-- Institution: VSB-Technical University of Ostrava
+-- Database system tested: Oracle Database 19c
+-- DDL script that prepares a Oracle database for the unit testing
+
 BEGIN
     EXECUTE IMMEDIATE 'DROP TABLE A';
             EXCEPTION

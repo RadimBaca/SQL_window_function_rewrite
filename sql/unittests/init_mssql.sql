@@ -1,4 +1,7 @@
--- Microsoft SQL Server 2017 (RTM-CU31-GDR) (KB5021126) - 14.0.3460.9 (X64)   Jan 25 2023 08:42:43   Copyright (C) 2017 Microsoft Corporation  Enterprise Edition (64-bit) on Windows Server 2016 Datacenter 10.0 <X64> (Build 14393: )
+-- Author : Radim Baca
+-- Institution: VSB-Technical University of Ostrava
+-- Database system tested: SQL Server 2017
+-- DDL script that prepares a SQL Server database for the unit testing
 
 Drop table if exists A
 

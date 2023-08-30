@@ -1,4 +1,11 @@
--- PostgreSQL version 15.2.
+-- PostgreSQL version 14.2.
+
+-- Author : Radim Baca
+-- Institution: VSB-Technical University of Ostrava
+-- Database system tested: PostgreSQL 14.2
+-- DDL script that prepares a PostgreSQL database for the unit testing
+
+
 DROP TABLE IF EXISTS A CASCADE;
 
 

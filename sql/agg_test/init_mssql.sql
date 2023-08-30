@@ -1,3 +1,7 @@
+-- Author : Radim Baca
+-- Institution: VSB-Technical University of Ostrava
+-- Database system tested: SQL Server 2017
+-- DDL script that prepares a SQL Server database for the microbenchmarks
 
 ---------------------------------------------
 --------------  Row store -------------------

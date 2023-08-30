@@ -1,3 +1,13 @@
+-- Author : Radim Baca
+-- Institution: VSB-Technical University of Ostrava
+-- Database system tested: Oracle 19c
+-- DDL script that prepares a Oracle database for the microbenchmarks
+
+
+---------------------------------------------
+--------------  Row store -------------------
+---------------------------------------------
+
 BEGIN
     EXECUTE IMMEDIATE 'DROP TABLE R_row_10';
             EXCEPTION
@@ -421,54 +431,11 @@ FROM t1;
 
 
 
--------------------------------------------------------------------------
--- inmemory column store setting
--- this needs
--- alter system set inmemory_size=2G scope=spfile;
-create table R_column_10 as
-select * from R_ROW_10;
-alter table R_column_10 inmemory;
-select /*+ FULL(R_column_10) NO_PARALLEL(R_column_10) */ * from R_column_10;
-
-create table R_column_30 as
-select * from R_ROW_30;
-alter table R_column_30 inmemory;
-select /*+ FULL(R_column_30) NO_PARALLEL(R_column_30) */ * from R_column_30;
-
-create table R_column_100 as
-select * from R_ROW_100;
-alter table R_column_100 inmemory;
-select /*+ FULL(R_column_100) NO_PARALLEL(R_column_100) */ * from R_column_100;
-
-create table R_column_300 as
-select * from R_ROW_300;
-alter table R_column_300 inmemory;
-select /*+ FULL(R_column_300) NO_PARALLEL(R_column_300) */ * from R_column_300;
-
-create table R_column_1000 as
-select * from R_ROW_1000;
-alter table R_column_1000 inmemory;
-select /*+ FULL(R_column_1000) NO_PARALLEL(R_column_1000) */ * from R_column_1000;
-
-create table R_column_3000 as
-select * from R_ROW_3000;
-alter table R_column_3000 inmemory;
-select /*+ FULL(R_column_3000) NO_PARALLEL(R_column_3000) */ * from R_column_3000;
-
-create table R_column_10000 as
-select * from R_ROW_10000;
-alter table R_column_10000 inmemory;
-select /*+ FULL(R_column_10000) NO_PARALLEL(R_column_10000) */ * from R_column_10000;
-
-create table R_column_30000 as
-select * from R_ROW_30000;
-alter table R_column_30000 inmemory;
-select /*+ FULL(R_column_30000) NO_PARALLEL(R_column_30000) */ * from R_column_30000;
 
 
 
 -------------------------------------------------------------------------
-
+-- Tables with padding
 
 
 
@@ -904,7 +871,59 @@ SELECT  id A,
 FROM t1;
 
 
+
+---------------------------------------------
+-------------  Column store -----------------
+---------------------------------------------
+
+
 -------------------------------------------------------------------------
+-- inmemory column store setting
+-- this needs
+-- alter system set inmemory_size=2G scope=spfile;
+
+create table R_column_10 as
+select * from R_ROW_10;
+alter table R_column_10 inmemory;
+select /*+ FULL(R_column_10) NO_PARALLEL(R_column_10) */ * from R_column_10;
+
+create table R_column_30 as
+select * from R_ROW_30;
+alter table R_column_30 inmemory;
+select /*+ FULL(R_column_30) NO_PARALLEL(R_column_30) */ * from R_column_30;
+
+create table R_column_100 as
+select * from R_ROW_100;
+alter table R_column_100 inmemory;
+select /*+ FULL(R_column_100) NO_PARALLEL(R_column_100) */ * from R_column_100;
+
+create table R_column_300 as
+select * from R_ROW_300;
+alter table R_column_300 inmemory;
+select /*+ FULL(R_column_300) NO_PARALLEL(R_column_300) */ * from R_column_300;
+
+create table R_column_1000 as
+select * from R_ROW_1000;
+alter table R_column_1000 inmemory;
+select /*+ FULL(R_column_1000) NO_PARALLEL(R_column_1000) */ * from R_column_1000;
+
+create table R_column_3000 as
+select * from R_ROW_3000;
+alter table R_column_3000 inmemory;
+select /*+ FULL(R_column_3000) NO_PARALLEL(R_column_3000) */ * from R_column_3000;
+
+create table R_column_10000 as
+select * from R_ROW_10000;
+alter table R_column_10000 inmemory;
+select /*+ FULL(R_column_10000) NO_PARALLEL(R_column_10000) */ * from R_column_10000;
+
+create table R_column_30000 as
+select * from R_ROW_30000;
+alter table R_column_30000 inmemory;
+select /*+ FULL(R_column_30000) NO_PARALLEL(R_column_30000) */ * from R_column_30000;
+
+-- Padding tables
+
 create table P_column_10 as
 select * from P_ROW_10;
 alter table P_column_10 inmemory;
@@ -944,3 +963,4 @@ create table P_column_30000 as
 select * from P_ROW_30000;
 alter table P_column_30000 inmemory;
 select /*+ FULL(P_column_30000) NO_PARALLEL(P_column_30000) */ * from P_column_30000;
+

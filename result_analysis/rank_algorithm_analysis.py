@@ -167,7 +167,7 @@ def dbms_results(dbms, print_caption, storage):
         plt.show()
 
 
-    def times(input_data, print_caption):
+    def times(input_data, local_print_caption):
         # Create the box plots for bp_data
         boxplot_dict = plt.boxplot([np.log10(input_data['T1']),
                      np.log10(input_data['T2'])
@@ -184,12 +184,12 @@ def dbms_results(dbms, print_caption, storage):
 
         # plt.xticks(rotation=45)
         plt.ylabel(r'$T$ [ms]')
-        plt.title(print_caption)
+        plt.title(local_print_caption)
 
         # plt.yscale('log')  # show the y-axis in log scale
         # plt.axhline(y=1, color='r', linestyle='-')  # add horizontal line at value 1
         # if we use np.log10, we need to use the following lines
-        plt.yticks(np.arange(0, 6), 10.0 ** (np.arange(0, 6) - 1))
+        plt.yticks(np.arange(0, 6), 10.0 ** (np.arange(0, 6)))
         # plt.axhline(y=0, color='r', linestyle='-')  # add horizontal line at value 1
 
 
@@ -212,6 +212,6 @@ def dbms_results(dbms, print_caption, storage):
     times(data, print_caption + ' Query Processing Times')
 
 dbms_results('MSSql', 'DBMS1', "ROW")
-# dbms_results('Postgres', 'PostgreSql', "ROW")
-# dbms_results('Oracle', 'DBMS2', "ROW")
-dbms_results('column_MSSql', 'DBMS1 Column Store', "COLUMN")
+dbms_results('Postgres', 'PostgreSql', "ROW")
+dbms_results('Oracle', 'DBMS2', "ROW")
+# dbms_results('column_MSSql', 'DBMS1 Column Store', "COLUMN")

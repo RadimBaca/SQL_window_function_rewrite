@@ -58,6 +58,8 @@ def dbms_results(dbms, has_column, print_caption):
     # Compute the geometric mean of T1/T2
     geometric_mean = stats.gmean(data['T1'] / data['T2'].replace(0, 1))
     print("Geometric Mean of T1/T2:", geometric_mean)
+    print("Number of rows reaching the 300s limit:", len(data[data['T2'] >= 300000]) / len(data) * 100, "% (", len(data[data['T2'] >= 300000]), "/", len(data), ")")
+
 
     plt.rcParams['font.size'] = 14
     def all_parameters():

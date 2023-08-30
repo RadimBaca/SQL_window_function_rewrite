@@ -1,3 +1,14 @@
+-- Author : Radim Baca
+-- Institution: VSB-Technical University of Ostrava
+-- Database system tested: PostgreSQL 14.2
+-- DDL script that prepares a PostgreSQL database for the microbenchmarks
+
+
+---------------------------------------------
+--------------  Row store -------------------
+---------------------------------------------
+
+
 DROP TABLE IF EXISTS R_row_10 CASCADE;
 DROP TABLE IF EXISTS R_row_30 CASCADE;
 DROP TABLE IF EXISTS R_row_100 CASCADE;

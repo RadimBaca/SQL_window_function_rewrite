@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def dbms_results(dbms_row, dbms_column, print_caption):
+def dbms_results(dbms_row, dbms_column, print_caption, output_file_prefix):
     global file, lines, pattern, line, row_data, X
     # Read the CSV file into a DataFrame, reading each row as a string
     with open('rank_algorithms_' + dbms_row + '.txt', 'r') as file:
@@ -36,6 +36,11 @@ def dbms_results(dbms_row, dbms_column, print_caption):
     column_data[numeric_cols] = column_data[numeric_cols].astype(int)
     column_data.loc[column_data['T2'] > 300000, 'T2'] = 300000
 
+    # find number of rows where T2 >= 300000 for LateralAgg
+    print("Number of rows reaching the 300s limit")
+    print("Column: ", len(column_data[column_data['T2'] >= 300000])/len(column_data)*100 , "% (", len(column_data[column_data['T2'] >= 300000]), "/", len(column_data), ")")
+    print("Row: ", len(row_data[row_data['T2'] >= 300000])/len(row_data)*100 , "% (", len(row_data[row_data['T2'] >= 300000]), "/", len(row_data), ")")
+
     plt.rcParams['font.size'] = 14
     def all_parameters():
         boxplot_dict = plt.boxplot([np.log10(row_data['T1'] / row_data['T2']),
@@ -64,7 +69,7 @@ def dbms_results(dbms_row, dbms_column, print_caption):
 
         plt.subplots_adjust(left=0.18, right=0.97, top=0.94, bottom=0.24)  # Adjust the values as per your requirements
 
-        plt.savefig(print_caption + '_rank_algorithms.pdf', format='pdf')
+        plt.savefig(output_file_prefix + '_row_column.pdf', format='pdf')
 
         # Show the plot
         plt.show()
@@ -74,4 +79,5 @@ def dbms_results(dbms_row, dbms_column, print_caption):
     # Create the box plot
     all_parameters()
 
-dbms_results('MSSql', 'column_MSSql', 'DBMS1 Comparison With Column Store')
+dbms_results('MSSql', 'column_MSSql', 'DBMS1 - Row Store vs. Column Store', 'dbms1')
+dbms_results('Oracle', 'column_oracle', 'DBMS2 - Row Store vs. Column Store', 'dbms2')
