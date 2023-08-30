@@ -16,7 +16,7 @@ mvn clean install
 mvn package
 ```
 
-It creates the sql-1.0-SNAPSHOT.jar file in the target directory.
+It creates the sqlrewriting-1.0-SNAPSHOT.jar file in the target directory.
 
 ## Microbenchmark
 
@@ -39,7 +39,7 @@ Prepare a database using appropriate SQL scripts in the SQL directory. For examp
 Run the microbenchmark on the database with the following command:
 
 ```shell
-java -jar target/sql-1.0-SNAPSHOT.jar -m -d MSSql -h hostname.com;instanceName=sqldb;databaseName=sqlbench_window -u username -p password -t agg
+java -jar target/sqlrewriting-1.0-SNAPSHOT.jar -m -d MSSql -h hostname.com;instanceName=sqldb;databaseName=sqlbench_window -u username -p password -t agg
 ```
 
 ## Run SQL Query Rewrite
@@ -54,7 +54,7 @@ The necessary options are
 The output is a rewritten SQL query. Please remember that despite the fact that we can specify the DBMS type, the input SQL query must correspond to the MSSql syntax. An example of the rewrite:
 
 ```shell
-java -jar target/sql-1.0-SNAPSHOT.jar -r -d PostgreSQL -l BestFit -f sql/unittests/input_test.sql
+java -jar target/sqlrewriting-1.0-SNAPSHOT.jar -r -d PostgreSQL -l BestFit -f sql/unittests/input_test.sql
 ```
 
 # Build ANTLR4 classes
