@@ -8,6 +8,16 @@ The tool works in two modes:
 
 The tool uses ANTLR MSSql grammar to parse the SQL query, therefore, it may fail to rewrite SQL with syntax specific to other database systems.
 
+## Build 
+
+```shell
+git clone https://github.com/RadimBaca/SQL_window_function_rewrite/
+mvn clean install
+mvn package
+```
+
+It creates the sql-1.0-SNAPSHOT.jar file in the target directory.
+
 ## Microbenchmark
 
 Microbenchmark mode is run with `-m` option.
@@ -22,18 +32,7 @@ There are also other microbenchmark type options that may be used together with 
 - **Unit_test** - runs few unit_test. Requires specific database setup (sql/unittest directory).
 - **Probe** - runs just a single query.
 
-
-## Build 
-
-```shell
-git clone https://github.com/RadimBaca/SQL_window_function_rewrite/
-mvn clean install
-mvn package
-```
-
-It creates the sql-1.0-SNAPSHOT.jar file in the target directory.
-
-## Run Microbenchmark
+### Run Microbenchmark
 
 Prepare a database using appropriate SQL scripts in the SQL directory. For example, if you want to run the Agg microbenchmark for MSSql then you need to run the `sql/agg_test/init_mssql.sql` script in your database. It will create a set of tables that will be used during the microbenchmark.
 
