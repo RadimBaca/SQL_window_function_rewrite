@@ -51,7 +51,10 @@ The necessary options are
 - `-l` - type of logical tree (LateralAgg, LateralLimitTies, LateralDistinctLimitTies, JoinMin, BestFit)
 - `-f` - file name with input SQL query
 
-The output is a rewritten SQL query. Please remember that despite the fact that we can specify the DBMS type, the input SQL query must correspond to the MSSql syntax. Rewriter assumes that the ORDER BY attributes in the window function can not be NULL. This behavior can be changed in the wf_microbenchmark::rewriteSQL method.
+The output is a rewritten SQL query. There are several limitations of this tool:
+- Please remember that despite the fact that we can specify the DBMS type, the input SQL query must correspond to the MSSql syntax.
+- Rewriter assumes that the ORDER BY attributes in the window function can not be NULL. This behavior can be changed in the wf_microbenchmark::rewriteSQL method.
+- The SELECT with window function should be in the NWFQ format (see the article for details). Only attributes and scalars should be used within the window function to avoid errors during the transformation.
 
 An example of the rewrite:
 
