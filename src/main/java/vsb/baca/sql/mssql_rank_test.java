@@ -24,7 +24,6 @@ public class mssql_rank_test {
 
     private static final String DROPINDEXES_FILENAME = "sql/rank_test/rownumber_dropindexes_mssql.sql";
     private static final String CREATEINDEXES_FILENAME = "sql/rank_test/rownumber_createindexes.sql";
-    private static final String CONNECTION_STRING = "jdbc:sqlserver://bayer.cs.vsb.cz;instanceName=sqldb;databaseName=sqlbench_window;;user=sqlbench;password=n3cUmubsbo";
     private static Config config = new Config(Config.dbms.MSSQL, false, Config.rank_algorithm.BestFit);
     private static Logger logger = Logger.getLogger("MyLogger");
     private static FileHandler fileHandler;

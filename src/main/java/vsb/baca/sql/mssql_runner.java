@@ -8,9 +8,6 @@ import java.util.logging.*;
 
 public class mssql_runner {
 
-//    private static final String CONNECTION_STRING = "jdbc:sqlserver://bayer.cs.vsb.cz;instanceName=sqldb;databaseName=sqlbench_window;user=sqlbench;password=n3cUmubsbo";
-//    private static final String USERNAME = "";
-//    private static final String PASSWORD = "";
     private static final String MAXDOP_1 = "\nOPTION(MAXDOP 1)";
     private static final String MAXDOP_8 = "\nOPTION(MAXDOP 8)";
 
