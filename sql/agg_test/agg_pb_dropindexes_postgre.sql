@@ -1,0 +1,4 @@
+
+DROP INDEX IF EXISTS idx_tab_b;
+DROP INDEX IF EXISTS idx_tab_c;
+DROP INDEX IF EXISTS idx_tab_c;DROP INDEX IF EXISTS idx_tab_b;
