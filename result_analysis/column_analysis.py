@@ -1,3 +1,5 @@
+## This script is used to generate the boxplot for the column store results
+
 import pandas as pd
 import re
 import scipy.stats as stats

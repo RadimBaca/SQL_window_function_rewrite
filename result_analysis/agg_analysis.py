@@ -1,3 +1,10 @@
+## This script is used to visualize the results of the aggregate microbenchmark
+## Only row storage is considered
+## The results are visualized in a boxplot for each DBMS.
+## The boxplots show the runtime ratio Tsj/Tln for each DBMS.
+
+
+
 import pandas as pd
 import re
 import scipy.stats as stats

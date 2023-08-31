@@ -1,3 +1,8 @@
+## This script is used to analyze the results of the greatest per group microbenchmark.
+## Script is used just for ROW storage format.
+## It reads the results from the file rank_algorithms_DBMS.txt and creates a boxplots for each DBMS.
+## The boxplots show the runtime ratio Tsj/Tln for each DBMS.
+
 import pandas as pd
 import re
 import scipy.stats as stats
@@ -205,8 +210,8 @@ def dbms_results(dbms, print_caption, storage):
     all_parameters()
     ###################################################################
     # Create the next box plot for T1/T2 based on PB value
-    # bvalues(joinmin_data, print_caption + ' JoinMin')
-    # bvalues(lateraldistinctlimit_data, print_caption + ' LateralDistinctLimit')
+    bvalues(joinmin_data, print_caption + ' JoinMin')
+    bvalues(lateraldistinctlimit_data, print_caption + ' LateralDistinctLimit')
 
     ###################################################################
     times(data, print_caption + ' Query Processing Times')
@@ -214,4 +219,3 @@ def dbms_results(dbms, print_caption, storage):
 dbms_results('MSSql', 'DBMS1', "ROW")
 dbms_results('Postgres', 'PostgreSql', "ROW")
 dbms_results('Oracle', 'DBMS2', "ROW")
-# dbms_results('column_MSSql', 'DBMS1 Column Store', "COLUMN")

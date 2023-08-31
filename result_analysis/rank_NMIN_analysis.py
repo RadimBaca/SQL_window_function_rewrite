@@ -1,3 +1,5 @@
+## This script is used to analyze the results of the JoinNMin experiments on PostgreSQL
+
 import pandas as pd
 import re
 import scipy.stats as stats

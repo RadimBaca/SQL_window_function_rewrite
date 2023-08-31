@@ -1,3 +1,5 @@
+## This script is used to plot the results of selected queris of the TPC-H benchmark
+
 import matplotlib.pyplot as plt
 
 # Data

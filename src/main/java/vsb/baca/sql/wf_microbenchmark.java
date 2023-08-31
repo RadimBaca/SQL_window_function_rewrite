@@ -227,7 +227,7 @@ public class wf_microbenchmark {
         Config.dbms selectedDbms = Config.getSelectedDbms(dbSystem);;
         Config.rank_algorithm selectedRankAlgorithm = Config.getRank_algorithm(logicalTree);
 
-        visitor.setConfig(new Config(selectedDbms, false, selectedRankAlgorithm));
+        visitor.setConfig(new Config(selectedDbms, false, selectedRankAlgorithm)); // set false if the order by attributes can be NULL
         visitor.visit(tree);
         return visitor.getSelectCmd().getQueryText();
 
