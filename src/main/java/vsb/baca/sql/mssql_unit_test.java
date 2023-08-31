@@ -80,7 +80,7 @@ public class mssql_unit_test {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
             // Connect to the database
-            Connection conn = DriverManager.getConnection(connection_string, username, password);
+            Connection conn = DriverManager.getConnection(connection_string);
 
             // execute rewritten SQL
             Statement stmt1 = conn.createStatement();
