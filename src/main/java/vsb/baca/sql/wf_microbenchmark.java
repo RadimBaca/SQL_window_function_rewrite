@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+
 public class wf_microbenchmark {
     public enum modes { microbenchmark, rewrite};
 
@@ -30,7 +31,7 @@ public class wf_microbenchmark {
         String storage = "row";
 
         // Define the possible values for database system and test type
-        List<String> possibleDbSystems = Arrays.asList("oracle", "postgresql", "mssql", "mysql");
+        List<String> possibleDbSystems = Arrays.asList("oracle", "postgresql", "mssql", "mysql", "hyper");
         List<String> possibleTestTypes = Arrays.asList("agg", "rank_alg", "rank", "probe", "joinnmin", "unit_test");
         List<String> possibleLogicalTrees = Arrays.asList("lateralagg", "laterallimitties", "lateraldistinctlimitties", "joinmin", "bestfit");
 
@@ -55,7 +56,7 @@ public class wf_microbenchmark {
         }
 
         // Check the number of input parameters
-        if ((option == modes.microbenchmark && (args.length < 11 || args.length > 13)) ||
+        if ((option == modes.microbenchmark && (args.length < 9 || args.length > 13)) ||
                 (option == modes.rewrite && args.length != 7)) {
             System.out.println("Invalid number of parameters");
             printHelp();
@@ -115,7 +116,8 @@ public class wf_microbenchmark {
         }
 
         // Check if all required parameters are provided
-        if (option == modes.microbenchmark && (dbSystem == null || hostname == null || username == null || password == null || testType == null)) {
+        if ((option == modes.microbenchmark && !dbSystem.equals("hyper") &&  (dbSystem == null || hostname == null || username == null || password == null || testType == null)) ||
+                (option == modes.microbenchmark && dbSystem.equals("hyper") && (hostname == null || testType == null))) {
             System.out.println("Required parameters are missing");
             printHelp();
             return;
@@ -175,6 +177,21 @@ public class wf_microbenchmark {
                 mssql_rewrite_probe.run(connection_string);
             else if (testType.contains("unit_test"))
                 mssql_unit_test.run(connection_string, "", "");
+        }
+
+        if (dbSystem.contains("hyper")) {
+            if (testType.contains("agg"))
+                hyper_agg_test.run(hostname);
+            else if (testType.contains("rank_alg"))
+                hyper_rank_algorithm_test.run(hostname);
+//            else if (testType.contains("rank"))
+//                postgre_rank_test.run(hostname, username, password);
+            else if (testType.contains("probe"))
+                hyper_rewrite_probe.run(hostname);
+//            else if (testType.contains("joinnmin"))
+//                postgre_rank_NMIN_algorithm_test.run(hostname, username, password);
+//            else if (testType.contains("unit_test"))
+//                postgre_unit_test.run(hostname, username, password);
         }
 
         if (dbSystem.contains("postgresql")) {

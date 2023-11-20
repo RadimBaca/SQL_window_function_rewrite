@@ -34,6 +34,7 @@ public abstract class benchmark {
     abstract protected String setUpQuery(String sql);
     abstract protected Pair<Long, Integer> getQueryProcessingTime(String sql);
     abstract protected String compileResultRow(long sql1, long sql2, String index, int B_count, int result_size, bench_config bconfig, String query);
+    abstract protected String compileResultRowHeader();
 
     public void run() throws Exception {
         // create a list of table names "R100", "R300", "R1000", "R3000" ...
@@ -48,6 +49,9 @@ public abstract class benchmark {
         for (Pair<String, String> pair : bconfig.queryFileNames) {
             queries.add(pair);
         }
+
+        System.out.println(compileResultRowHeader());
+        bconfig.logger.info(compileResultRowHeader());
 
         // run initial drop index commands
         for (int i = 0; i < dropindexes.size(); i++) {
@@ -105,7 +109,7 @@ public abstract class benchmark {
 
 //        System.out.println("Groups,SQL1,SQL2");
         for (Pair<String, Integer> tableName : tableNames) {
-            String sql1 = sqlInit.a.replace("TAB", tableName.a);
+            String sql1 = sqlInit.a.replace("TAB", "\"" + tableName.a + "\"");
             String sql2 = rewriteSQL(sql1);
             sql1 = setUpQuery(sql1);
             sql2 = setUpQuery(sql2);

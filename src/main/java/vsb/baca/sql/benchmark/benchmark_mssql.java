@@ -73,6 +73,10 @@ public class benchmark_mssql extends benchmark {
                 "," + query;
     }
 
+    @Override protected String compileResultRowHeader() {
+        return "sql_window_query_time,sql_selfjoin_query_time,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query";
+    }
+
     // Not used
     private long measureUsingSystemCatalog(String sql, Connection connection) throws SQLException {
         // Get the SQL handle for the executed query

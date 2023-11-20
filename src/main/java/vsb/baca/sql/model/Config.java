@@ -7,7 +7,8 @@ public class Config {
         MSSQL,
         MYSQL,
         POSTGRESQL,
-        ORACLE
+        ORACLE,
+        HYPER
     }
 
     public enum rank_algorithm {

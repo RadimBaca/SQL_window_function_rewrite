@@ -193,7 +193,7 @@ public class querySpecificationCmd extends selectCmd {
             if (config.getSelectedDbms() == Config.dbms.MSSQL) {
                 builder.append(" OUTER APPLY (" + windowFunction.getQueryText(subqueryString, alias) + ") " + alias);
             }
-            if (config.getSelectedDbms() == Config.dbms.POSTGRESQL) {
+            if (config.getSelectedDbms() == Config.dbms.POSTGRESQL || config.getSelectedDbms() == Config.dbms.HYPER) {
                 builder.append(" LEFT JOIN LATERAL (" + windowFunction.getQueryText(subqueryString, alias) + ") " + alias + " ON true ");
             }
             if (config.getSelectedDbms() == Config.dbms.ORACLE) {

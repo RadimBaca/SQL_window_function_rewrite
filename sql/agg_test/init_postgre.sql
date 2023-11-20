@@ -26,11 +26,11 @@ CREATE TABLE R_row_10 (
 );
 
 INSERT INTO R_row_10
-    WITH t1 AS
-    (
-SELECT id
-FROM generate_series(0, 999999) id
-    )
+WITH t1 AS
+(
+    SELECT id
+    FROM generate_series(0, 999999) id
+)
 SELECT  id,
         id % 10 groupby,
         ABS(CAST((CAST(SQRT(id + 1999999777) AS DECIMAL(38, 18)) - CAST(FLOOR(CAST(SQRT(id + 1999999777) AS DECIMAL(38, 18))) AS DECIMAL(38,18))) * 1000000000 AS INT)) % 10000
