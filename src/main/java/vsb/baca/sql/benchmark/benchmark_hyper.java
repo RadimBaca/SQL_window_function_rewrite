@@ -4,6 +4,7 @@ import com.tableau.hyperapi.Connection;
 import com.tableau.hyperapi.HyperProcess;
 import com.tableau.hyperapi.Result;
 import com.tableau.hyperapi.Telemetry;
+import com.tableau.hyperapi.HyperException;
 import org.antlr.v4.runtime.misc.Pair;
 
 import java.nio.file.Files;
@@ -26,12 +27,13 @@ public class benchmark_hyper extends benchmark {
 //        Path pathToDatabase = resolveExampleFile("bench.hyper");
         Path pathToDatabase = resolveExampleFile(((bench_config_hyper)bconfig).hyperFile);
 
+        long startTime = System.currentTimeMillis();
         try (HyperProcess process = new HyperProcess(Telemetry.DO_NOT_SEND_USAGE_DATA_TO_TABLEAU);
              com.tableau.hyperapi.Connection connection = new com.tableau.hyperapi.Connection(
                      process.getEndpoint(),
                      pathToDatabase.toString())) {
 
-            long startTime = System.currentTimeMillis();
+            startTime = System.currentTimeMillis();
             Result result = connection.executeQuery(sql);
             int count = 0;
             while (result.nextRow()) {
@@ -41,11 +43,14 @@ public class benchmark_hyper extends benchmark {
 
             return new Pair(endTime - startTime, count);
         }
-        catch (Exception e) {
-            e.printStackTrace();
+        catch (HyperException e) {
+            //e.printStackTrace();
+            long endTime = System.currentTimeMillis();
+
+            return new Pair(endTime - startTime, -1);
         }
 
-        return new Pair(-1, -1);
+//        return new Pair(-1, -1);
     }
 
 

@@ -62,7 +62,7 @@ public class benchmark_mssql extends benchmark {
                 e.printStackTrace();
             }
         }
-        return new Pair(-1, -1);
+        return new Pair((long)-1, -1);
     }
 
     @Override protected String compileResultRow(long sql1_query_time, long sql2_query_time, String index, int B_count, int result_size, bench_config bconfig, String query)

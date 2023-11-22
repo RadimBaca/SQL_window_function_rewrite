@@ -1,0 +1,121 @@
+----------------------------------------
+DDL:  - statement ignored
+----------------------------------------
+DDL:   - statement ignored
+200,53,10,10,COLUMN, ,padding_OFF,parallel_ON,JoinMin,=1
+187,60,30,30,COLUMN, ,padding_OFF,parallel_ON,JoinMin,=1
+207,52,100,100,COLUMN, ,padding_OFF,parallel_ON,JoinMin,=1
+206,60,300,300,COLUMN, ,padding_OFF,parallel_ON,JoinMin,=1
+212,65,1000,1000,COLUMN, ,padding_OFF,parallel_ON,JoinMin,=1
+149,62,3000,3000,COLUMN, ,padding_OFF,parallel_ON,JoinMin,=1
+137,73,10000,10000,COLUMN, ,padding_OFF,parallel_ON,JoinMin,=1
+141,142,30000,30000,COLUMN, ,padding_OFF,parallel_ON,JoinMin,=1
+----------------------------------------
+DDL:  - statement ignored
+sql_window_query_time,sql_selfjoin_query_time,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
+----------------------------------------
+DDL:  - statement ignored
+----------------------------------------
+DDL:   - statement ignored
+1048,50,10,10,COLUMN, ,padding_ON,parallel_ON,JoinMin,=1
+1269,62,30,30,COLUMN, ,padding_ON,parallel_ON,JoinMin,=1
+1200,44,100,100,COLUMN, ,padding_ON,parallel_ON,JoinMin,=1
+1233,70,300,300,COLUMN, ,padding_ON,parallel_ON,JoinMin,=1
+1265,72,1000,1000,COLUMN, ,padding_ON,parallel_ON,JoinMin,=1
+1146,79,3000,3000,COLUMN, ,padding_ON,parallel_ON,JoinMin,=1
+1012,84,10000,10000,COLUMN, ,padding_ON,parallel_ON,JoinMin,=1
+866,167,30000,30000,COLUMN, ,padding_ON,parallel_ON,JoinMin,=1
+----------------------------------------
+DDL:  - statement ignored
+sql_window_query_time,sql_selfjoin_query_time,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
+----------------------------------------
+DDL:  - statement ignored
+----------------------------------------
+DDL:   - statement ignored
+199,744,10,10,COLUMN, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+201,676,30,30,COLUMN, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+205,614,100,100,COLUMN, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+201,709,300,300,COLUMN, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+214,690,1000,1000,COLUMN, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+166,748,3000,3000,COLUMN, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+132,798,10000,10000,COLUMN, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+145,1245,30000,30000,COLUMN, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+----------------------------------------
+DDL:  - statement ignored
+sql_window_query_time,sql_selfjoin_query_time,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
+----------------------------------------
+DDL:  - statement ignored
+----------------------------------------
+DDL:   - statement ignored
+1155,730,10,10,COLUMN, ,padding_ON,parallel_ON,LateralDistinctLimit,=1
+1243,677,30,30,COLUMN, ,padding_ON,parallel_ON,LateralDistinctLimit,=1
+1217,636,100,100,COLUMN, ,padding_ON,parallel_ON,LateralDistinctLimit,=1
+1112,746,300,300,COLUMN, ,padding_ON,parallel_ON,LateralDistinctLimit,=1
+1196,703,1000,1000,COLUMN, ,padding_ON,parallel_ON,LateralDistinctLimit,=1
+1082,759,3000,3000,COLUMN, ,padding_ON,parallel_ON,LateralDistinctLimit,=1
+1049,726,10000,10000,COLUMN, ,padding_ON,parallel_ON,LateralDistinctLimit,=1
+968,1262,30000,30000,COLUMN, ,padding_ON,parallel_ON,LateralDistinctLimit,=1
+----------------------------------------
+DDL:  - statement ignored
+sql_window_query_time,sql_selfjoin_query_time,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
+----------------------------------------
+DDL:  - statement ignored
+----------------------------------------
+DDL:   - statement ignored
+220,395,10,10,COLUMN, ,padding_OFF,parallel_ON,LateralLimit,=1
+201,427,30,30,COLUMN, ,padding_OFF,parallel_ON,LateralLimit,=1
+215,458,100,100,COLUMN, ,padding_OFF,parallel_ON,LateralLimit,=1
+205,470,300,300,COLUMN, ,padding_OFF,parallel_ON,LateralLimit,=1
+203,459,1000,1000,COLUMN, ,padding_OFF,parallel_ON,LateralLimit,=1
+143,462,3000,3000,COLUMN, ,padding_OFF,parallel_ON,LateralLimit,=1
+153,496,10000,10000,COLUMN, ,padding_OFF,parallel_ON,LateralLimit,=1
+135,932,30000,30000,COLUMN, ,padding_OFF,parallel_ON,LateralLimit,=1
+----------------------------------------
+DDL:  - statement ignored
+sql_window_query_time,sql_selfjoin_query_time,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
+----------------------------------------
+DDL:  - statement ignored
+----------------------------------------
+DDL:   - statement ignored
+1041,406,10,10,COLUMN, ,padding_ON,parallel_ON,LateralLimit,=1
+1136,437,30,30,COLUMN, ,padding_ON,parallel_ON,LateralLimit,=1
+1295,431,100,100,COLUMN, ,padding_ON,parallel_ON,LateralLimit,=1
+1289,468,300,300,COLUMN, ,padding_ON,parallel_ON,LateralLimit,=1
+1211,489,1000,1000,COLUMN, ,padding_ON,parallel_ON,LateralLimit,=1
+1074,407,3000,3000,COLUMN, ,padding_ON,parallel_ON,LateralLimit,=1
+935,494,10000,10000,COLUMN, ,padding_ON,parallel_ON,LateralLimit,=1
+889,859,30000,30000,COLUMN, ,padding_ON,parallel_ON,LateralLimit,=1
+----------------------------------------
+DDL:  - statement ignored
+sql_window_query_time,sql_selfjoin_query_time,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
+----------------------------------------
+DDL:  - statement ignored
+----------------------------------------
+DDL:   - statement ignored
+217,293204,10,10,COLUMN, ,padding_OFF,parallel_ON,LateralAgg,=1
+200,975847,30,30,COLUMN, ,padding_OFF,parallel_ON,LateralAgg,=1
+203,306369,100,100,COLUMN, ,padding_OFF,parallel_ON,LateralAgg,=1
+200,116161,300,300,COLUMN, ,padding_OFF,parallel_ON,LateralAgg,=1
+225,45688,1000,1000,COLUMN, ,padding_OFF,parallel_ON,LateralAgg,=1
+160,20715,3000,3000,COLUMN, ,padding_OFF,parallel_ON,LateralAgg,=1
+146,9350,10000,10000,COLUMN, ,padding_OFF,parallel_ON,LateralAgg,=1
+143,13763,30000,30000,COLUMN, ,padding_OFF,parallel_ON,LateralAgg,=1
+----------------------------------------
+DDL:  - statement ignored
+sql_window_query_time,sql_selfjoin_query_time,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
+----------------------------------------
+DDL:  - statement ignored
+----------------------------------------
+DDL:   - statement ignored
+1147,293520,10,10,COLUMN, ,padding_ON,parallel_ON,LateralAgg,=1
+1275,950954,30,30,COLUMN, ,padding_ON,parallel_ON,LateralAgg,=1
+1329,300956,100,100,COLUMN, ,padding_ON,parallel_ON,LateralAgg,=1
+1225,115208,300,300,COLUMN, ,padding_ON,parallel_ON,LateralAgg,=1
+1225,45929,1000,1000,COLUMN, ,padding_ON,parallel_ON,LateralAgg,=1
+1094,21398,3000,3000,COLUMN, ,padding_ON,parallel_ON,LateralAgg,=1
+1021,9955,10000,10000,COLUMN, ,padding_ON,parallel_ON,LateralAgg,=1
+846,14594,30000,30000,COLUMN, ,padding_ON,parallel_ON,LateralAgg,=1
+----------------------------------------
+DDL:  - statement ignored
+
+Process finished with exit code 0
