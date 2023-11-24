@@ -31,13 +31,31 @@ public abstract class benchmark {
         this.bconfig = bench_config;
     }
 
+    protected class measured_result {
+        long querytime;
+        int resultsize;
+        double querycost;
+
+        public measured_result(long a, int b) {
+            this.querytime = a;
+            this.resultsize = b;
+        }
+
+        public measured_result(long a, int b, double cost) {
+            this.querytime = a;
+            this.resultsize = b;
+            this.querycost = cost;
+        }
+    }
+
     abstract protected String setUpQuery(String sql);
-    abstract protected Pair<Long, Integer> getQueryProcessingTime(String sql);
-    abstract protected String compileResultRow(long sql1, long sql2, String index, int B_count, int result_size, bench_config bconfig, String query);
+    abstract protected measured_result getQueryProcessingTime(String sql);
+//    abstract protected String compileResultRow(long sql1, long sql2, String index, int B_count, int result_size, bench_config bconfig, String query);
+    abstract protected String compileResultRow(measured_result sql1, measured_result sql2, String index, int B_count, bench_config bconfig, String query);
     abstract protected String compileResultRowHeader();
 
     public void run() throws Exception {
-        // create a list of table names "R100", "R300", "R1000", "R3000" ...
+        // create querytime list of table names "R100", "R300", "R1000", "R3000" ...
         tableNames = generateTableNames(bconfig.tab_prefix);
 
         readCreateCommands(createindexes, createindexes_legends, bconfig.CREATEINDEXES_FILENAME);
@@ -117,20 +135,20 @@ public abstract class benchmark {
             bconfig.logger.info("SQL2:\n" + sql2);
 
             // execute the queries three times and get the lowest time
-            Pair<Long, Integer> sql1_time = processQueryNTimes(sql1, 3);
-            Pair<Long, Integer> sql2_time = processQueryNTimes(sql2, 3 );
+            measured_result sql1_time = processQueryNTimes(sql1, 3);
+            measured_result sql2_time = processQueryNTimes(sql2, 3 );
 
             // check if the result sizes are the same
-            if (sql1_time.b.compareTo(sql2_time.b) != 0 &&
-                    sql2_time.b.compareTo(-1) != 0 &&
-                    sql2_time.b.compareTo(-1) != 0) {
-                System.out.println("ERROR: result size mismatch. SQL1: " + sql1_time.b + ", SQL2: " + sql2_time.b);
+            if (sql1_time.resultsize != sql2_time.resultsize &&
+                    sql2_time.resultsize != -1 &&
+                    sql2_time.resultsize != -1) {
+                System.out.println("ERROR: result size mismatch. SQL1: " + sql1_time.resultsize + ", SQL2: " + sql2_time.resultsize);
                 bconfig.logger.info("ERROR: result size mismatch!");
                 return false;
             }
 
-            System.out.println(compileResultRow(sql1_time.a, sql2_time.a, index_legend, tableName.b, sql1_time.b, bconfig, sqlInit.b));
-            bconfig.logger.info(compileResultRow(sql1_time.a, sql2_time.a, index_legend, tableName.b, sql1_time.b, bconfig, sqlInit.b));
+            System.out.println(compileResultRow(sql1_time, sql2_time, index_legend, tableName.b, bconfig, sqlInit.b));
+            bconfig.logger.info(compileResultRow(sql1_time, sql2_time, index_legend, tableName.b, bconfig, sqlInit.b));
         }
 
         return true;
@@ -140,16 +158,16 @@ public abstract class benchmark {
      * Execute the sql query n times and return the lowest time and result size
      * @param sql sql query
      * @param n number of times to execute the query
-     * @return Pair(time, result size)
+     * @return measured_result
      */
-    private Pair<Long, Integer> processQueryNTimes(String sql, int n) {
+    private measured_result processQueryNTimes(String sql, int n) {
         long lowest_time;
-        Pair<Long, Integer> return_pair = null;
-        ArrayList<Pair<Long, Integer>> sql_times = new ArrayList<Pair<Long, Integer>>();
+        measured_result return_pair = null;
+        ArrayList<measured_result> sql_times = new ArrayList<measured_result>();
         for (int i = 0; i < n; i++) {
-            Pair<Long, Integer> result = getQueryProcessingTime(sql);
+            measured_result result = getQueryProcessingTime(sql);
             sql_times.add(result);
-            if (result.a.compareTo((long)60000) == 0 || result.a.compareTo((long)60000) == 1) {
+            if (result.querytime >= (long)60000) {
                 // if the query took more than 1 minute, return the result
                 return result;
             }
@@ -157,8 +175,8 @@ public abstract class benchmark {
         // find lowest value in sql_times
         lowest_time = Long.MAX_VALUE;
         for (int i = 0; i < n; i++) {
-            if (sql_times.get(i).a < lowest_time) {
-                lowest_time = sql_times.get(i).a;
+            if (sql_times.get(i).querytime < lowest_time) {
+                lowest_time = sql_times.get(i).querytime;
                 return_pair = sql_times.get(i);
             }
         }

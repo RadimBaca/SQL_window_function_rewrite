@@ -1,7 +1,5 @@
 package vsb.baca.sql.benchmark;
 
-import org.antlr.v4.runtime.misc.Pair;
-
 import java.sql.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,7 +13,7 @@ public class benchmark_postgresql extends benchmark {
         return "explain analyse " + sql;
     }
 
-    @Override protected Pair<Long, Integer> getQueryProcessingTime(String sql) {
+    @Override protected measured_result getQueryProcessingTime(String sql) {
         int queryTimeout = 300;
         try (Connection connection = DriverManager.getConnection(bconfig.CONNECTION_STRING, bconfig.USERNAME, bconfig.PASSWORD);
              Statement statement = connection.createStatement()) {
@@ -37,32 +35,33 @@ public class benchmark_postgresql extends benchmark {
             Matcher matcher = pattern.matcher(queryPlan);
             if (matcher.find()) {
                 double elapsedTime = Double.parseDouble(matcher.group(1));
-                return new Pair((long) elapsedTime, 0);
+                return new measured_result((long) elapsedTime, 0);
             }
             throw new RuntimeException("Actual time not found in query plan!");
 
         }
         catch (SQLTimeoutException e) {
 //            System.out.println("Query timed out!");
-            return new Pair((long)queryTimeout * 1000, -1);
+            return new measured_result((long)queryTimeout * 1000, -1);
         }
         catch (SQLException e) {
             if (e.getMessage().contains("ERROR: canceling statement due to statement timeout") ||
                     e.getMessage().contains("ERROR: canceling statement due to user request")) {
-                return new Pair((long)queryTimeout * 1000, -1);
+                return new measured_result((long)queryTimeout * 1000, -1);
             }
             e.printStackTrace();
         }
-        return new Pair((long)queryTimeout * 1000, -1);
+        return new measured_result((long)queryTimeout * 1000, -1);
     }
 
-    @Override protected String compileResultRow(long sql1_query_time, long sql2_query_time, String index, int B_count, int result_size, bench_config bconfig, String query)
+    @Override protected String compileResultRow(measured_result sql1, measured_result sql2, String index, int B_count, bench_config bconfig, String query)
     {
-        return sql1_query_time + "," + sql2_query_time + "," + B_count + "," + result_size + "," +
+        return sql1.querytime + "," + sql2.querytime + "," + B_count + "," + sql1.resultsize + "," +
                 bconfig.storage.toString() + "," + index + ",padding_" + bconfig.padding.toString() +
                 ",parallel_" + bconfig.parallelism.toString() + "," + bconfig.config.getSelectedRankAlgorithm().toString() +
                 "," + query;
     }
+
 
     @Override protected String compileResultRowHeader() {
         return "sql_window_query_time,sql_selfjoin_query_time,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query";

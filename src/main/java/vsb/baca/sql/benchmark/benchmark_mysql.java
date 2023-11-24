@@ -15,7 +15,7 @@ public class benchmark_mysql extends benchmark {
         return sql;
     }
 
-    @Override protected Pair<Long, Integer> getQueryProcessingTime(String sql) {
+    @Override protected measured_result getQueryProcessingTime(String sql) {
         int queryTimeout = 300;
         try (Connection connection = DriverManager.getConnection(bconfig.CONNECTION_STRING, bconfig.USERNAME, bconfig.PASSWORD);
              Statement statement = connection.createStatement()) {
@@ -32,15 +32,15 @@ public class benchmark_mysql extends benchmark {
             long endTime = System.currentTimeMillis();
             resultSet.close();
 
-            return new Pair(endTime - startTime, count);
+            return new measured_result(endTime - startTime, count);
         } catch (SQLTimeoutException e) {
 //            System.out.println("Query timed out!");
-            return new Pair((long)queryTimeout * 1000, -1);
+            return new measured_result((long)queryTimeout * 1000, -1);
         }
         catch (SQLException e) {
             e.printStackTrace();
         }
-        return new Pair((long)queryTimeout * 1000, -1);
+        return new measured_result((long)queryTimeout * 1000, -1);
     }
 
 
@@ -70,11 +70,12 @@ public class benchmark_mysql extends benchmark {
         }
     }
 
-    @Override protected String compileResultRow(long sql1_query_time, long sql2_query_time, String index, int B_count, int result_size, bench_config bconfig, String query)
+    @Override protected String compileResultRow(measured_result sql1, measured_result sql2, String index, int B_count, bench_config bconfig, String query)
     {
-        return sql1_query_time + "," + sql2_query_time + "," + B_count + "," + result_size + "," +
+        return sql1.querytime + "," + sql2.querytime + "," + B_count + "," + sql1.resultsize + "," +
                 bconfig.storage.toString() + "," + index + ",padding_" + bconfig.padding.toString() +
-                ",parallel_" + bconfig.parallelism.toString() + "," + query;
+                ",parallel_" + bconfig.parallelism.toString() + "," + bconfig.config.getSelectedRankAlgorithm().toString() +
+                "," + query;
     }
 
     @Override protected String compileResultRowHeader() {

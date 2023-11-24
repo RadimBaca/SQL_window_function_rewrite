@@ -5,9 +5,6 @@ import org.antlr.v4.runtime.misc.Pair;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.Properties;
 
 public class benchmark_oracle extends benchmark {
     public benchmark_oracle(bench_config_oracle bench_config_oracle) {
@@ -20,7 +17,7 @@ public class benchmark_oracle extends benchmark {
         return psql;
     }
 
-    @Override protected Pair<Long, Integer> getQueryProcessingTime(String sql) {
+    @Override protected measured_result getQueryProcessingTime(String sql) {
         int queryTimeout = 300;
         try (Connection connection = DriverManager.getConnection(bconfig.CONNECTION_STRING, bconfig.USERNAME, bconfig.PASSWORD);
              Statement statement = connection.createStatement()) {
@@ -49,19 +46,19 @@ public class benchmark_oracle extends benchmark {
 
 //            System.out.println("Query time: " + (endTime - startTime) + " [ms]");
 
-            return new Pair(endTime - startTime, count);
+            return new measured_result(endTime - startTime, count);
         }
         catch (SQLTimeoutException e) {
-                return new Pair((long)queryTimeout * 1000, -1);
+                return new measured_result((long)queryTimeout * 1000, -1);
         }
         catch (SQLException e) {
             if (e.getErrorCode() == 1013) {
-                return new Pair((long)queryTimeout * 1000, -1);
+                return new measured_result((long)queryTimeout * 1000, -1);
             } else {
                 e.printStackTrace();
             }
         }
-        return new Pair(-1, -1);
+        return new measured_result(-1, -1);
     }
 
 
@@ -91,11 +88,11 @@ public class benchmark_oracle extends benchmark {
         }
     }
 
-    @Override protected String compileResultRow(long sql1_query_time, long sql2_query_time, String index, int B_count, int result_size, bench_config bconfig, String query)
+    @Override protected String compileResultRow(measured_result sql1, measured_result sql2, String index, int B_count, bench_config bconfig, String query)
     {
-        return sql1_query_time + "," + sql2_query_time + "," + B_count + "," + result_size + "," +
+        return sql1.querytime + "," + sql2.querytime + "," + B_count + "," + sql1.resultsize + "," +
                 bconfig.storage.toString() + "," + index + ",padding_" + bconfig.padding.toString() +
-                ",parallel_" + bconfig.parallelism.toString()+ "," + bconfig.config.getSelectedRankAlgorithm().toString() +
+                ",parallel_" + bconfig.parallelism.toString() + "," + bconfig.config.getSelectedRankAlgorithm().toString() +
                 "," + query;
     }
 

@@ -22,7 +22,7 @@ public class benchmark_hyper extends benchmark {
         return sql;
     }
 
-    @Override protected Pair<Long, Integer> getQueryProcessingTime(String sql) {
+    @Override protected measured_result getQueryProcessingTime(String sql) {
         int queryTimeout = 300;
 //        Path pathToDatabase = resolveExampleFile("bench.hyper");
         Path pathToDatabase = resolveExampleFile(((bench_config_hyper)bconfig).hyperFile);
@@ -41,13 +41,13 @@ public class benchmark_hyper extends benchmark {
             }
             long endTime = System.currentTimeMillis();
 
-            return new Pair(endTime - startTime, count);
+            return new measured_result(endTime - startTime, count);
         }
         catch (HyperException e) {
             //e.printStackTrace();
             long endTime = System.currentTimeMillis();
 
-            return new Pair(endTime - startTime, -1);
+            return new measured_result(endTime - startTime, -1);
         }
 
 //        return new Pair(-1, -1);
@@ -61,7 +61,7 @@ public class benchmark_hyper extends benchmark {
 //        if (sql_index.isEmpty()) return;
 //        bconfig.logger.info("DDL: " + sql_index);
 //        for (Pair<String, Integer> tableName : tableNames) {
-//            String replaced_cmd = sql_index.replace("tab", tableName.a);
+//            String replaced_cmd = sql_index.replace("tab", tableName.querytime);
 //
 //            // split the raplaced_cmd into multiple commands
 //            String[] cmds = replaced_cmd.split(";");
@@ -80,13 +80,14 @@ public class benchmark_hyper extends benchmark {
 //        }
     }
 
-    @Override protected String compileResultRow(long sql1_query_time, long sql2_query_time, String index, int B_count, int result_size, bench_config bconfig, String query)
+    @Override protected String compileResultRow(measured_result sql1, measured_result sql2, String index, int B_count, bench_config bconfig, String query)
     {
-        return sql1_query_time + "," + sql2_query_time + "," + B_count + "," + result_size + "," +
+        return sql1.querytime + "," + sql2.querytime + "," + B_count + "," + sql1.resultsize + "," +
                 bconfig.storage.toString() + "," + index + ",padding_" + bconfig.padding.toString() +
-                ",parallel_" + bconfig.parallelism.toString()+ "," + bconfig.config.getSelectedRankAlgorithm().toString() +
+                ",parallel_" + bconfig.parallelism.toString() + "," + bconfig.config.getSelectedRankAlgorithm().toString() +
                 "," + query;
     }
+
 
     @Override protected String compileResultRowHeader() {
         return "sql_window_query_time,sql_selfjoin_query_time,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query";
