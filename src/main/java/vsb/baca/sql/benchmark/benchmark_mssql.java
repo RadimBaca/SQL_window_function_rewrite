@@ -141,15 +141,14 @@ public class benchmark_mssql extends benchmark {
 //                System.out.println("Query Plan XML:\n" + queryPlanXml);
 //                System.out.println("Query Plan cost:\n" + statementSubTreeCost);
 
-//                return (long) timeResultSet.getLong("last_elapsed_time");
-                return new measured_result((long)timeResultSet.getLong("last_elapsed_time"), -1, statementSubTreeCost);
+                return new measured_result((long)timeResultSet.getLong("last_elapsed_time") / 1000, -1, statementSubTreeCost);
             }
 
             timeResultSet.close();
             planResultSet.close();
         }
         handleResultSet.close();
-        return new measured_result(-1, -1);
+        return new measured_result(-1, -1, -1);
     }
 
     private double getStatementSubTreeCost(String queryPlanXml) throws Exception {
