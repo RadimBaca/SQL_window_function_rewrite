@@ -40,10 +40,10 @@ public class postgre_rank_test {
         queryFileNamesNoPadding.add(benchmark_postgresql.readQueryFromFile(SQL_ROWNUMBER_EQUAL_N_FILENAME));
         queryFileNamesNoPadding.add(benchmark_postgresql.readQueryFromFile(SQL_ROWNUMBER_LESS_N_FILENAME));
 
-        run_setups.add(new run_setup("R_row_", queryFileNamesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config, postgre_rank_test.connection_string, postgre_rank_test.username, postgre_rank_test.password));
-        run_setups.add(new run_setup("P_row_", queryFileNamesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config, postgre_rank_test.connection_string, postgre_rank_test.username, postgre_rank_test.password));
-        run_setups.add(new run_setup("R_row_", queryFileNamesNoPadding,  "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON, config, postgre_rank_test.connection_string, postgre_rank_test.username, postgre_rank_test.password));
-        run_setups.add(new run_setup("P_row_", queryFileNamesPadding,  "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON, config, postgre_rank_test.connection_string, postgre_rank_test.username, postgre_rank_test.password));
+        run_setups.add(new run_setup("r_row_", queryFileNamesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config, postgre_rank_test.connection_string, postgre_rank_test.username, postgre_rank_test.password));
+        run_setups.add(new run_setup("r_row_", queryFileNamesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config, postgre_rank_test.connection_string, postgre_rank_test.username, postgre_rank_test.password));
+        run_setups.add(new run_setup("r_row_", queryFileNamesNoPadding,  "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON, config, postgre_rank_test.connection_string, postgre_rank_test.username, postgre_rank_test.password));
+        run_setups.add(new run_setup("r_row_", queryFileNamesPadding,  "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON, config, postgre_rank_test.connection_string, postgre_rank_test.username, postgre_rank_test.password));
 
         postgre_runner.prepare_run(run_setups, DROPINDEXES_FILENAME, CREATEINDEXES_FILENAME);
     }

@@ -15,15 +15,29 @@ public class benchmark_postgresql extends benchmark {
 
     @Override protected measured_result getQueryProcessingTime(String sql) {
         int queryTimeout = 300;
+
         try (Connection connection = DriverManager.getConnection(bconfig.CONNECTION_STRING, bconfig.USERNAME, bconfig.PASSWORD);
              Statement statement = connection.createStatement()) {
             statement.setQueryTimeout(queryTimeout);
             statement.execute(((bench_config_postgresql)bconfig).SET_PARALLEL_WORKERS);
             statement.execute(((bench_config_postgresql)bconfig).SET_PARALLEL_WORKERS_PER_GATHER);
-
             ResultSet resultSet = statement.executeQuery(sql);
-
             String queryPlan = "";
+            double elapsedTime = 0;
+            double totalCost = 0;
+
+            if (resultSet.next()) {
+                queryPlan = resultSet.getString("QUERY PLAN");
+                String regex = "cost=\\d+\\.\\d+\\.\\.(\\d+\\.\\d+)";
+                Pattern pattern = Pattern.compile(regex);
+                Matcher matcher = pattern.matcher(queryPlan);
+                if (matcher.find()) {
+                    totalCost = Double.parseDouble(matcher.group(1));
+                }
+            } else {
+                throw new RuntimeException("No query plan found!");
+            }
+
             while (resultSet.next()) {
                 queryPlan = resultSet.getString("QUERY PLAN");
             }
@@ -34,9 +48,10 @@ public class benchmark_postgresql extends benchmark {
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(queryPlan);
             if (matcher.find()) {
-                double elapsedTime = Double.parseDouble(matcher.group(1));
-                return new measured_result((long) elapsedTime, 0);
+                elapsedTime = Double.parseDouble(matcher.group(1));
+                return new measured_result((long) elapsedTime, 0, totalCost);
             }
+
             throw new RuntimeException("Actual time not found in query plan!");
 
         }
@@ -56,14 +71,13 @@ public class benchmark_postgresql extends benchmark {
 
     @Override protected String compileResultRow(measured_result sql1, measured_result sql2, String index, int B_count, bench_config bconfig, String query)
     {
-        return sql1.querytime + "," + sql2.querytime + "," + B_count + "," + sql1.resultsize + "," +
+        return sql1.querytime + "," + sql2.querytime + "," + sql1.querycost + "," + sql2.querycost + "," + B_count + "," + sql1.resultsize + "," +
                 bconfig.storage.toString() + "," + index + ",padding_" + bconfig.padding.toString() +
                 ",parallel_" + bconfig.parallelism.toString() + "," + bconfig.config.getSelectedRankAlgorithm().toString() +
                 "," + query;
     }
 
-
     @Override protected String compileResultRowHeader() {
-        return "sql_window_query_time,sql_selfjoin_query_time,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query";
+        return "sql_window_query_time,sql_selfjoin_query_time,sql_window_query_cost,sql_selfjoin_query_cost,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query";
     }
 }
