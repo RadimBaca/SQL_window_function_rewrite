@@ -164,24 +164,24 @@ FROM t1;
 -------------------------------------
 -- Create the tables with padding
 
-DROP TABLE IF EXISTS P_ROW_10 CASCADE;
-DROP TABLE IF EXISTS P_ROW_30 CASCADE;
-DROP TABLE IF EXISTS P_ROW_100 CASCADE;
-DROP TABLE IF EXISTS P_ROW_300 CASCADE;
-DROP TABLE IF EXISTS P_ROW_1000 CASCADE;
-DROP TABLE IF EXISTS P_ROW_3000 CASCADE;
-DROP TABLE IF EXISTS P_ROW_10000 CASCADE;
-DROP TABLE IF EXISTS P_ROW_30000 CASCADE;
+DROP TABLE IF EXISTS "P_ROW_10" CASCADE;
+DROP TABLE IF EXISTS "P_ROW_30" CASCADE;
+DROP TABLE IF EXISTS "P_ROW_100" CASCADE;
+DROP TABLE IF EXISTS "P_ROW_300" CASCADE;
+DROP TABLE IF EXISTS "P_ROW_1000" CASCADE;
+DROP TABLE IF EXISTS "P_ROW_3000" CASCADE;
+DROP TABLE IF EXISTS "P_ROW_10000" CASCADE;
+DROP TABLE IF EXISTS "P_ROW_30000" CASCADE;
 
 
-CREATE TABLE P_ROW_10 (
-                          a int,
-                          b int,
-                          c int,
-                          padding char(200)
+CREATE TABLE "P_ROW_10" (
+                            a int,
+                            b int,
+                            c int,
+                            padding char(200)
 );
 
-INSERT INTO P_ROW_10
+INSERT INTO "P_ROW_10"
     WITH t1 AS
     (
 SELECT id
@@ -193,14 +193,14 @@ SELECT  id,
         RPAD('Value ' || id || ' ' , 100, '*') as padding
 FROM t1;
 
-CREATE TABLE P_ROW_30 (
-                          a int,
-                          b int,
-                          c int,
-                          padding char(200)
+CREATE TABLE "P_ROW_30" (
+                            a int,
+                            b int,
+                            c int,
+                            padding char(200)
 );
 
-INSERT INTO P_ROW_30
+INSERT INTO "P_ROW_30"
     WITH t1 AS
     (
 SELECT id
@@ -213,14 +213,14 @@ SELECT  id,
 FROM t1;
 
 
-CREATE TABLE P_ROW_100 (
-                           a int,
-                           b int,
-                           c int,
-                           padding char(200)
+CREATE TABLE "P_ROW_100" (
+                             a int,
+                             b int,
+                             c int,
+                             padding char(200)
 );
 
-INSERT INTO P_ROW_100
+INSERT INTO "P_ROW_100"
     WITH t1 AS
     (
 SELECT id
@@ -233,14 +233,14 @@ SELECT  id,
 FROM t1;
 
 
-CREATE TABLE P_ROW_300 (
-                           a int,
-                           b int,
-                           c int,
-                           padding char(200)
+CREATE TABLE "P_ROW_300" (
+                             a int,
+                             b int,
+                             c int,
+                             padding char(200)
 );
 
-INSERT INTO P_ROW_300
+INSERT INTO "P_ROW_300"
     WITH t1 AS
     (
 SELECT id
@@ -253,14 +253,14 @@ SELECT  id,
 FROM t1;
 
 
-CREATE TABLE P_ROW_1000 (
-                            a int,
-                            b int,
-                            c int,
-                            padding char(200)
+CREATE TABLE "P_ROW_1000" (
+                              a int,
+                              b int,
+                              c int,
+                              padding char(200)
 );
 
-INSERT INTO P_ROW_1000
+INSERT INTO "P_ROW_1000"
     WITH t1 AS
     (
 SELECT id
@@ -273,14 +273,14 @@ SELECT  id,
 FROM t1;
 
 
-CREATE TABLE P_ROW_3000 (
-                            a int,
-                            b int,
-                            c int,
-                            padding char(200)
+CREATE TABLE "P_ROW_3000" (
+                              a int,
+                              b int,
+                              c int,
+                              padding char(200)
 );
 
-INSERT INTO P_ROW_3000
+INSERT INTO "P_ROW_3000"
     WITH t1 AS
     (
 SELECT id
@@ -293,14 +293,14 @@ SELECT  id,
 FROM t1;
 
 
-CREATE TABLE P_ROW_10000 (
-                             a int,
-                             b int,
-                             c int,
-                             padding char(200)
+CREATE TABLE "P_ROW_10000" (
+                               a int,
+                               b int,
+                               c int,
+                               padding char(200)
 );
 
-INSERT INTO P_ROW_10000
+INSERT INTO "P_ROW_10000"
     WITH t1 AS
     (
 SELECT id
@@ -313,14 +313,14 @@ SELECT  id,
 FROM t1;
 
 
-CREATE TABLE P_ROW_30000 (
-                             a int,
-                             b int,
-                             c int,
-                             padding char(200)
+CREATE TABLE "P_ROW_30000" (
+                               a int,
+                               b int,
+                               c int,
+                               padding char(200)
 );
 
-INSERT INTO P_ROW_30000
+INSERT INTO "P_ROW_30000"
     WITH t1 AS
     (
 SELECT id
