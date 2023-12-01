@@ -1,0 +1,1360 @@
+
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b_a;
+----------------------------------------
+DDL:
+1260,300000,95.1146,0.0,10,10,ROW, ,padding_OFF,parallel_OFF,LateralAgg,=1
+1383,300000,95.1176,0.0,30,30,ROW, ,padding_OFF,parallel_OFF,LateralAgg,=1
+1328,300000,95.1176,0.0,100,100,ROW, ,padding_OFF,parallel_OFF,LateralAgg,=1
+1344,212417,95.1191,3411.94,300,300,ROW, ,padding_OFF,parallel_OFF,LateralAgg,=1
+1334,67780,95.1198,1230.84,1000,1000,ROW, ,padding_OFF,parallel_OFF,LateralAgg,=1
+1272,26051,95.1191,607.965,3000,3000,ROW, ,padding_OFF,parallel_OFF,LateralAgg,=1
+1164,11577,95.1183,390.7,10000,10000,ROW, ,padding_OFF,parallel_OFF,LateralAgg,=1
+1185,7348,95.1176,328.624,30000,30000,ROW, ,padding_OFF,parallel_OFF,LateralAgg,=1
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);
+1223,300000,95.1146,0.0,10,10,ROW,I(A),padding_OFF,parallel_OFF,LateralAgg,=1
+1347,300000,95.1176,0.0,30,30,ROW,I(A),padding_OFF,parallel_OFF,LateralAgg,=1
+1306,300000,95.1176,0.0,100,100,ROW,I(A),padding_OFF,parallel_OFF,LateralAgg,=1
+1283,211614,95.1191,3411.94,300,300,ROW,I(A),padding_OFF,parallel_OFF,LateralAgg,=1
+1324,66923,95.1198,1230.84,1000,1000,ROW,I(A),padding_OFF,parallel_OFF,LateralAgg,=1
+1281,26055,95.1191,607.965,3000,3000,ROW,I(A),padding_OFF,parallel_OFF,LateralAgg,=1
+1252,11769,95.1183,390.7,10000,10000,ROW,I(A),padding_OFF,parallel_OFF,LateralAgg,=1
+1195,7413,95.1176,328.624,30000,30000,ROW,I(A),padding_OFF,parallel_OFF,LateralAgg,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b ON tab(b);
+1127,300000,95.1146,0.0,10,10,ROW,I(B),padding_OFF,parallel_OFF,LateralAgg,=1
+1260,300000,95.1176,0.0,30,30,ROW,I(B),padding_OFF,parallel_OFF,LateralAgg,=1
+1278,300000,95.1176,0.0,100,100,ROW,I(B),padding_OFF,parallel_OFF,LateralAgg,=1
+1274,213890,95.1191,3411.94,300,300,ROW,I(B),padding_OFF,parallel_OFF,LateralAgg,=1
+1401,67522,95.1198,1230.84,1000,1000,ROW,I(B),padding_OFF,parallel_OFF,LateralAgg,=1
+1212,26151,95.1191,607.965,3000,3000,ROW,I(B),padding_OFF,parallel_OFF,LateralAgg,=1
+1177,11681,95.1183,390.7,10000,10000,ROW,I(B),padding_OFF,parallel_OFF,LateralAgg,=1
+1267,7376,95.1176,328.624,30000,30000,ROW,I(B),padding_OFF,parallel_OFF,LateralAgg,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);CREATE INDEX idx_tab_b ON tab(b);
+1162,300000,95.1146,0.0,10,10,ROW,I(A);I(B),padding_OFF,parallel_OFF,LateralAgg,=1
+1328,300000,95.1176,0.0,30,30,ROW,I(A);I(B),padding_OFF,parallel_OFF,LateralAgg,=1
+1305,300000,95.1176,0.0,100,100,ROW,I(A);I(B),padding_OFF,parallel_OFF,LateralAgg,=1
+1321,209876,95.1191,3411.94,300,300,ROW,I(A);I(B),padding_OFF,parallel_OFF,LateralAgg,=1
+1328,67569,95.1198,1230.84,1000,1000,ROW,I(A);I(B),padding_OFF,parallel_OFF,LateralAgg,=1
+1287,26055,95.1191,607.965,3000,3000,ROW,I(A);I(B),padding_OFF,parallel_OFF,LateralAgg,=1
+1207,11639,95.1183,390.7,10000,10000,ROW,I(A);I(B),padding_OFF,parallel_OFF,LateralAgg,=1
+1183,7462,95.1176,328.624,30000,30000,ROW,I(A);I(B),padding_OFF,parallel_OFF,LateralAgg,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a_b ON tab(a,b);
+1265,300000,95.1146,0.0,10,10,ROW,I(AB),padding_OFF,parallel_OFF,LateralAgg,=1
+1418,300000,95.1176,0.0,30,30,ROW,I(AB),padding_OFF,parallel_OFF,LateralAgg,=1
+1410,300000,95.1176,0.0,100,100,ROW,I(AB),padding_OFF,parallel_OFF,LateralAgg,=1
+1308,214160,95.1191,3411.94,300,300,ROW,I(AB),padding_OFF,parallel_OFF,LateralAgg,=1
+1367,68127,95.1198,1230.84,1000,1000,ROW,I(AB),padding_OFF,parallel_OFF,LateralAgg,=1
+1342,26106,95.1191,607.965,3000,3000,ROW,I(AB),padding_OFF,parallel_OFF,LateralAgg,=1
+1146,11827,95.1183,390.7,10000,10000,ROW,I(AB),padding_OFF,parallel_OFF,LateralAgg,=1
+1225,7422,95.1176,328.624,30000,30000,ROW,I(AB),padding_OFF,parallel_OFF,LateralAgg,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b_a ON tab(b,a);
+163,300000,3.69736,0.0,10,10,ROW,I(BA),padding_OFF,parallel_OFF,LateralAgg,=1
+164,300000,3.70476,0.0,30,30,ROW,I(BA),padding_OFF,parallel_OFF,LateralAgg,=1
+165,300000,3.71217,0.0,100,100,ROW,I(BA),padding_OFF,parallel_OFF,LateralAgg,=1
+165,118309,3.71217,3287.77,300,300,ROW,I(BA),padding_OFF,parallel_OFF,LateralAgg,=1
+165,43889,3.71587,1107.04,1000,1000,ROW,I(BA),padding_OFF,parallel_OFF,LateralAgg,=1
+164,19356,3.71217,484.24,3000,3000,ROW,I(BA),padding_OFF,parallel_OFF,LateralAgg,=1
+166,8773,3.70921,266.964,10000,10000,ROW,I(BA),padding_OFF,parallel_OFF,LateralAgg,=1
+173,5241,3.71365,204.907,30000,30000,ROW,I(BA),padding_OFF,parallel_OFF,LateralAgg,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b_a;
+sql_window_query_time,sql_selfjoin_query_time,sql_window_query_cost,sql_selfjoin_query_cost,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b_a;
+----------------------------------------
+DDL:
+5040,300000,104.77,0.0,10,10,ROW, ,padding_ON,parallel_OFF,LateralAgg,=1
+4931,300000,104.768,0.0,30,30,ROW, ,padding_ON,parallel_OFF,LateralAgg,=1
+5030,300000,104.772,0.0,100,100,ROW, ,padding_ON,parallel_OFF,LateralAgg,=1
+5111,209927,104.768,3431.23,300,300,ROW, ,padding_ON,parallel_OFF,LateralAgg,=1
+5237,66875,104.769,1250.13,1000,1000,ROW, ,padding_ON,parallel_OFF,LateralAgg,=1
+4693,25969,104.766,627.26,3000,3000,ROW, ,padding_ON,parallel_OFF,LateralAgg,=1
+4952,11892,104.768,413.536,10000,10000,ROW, ,padding_ON,parallel_OFF,LateralAgg,=1
+4695,7429,104.766,348.527,30000,30000,ROW, ,padding_ON,parallel_OFF,LateralAgg,=1
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);
+4816,300000,104.77,0.0,10,10,ROW,I(A),padding_ON,parallel_OFF,LateralAgg,=1
+4920,300000,104.768,0.0,30,30,ROW,I(A),padding_ON,parallel_OFF,LateralAgg,=1
+4976,300000,104.772,0.0,100,100,ROW,I(A),padding_ON,parallel_OFF,LateralAgg,=1
+4963,210032,104.768,3431.23,300,300,ROW,I(A),padding_ON,parallel_OFF,LateralAgg,=1
+5331,68300,104.769,1250.13,1000,1000,ROW,I(A),padding_ON,parallel_OFF,LateralAgg,=1
+4890,26177,104.766,627.26,3000,3000,ROW,I(A),padding_ON,parallel_OFF,LateralAgg,=1
+5260,11679,104.768,413.536,10000,10000,ROW,I(A),padding_ON,parallel_OFF,LateralAgg,=1
+4837,7482,104.766,348.527,30000,30000,ROW,I(A),padding_ON,parallel_OFF,LateralAgg,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b ON tab(b);
+5046,300000,104.77,0.0,10,10,ROW,I(B),padding_ON,parallel_OFF,LateralAgg,=1
+5075,300000,104.768,0.0,30,30,ROW,I(B),padding_ON,parallel_OFF,LateralAgg,=1
+5032,300000,104.772,0.0,100,100,ROW,I(B),padding_ON,parallel_OFF,LateralAgg,=1
+5328,213472,104.768,3431.23,300,300,ROW,I(B),padding_ON,parallel_OFF,LateralAgg,=1
+5201,67953,104.769,1250.13,1000,1000,ROW,I(B),padding_ON,parallel_OFF,LateralAgg,=1
+5078,26084,104.766,627.26,3000,3000,ROW,I(B),padding_ON,parallel_OFF,LateralAgg,=1
+4877,11608,104.768,410.0,10000,10000,ROW,I(B),padding_ON,parallel_OFF,LateralAgg,=1
+4693,7414,104.766,347.92,30000,30000,ROW,I(B),padding_ON,parallel_OFF,LateralAgg,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);CREATE INDEX idx_tab_b ON tab(b);
+4777,300000,104.77,0.0,10,10,ROW,I(A);I(B),padding_ON,parallel_OFF,LateralAgg,=1
+5096,300000,104.768,0.0,30,30,ROW,I(A);I(B),padding_ON,parallel_OFF,LateralAgg,=1
+4977,300000,104.772,0.0,100,100,ROW,I(A);I(B),padding_ON,parallel_OFF,LateralAgg,=1
+5123,209963,104.768,3431.23,300,300,ROW,I(A);I(B),padding_ON,parallel_OFF,LateralAgg,=1
+5156,67011,104.769,1250.13,1000,1000,ROW,I(A);I(B),padding_ON,parallel_OFF,LateralAgg,=1
+5025,25987,104.766,627.26,3000,3000,ROW,I(A);I(B),padding_ON,parallel_OFF,LateralAgg,=1
+5101,11664,104.768,410.0,10000,10000,ROW,I(A);I(B),padding_ON,parallel_OFF,LateralAgg,=1
+4739,7456,104.766,347.92,30000,30000,ROW,I(A);I(B),padding_ON,parallel_OFF,LateralAgg,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a_b ON tab(a,b);
+4774,300000,104.77,0.0,10,10,ROW,I(AB),padding_ON,parallel_OFF,LateralAgg,=1
+4951,300000,104.768,0.0,30,30,ROW,I(AB),padding_ON,parallel_OFF,LateralAgg,=1
+5309,300000,104.772,0.0,100,100,ROW,I(AB),padding_ON,parallel_OFF,LateralAgg,=1
+5015,212016,104.768,3421.67,300,300,ROW,I(AB),padding_ON,parallel_OFF,LateralAgg,=1
+4944,67987,104.769,1240.57,1000,1000,ROW,I(AB),padding_ON,parallel_OFF,LateralAgg,=1
+4952,25977,104.766,617.699,3000,3000,ROW,I(AB),padding_ON,parallel_OFF,LateralAgg,=1
+4956,11459,104.768,403.976,10000,10000,ROW,I(AB),padding_ON,parallel_OFF,LateralAgg,=1
+5077,7374,104.766,338.968,30000,30000,ROW,I(AB),padding_ON,parallel_OFF,LateralAgg,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b_a ON tab(b,a);
+4765,300000,104.77,0.0,10,10,ROW,I(BA),padding_ON,parallel_OFF,LateralAgg,=1
+4794,300000,104.768,0.0,30,30,ROW,I(BA),padding_ON,parallel_OFF,LateralAgg,=1
+4933,348246,104.772,9525.25,100,100,ROW,I(BA),padding_ON,parallel_OFF,LateralAgg,=1
+5193,124387,104.768,3297.42,300,300,ROW,I(BA),padding_ON,parallel_OFF,LateralAgg,=1
+4757,43665,104.769,1116.67,1000,1000,ROW,I(BA),padding_ON,parallel_OFF,LateralAgg,=1
+5178,19561,104.766,493.872,3000,3000,ROW,I(BA),padding_ON,parallel_OFF,LateralAgg,=1
+5304,8754,104.768,276.62,10000,10000,ROW,I(BA),padding_ON,parallel_OFF,LateralAgg,=1
+4812,5346,104.766,214.536,30000,30000,ROW,I(BA),padding_ON,parallel_OFF,LateralAgg,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b_a;
+sql_window_query_time,sql_selfjoin_query_time,sql_window_query_cost,sql_selfjoin_query_cost,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b_a;
+----------------------------------------
+DDL:
+565,300000,14.3649,0.0,10,10,ROW, ,padding_OFF,parallel_ON,LateralAgg,=1
+581,300000,14.3679,0.0,30,30,ROW, ,padding_OFF,parallel_ON,LateralAgg,=1
+681,108027,14.3679,9635.61,100,100,ROW, ,padding_OFF,parallel_ON,LateralAgg,=1
+603,41064,14.3694,3406.92,300,300,ROW, ,padding_OFF,parallel_ON,LateralAgg,=1
+657,14715,14.3701,1225.82,1000,1000,ROW, ,padding_OFF,parallel_ON,LateralAgg,=1
+622,7528,14.3694,602.953,3000,3000,ROW, ,padding_OFF,parallel_ON,LateralAgg,=1
+588,4465,14.3686,385.689,10000,10000,ROW, ,padding_OFF,parallel_ON,LateralAgg,=1
+667,3686,14.3679,323.612,30000,30000,ROW, ,padding_OFF,parallel_ON,LateralAgg,=1
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);
+627,300000,14.3649,0.0,10,10,ROW,I(A),padding_OFF,parallel_ON,LateralAgg,=1
+638,300000,14.3679,0.0,30,30,ROW,I(A),padding_OFF,parallel_ON,LateralAgg,=1
+648,107351,14.3679,9635.61,100,100,ROW,I(A),padding_OFF,parallel_ON,LateralAgg,=1
+663,40974,14.3694,3406.92,300,300,ROW,I(A),padding_OFF,parallel_ON,LateralAgg,=1
+709,14751,14.3701,1225.82,1000,1000,ROW,I(A),padding_OFF,parallel_ON,LateralAgg,=1
+631,7541,14.3694,602.953,3000,3000,ROW,I(A),padding_OFF,parallel_ON,LateralAgg,=1
+628,4571,14.3686,385.689,10000,10000,ROW,I(A),padding_OFF,parallel_ON,LateralAgg,=1
+655,3582,14.3679,323.612,30000,30000,ROW,I(A),padding_OFF,parallel_ON,LateralAgg,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b ON tab(b);
+593,300000,14.3649,0.0,10,10,ROW,I(B),padding_OFF,parallel_ON,LateralAgg,=1
+602,300000,14.3679,0.0,30,30,ROW,I(B),padding_OFF,parallel_ON,LateralAgg,=1
+586,107276,14.3679,9635.61,100,100,ROW,I(B),padding_OFF,parallel_ON,LateralAgg,=1
+619,41031,14.3694,3406.92,300,300,ROW,I(B),padding_OFF,parallel_ON,LateralAgg,=1
+655,14707,14.3701,1225.82,1000,1000,ROW,I(B),padding_OFF,parallel_ON,LateralAgg,=1
+607,7564,14.3694,602.953,3000,3000,ROW,I(B),padding_OFF,parallel_ON,LateralAgg,=1
+608,4511,14.3686,385.689,10000,10000,ROW,I(B),padding_OFF,parallel_ON,LateralAgg,=1
+690,3629,14.3679,323.612,30000,30000,ROW,I(B),padding_OFF,parallel_ON,LateralAgg,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);CREATE INDEX idx_tab_b ON tab(b);
+599,300000,14.3649,0.0,10,10,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralAgg,=1
+568,300000,14.3679,0.0,30,30,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralAgg,=1
+584,107380,14.3679,9635.61,100,100,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralAgg,=1
+665,40910,14.3694,3406.92,300,300,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralAgg,=1
+764,14811,14.3701,1225.82,1000,1000,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralAgg,=1
+579,7462,14.3694,602.953,3000,3000,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralAgg,=1
+640,4449,14.3686,385.689,10000,10000,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralAgg,=1
+601,3595,14.3679,323.612,30000,30000,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralAgg,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a_b ON tab(a,b);
+609,300000,14.3649,0.0,10,10,ROW,I(AB),padding_OFF,parallel_ON,LateralAgg,=1
+581,300000,14.3679,0.0,30,30,ROW,I(AB),padding_OFF,parallel_ON,LateralAgg,=1
+552,108902,14.3679,9635.61,100,100,ROW,I(AB),padding_OFF,parallel_ON,LateralAgg,=1
+633,40982,14.3694,3406.92,300,300,ROW,I(AB),padding_OFF,parallel_ON,LateralAgg,=1
+673,14815,14.3701,1225.82,1000,1000,ROW,I(AB),padding_OFF,parallel_ON,LateralAgg,=1
+554,7490,14.3694,602.953,3000,3000,ROW,I(AB),padding_OFF,parallel_ON,LateralAgg,=1
+671,4625,14.3686,385.689,10000,10000,ROW,I(AB),padding_OFF,parallel_ON,LateralAgg,=1
+646,3636,14.3679,323.612,30000,30000,ROW,I(AB),padding_OFF,parallel_ON,LateralAgg,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b_a ON tab(b,a);
+162,300000,3.69736,0.0,10,10,ROW,I(BA),padding_OFF,parallel_ON,LateralAgg,=1
+163,234877,3.70476,31305.5,30,30,ROW,I(BA),padding_OFF,parallel_ON,LateralAgg,=1
+163,56521,3.71217,9510.58,100,100,ROW,I(BA),padding_OFF,parallel_ON,LateralAgg,=1
+164,21854,3.71217,3282.76,300,300,ROW,I(BA),padding_OFF,parallel_ON,LateralAgg,=1
+163,8104,3.71587,1102.03,1000,1000,ROW,I(BA),padding_OFF,parallel_ON,LateralAgg,=1
+165,2831,3.71217,479.229,3000,3000,ROW,I(BA),padding_OFF,parallel_ON,LateralAgg,=1
+166,1271,3.70921,261.952,10000,10000,ROW,I(BA),padding_OFF,parallel_ON,LateralAgg,=1
+172,781,3.71365,199.895,30000,30000,ROW,I(BA),padding_OFF,parallel_ON,LateralAgg,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b_a;
+sql_window_query_time,sql_selfjoin_query_time,sql_window_query_cost,sql_selfjoin_query_cost,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b_a;
+----------------------------------------
+DDL:
+3869,300000,25.0727,0.0,10,10,ROW, ,padding_ON,parallel_ON,LateralAgg,=1
+4030,261308,25.0705,31459.6,30,30,ROW, ,padding_ON,parallel_ON,LateralAgg,=1
+4105,80825,25.0749,9654.92,100,100,ROW, ,padding_ON,parallel_ON,LateralAgg,=1
+3911,29619,25.0705,3426.22,300,300,ROW, ,padding_ON,parallel_ON,LateralAgg,=1
+4097,12204,25.0712,1245.12,1000,1000,ROW, ,padding_ON,parallel_ON,LateralAgg,=1
+4528,6121,25.069,622.248,3000,3000,ROW, ,padding_ON,parallel_ON,LateralAgg,=1
+4274,3990,25.0705,408.525,10000,10000,ROW, ,padding_ON,parallel_ON,LateralAgg,=1
+4303,3361,25.0683,343.515,30000,30000,ROW, ,padding_ON,parallel_ON,LateralAgg,=1
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);
+4115,300000,25.0727,0.0,10,10,ROW,I(A),padding_ON,parallel_ON,LateralAgg,=1
+4078,267652,25.0705,31459.6,30,30,ROW,I(A),padding_ON,parallel_ON,LateralAgg,=1
+4012,81309,25.0749,9654.92,100,100,ROW,I(A),padding_ON,parallel_ON,LateralAgg,=1
+3977,29466,25.0705,3426.22,300,300,ROW,I(A),padding_ON,parallel_ON,LateralAgg,=1
+4133,12118,25.0712,1245.12,1000,1000,ROW,I(A),padding_ON,parallel_ON,LateralAgg,=1
+4427,6085,25.069,622.248,3000,3000,ROW,I(A),padding_ON,parallel_ON,LateralAgg,=1
+4320,3995,25.0705,408.525,10000,10000,ROW,I(A),padding_ON,parallel_ON,LateralAgg,=1
+4230,3423,25.0683,343.515,30000,30000,ROW,I(A),padding_ON,parallel_ON,LateralAgg,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b ON tab(b);
+4020,300000,25.0727,0.0,10,10,ROW,I(B),padding_ON,parallel_ON,LateralAgg,=1
+4496,263335,25.0705,31459.6,30,30,ROW,I(B),padding_ON,parallel_ON,LateralAgg,=1
+3998,80899,25.0749,9654.92,100,100,ROW,I(B),padding_ON,parallel_ON,LateralAgg,=1
+4066,29650,25.0705,3426.22,300,300,ROW,I(B),padding_ON,parallel_ON,LateralAgg,=1
+4229,12092,25.0712,1245.12,1000,1000,ROW,I(B),padding_ON,parallel_ON,LateralAgg,=1
+4504,6073,25.069,622.248,3000,3000,ROW,I(B),padding_ON,parallel_ON,LateralAgg,=1
+4191,3980,25.0705,404.988,10000,10000,ROW,I(B),padding_ON,parallel_ON,LateralAgg,=1
+4318,3402,25.0683,342.908,30000,30000,ROW,I(B),padding_ON,parallel_ON,LateralAgg,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);CREATE INDEX idx_tab_b ON tab(b);
+4421,300000,25.0727,0.0,10,10,ROW,I(A);I(B),padding_ON,parallel_ON,LateralAgg,=1
+4274,266872,25.0705,31459.6,30,30,ROW,I(A);I(B),padding_ON,parallel_ON,LateralAgg,=1
+4053,80479,25.0749,9654.92,100,100,ROW,I(A);I(B),padding_ON,parallel_ON,LateralAgg,=1
+4085,29724,25.0705,3426.22,300,300,ROW,I(A);I(B),padding_ON,parallel_ON,LateralAgg,=1
+4031,12131,25.0712,1245.12,1000,1000,ROW,I(A);I(B),padding_ON,parallel_ON,LateralAgg,=1
+4504,6100,25.069,622.248,3000,3000,ROW,I(A);I(B),padding_ON,parallel_ON,LateralAgg,=1
+4297,4032,25.0705,404.988,10000,10000,ROW,I(A);I(B),padding_ON,parallel_ON,LateralAgg,=1
+4209,3387,25.0683,342.908,30000,30000,ROW,I(A);I(B),padding_ON,parallel_ON,LateralAgg,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a_b ON tab(a,b);
+4052,300000,25.0727,0.0,10,10,ROW,I(AB),padding_ON,parallel_ON,LateralAgg,=1
+3968,261474,25.0705,31450.0,30,30,ROW,I(AB),padding_ON,parallel_ON,LateralAgg,=1
+5845,81420,25.0749,9645.36,100,100,ROW,I(AB),padding_ON,parallel_ON,LateralAgg,=1
+4096,29555,25.0705,3416.66,300,300,ROW,I(AB),padding_ON,parallel_ON,LateralAgg,=1
+4364,12594,25.0712,1235.56,1000,1000,ROW,I(AB),padding_ON,parallel_ON,LateralAgg,=1
+3945,6032,25.069,612.688,3000,3000,ROW,I(AB),padding_ON,parallel_ON,LateralAgg,=1
+4122,3767,25.0705,398.964,10000,10000,ROW,I(AB),padding_ON,parallel_ON,LateralAgg,=1
+4406,3219,25.0683,333.957,30000,30000,ROW,I(AB),padding_ON,parallel_ON,LateralAgg,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b_a ON tab(b,a);
+4209,300000,25.0727,0.0,10,10,ROW,I(BA),padding_ON,parallel_ON,LateralAgg,=1
+4193,135848,25.0705,31315.2,30,30,ROW,I(BA),padding_ON,parallel_ON,LateralAgg,=1
+4114,41646,25.0749,9520.23,100,100,ROW,I(BA),padding_ON,parallel_ON,LateralAgg,=1
+3938,16510,25.0705,3292.41,300,300,ROW,I(BA),padding_ON,parallel_ON,LateralAgg,=1
+3962,6249,25.0712,1111.66,1000,1000,ROW,I(BA),padding_ON,parallel_ON,LateralAgg,=1
+4349,2623,25.069,488.861,3000,3000,ROW,I(BA),padding_ON,parallel_ON,LateralAgg,=1
+4187,1162,25.0705,271.608,10000,10000,ROW,I(BA),padding_ON,parallel_ON,LateralAgg,=1
+4449,703,25.0683,209.525,30000,30000,ROW,I(BA),padding_ON,parallel_ON,LateralAgg,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b_a;
+sql_window_query_time,sql_selfjoin_query_time,sql_window_query_cost,sql_selfjoin_query_cost,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b_a;
+----------------------------------------
+DDL:
+1130,392,95.1146,19.3249,10,10,ROW, ,padding_OFF,parallel_OFF,JoinMin,=1
+1290,398,95.1176,19.3316,30,30,ROW, ,padding_OFF,parallel_OFF,JoinMin,=1
+1280,399,95.1176,19.3342,100,100,ROW, ,padding_OFF,parallel_OFF,JoinMin,=1
+1323,407,95.1191,19.3447,300,300,ROW, ,padding_OFF,parallel_OFF,JoinMin,=1
+1305,425,95.1198,19.3726,1000,1000,ROW, ,padding_OFF,parallel_OFF,JoinMin,=1
+1222,434,95.1191,19.4465,3000,3000,ROW, ,padding_OFF,parallel_OFF,JoinMin,=1
+1128,436,95.1183,19.7091,10000,10000,ROW, ,padding_OFF,parallel_OFF,JoinMin,=1
+1183,469,95.1176,20.4619,30000,30000,ROW, ,padding_OFF,parallel_OFF,JoinMin,=1
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);
+1146,201,95.1146,9.79326,10,10,ROW,I(A),padding_OFF,parallel_OFF,JoinMin,=1
+1323,204,95.1176,9.92711,30,30,ROW,I(A),padding_OFF,parallel_OFF,JoinMin,=1
+1353,210,95.1176,10.3772,100,100,ROW,I(A),padding_OFF,parallel_OFF,JoinMin,=1
+1330,214,95.1191,11.5991,300,300,ROW,I(A),padding_OFF,parallel_OFF,JoinMin,=1
+1328,229,95.1198,15.1984,1000,1000,ROW,I(A),padding_OFF,parallel_OFF,JoinMin,=1
+1252,428,95.1191,19.4465,3000,3000,ROW,I(A),padding_OFF,parallel_OFF,JoinMin,=1
+1192,436,95.1183,19.7091,10000,10000,ROW,I(A),padding_OFF,parallel_OFF,JoinMin,=1
+1151,465,95.1176,20.4619,30000,30000,ROW,I(A),padding_OFF,parallel_OFF,JoinMin,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b ON tab(b);
+1176,393,95.1146,19.3249,10,10,ROW,I(B),padding_OFF,parallel_OFF,JoinMin,=1
+1324,399,95.1176,19.3316,30,30,ROW,I(B),padding_OFF,parallel_OFF,JoinMin,=1
+1295,398,95.1176,19.3342,100,100,ROW,I(B),padding_OFF,parallel_OFF,JoinMin,=1
+1323,408,95.1191,19.3447,300,300,ROW,I(B),padding_OFF,parallel_OFF,JoinMin,=1
+1326,425,95.1198,19.3726,1000,1000,ROW,I(B),padding_OFF,parallel_OFF,JoinMin,=1
+1236,429,95.1191,19.4465,3000,3000,ROW,I(B),padding_OFF,parallel_OFF,JoinMin,=1
+1235,445,95.1183,19.7091,10000,10000,ROW,I(B),padding_OFF,parallel_OFF,JoinMin,=1
+1173,465,95.1176,20.4619,30000,30000,ROW,I(B),padding_OFF,parallel_OFF,JoinMin,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);CREATE INDEX idx_tab_b ON tab(b);
+1167,204,95.1146,9.79326,10,10,ROW,I(A);I(B),padding_OFF,parallel_OFF,JoinMin,=1
+1375,203,95.1176,9.92711,30,30,ROW,I(A);I(B),padding_OFF,parallel_OFF,JoinMin,=1
+1307,213,95.1176,10.3772,100,100,ROW,I(A);I(B),padding_OFF,parallel_OFF,JoinMin,=1
+1327,212,95.1191,11.5991,300,300,ROW,I(A);I(B),padding_OFF,parallel_OFF,JoinMin,=1
+1361,229,95.1198,15.1984,1000,1000,ROW,I(A);I(B),padding_OFF,parallel_OFF,JoinMin,=1
+1254,422,95.1191,19.4465,3000,3000,ROW,I(A);I(B),padding_OFF,parallel_OFF,JoinMin,=1
+1184,443,95.1183,19.7091,10000,10000,ROW,I(A);I(B),padding_OFF,parallel_OFF,JoinMin,=1
+1098,471,95.1176,20.4619,30000,30000,ROW,I(A);I(B),padding_OFF,parallel_OFF,JoinMin,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a_b ON tab(a,b);
+1167,200,95.1146,9.76356,10,10,ROW,I(AB),padding_OFF,parallel_OFF,JoinMin,=1
+1335,203,95.1176,9.8322,30,30,ROW,I(AB),padding_OFF,parallel_OFF,JoinMin,=1
+1341,207,95.1176,10.0585,100,100,ROW,I(AB),padding_OFF,parallel_OFF,JoinMin,=1
+1331,211,95.1191,10.6774,300,300,ROW,I(AB),padding_OFF,parallel_OFF,JoinMin,=1
+1338,223,95.1198,12.5356,1000,1000,ROW,I(AB),padding_OFF,parallel_OFF,JoinMin,=1
+1231,230,95.1191,15.101,3000,3000,ROW,I(AB),padding_OFF,parallel_OFF,JoinMin,=1
+1177,240,95.1183,15.786,10000,10000,ROW,I(AB),padding_OFF,parallel_OFF,JoinMin,=1
+1176,270,95.1176,17.6288,30000,30000,ROW,I(AB),padding_OFF,parallel_OFF,JoinMin,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b_a ON tab(b,a);
+163,139,3.69736,3.69736,10,10,ROW,I(BA),padding_OFF,parallel_OFF,JoinMin,=1
+163,140,3.70476,3.70477,30,30,ROW,I(BA),padding_OFF,parallel_OFF,JoinMin,=1
+164,140,3.71217,3.71218,100,100,ROW,I(BA),padding_OFF,parallel_OFF,JoinMin,=1
+163,140,3.71217,3.7122,300,300,ROW,I(BA),padding_OFF,parallel_OFF,JoinMin,=1
+164,140,3.71587,3.71597,1000,1000,ROW,I(BA),padding_OFF,parallel_OFF,JoinMin,=1
+164,141,3.71217,3.71247,3000,3000,ROW,I(BA),padding_OFF,parallel_OFF,JoinMin,=1
+166,143,3.70921,3.71021,10000,10000,ROW,I(BA),padding_OFF,parallel_OFF,JoinMin,=1
+172,148,3.71365,3.71665,30000,30000,ROW,I(BA),padding_OFF,parallel_OFF,JoinMin,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b_a;
+sql_window_query_time,sql_selfjoin_query_time,sql_window_query_cost,sql_selfjoin_query_cost,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b_a;
+----------------------------------------
+DDL:
+4886,450,104.77,38.636,10,10,ROW, ,padding_ON,parallel_OFF,JoinMin,=1
+4864,461,104.768,38.6323,30,30,ROW, ,padding_ON,parallel_OFF,JoinMin,=1
+5189,453,104.772,38.6438,100,100,ROW, ,padding_ON,parallel_OFF,JoinMin,=1
+5038,475,104.768,38.6425,300,300,ROW, ,padding_ON,parallel_OFF,JoinMin,=1
+5260,485,104.769,38.6704,1000,1000,ROW, ,padding_ON,parallel_OFF,JoinMin,=1
+4652,495,104.766,38.7414,3000,3000,ROW, ,padding_ON,parallel_OFF,JoinMin,=1
+5134,504,104.768,38.9945,10000,10000,ROW, ,padding_ON,parallel_OFF,JoinMin,=1
+4704,556,104.766,39.7365,30000,30000,ROW, ,padding_ON,parallel_OFF,JoinMin,=1
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);
+4830,235,104.77,19.4488,10,10,ROW,I(A),padding_ON,parallel_OFF,JoinMin,=1
+5085,241,104.768,19.5779,30,30,ROW,I(A),padding_ON,parallel_OFF,JoinMin,=1
+5024,238,104.772,20.0368,100,100,ROW,I(A),padding_ON,parallel_OFF,JoinMin,=1
+5141,250,104.768,21.2904,300,300,ROW,I(A),padding_ON,parallel_OFF,JoinMin,=1
+4882,260,104.769,25.2751,1000,1000,ROW,I(A),padding_ON,parallel_OFF,JoinMin,=1
+5190,271,104.766,34.1135,3000,3000,ROW,I(A),padding_ON,parallel_OFF,JoinMin,=1
+5054,509,104.768,38.9945,10000,10000,ROW,I(A),padding_ON,parallel_OFF,JoinMin,=1
+4978,554,104.766,39.7365,30000,30000,ROW,I(A),padding_ON,parallel_OFF,JoinMin,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b ON tab(b);
+4793,452,104.77,38.636,10,10,ROW,I(B),padding_ON,parallel_OFF,JoinMin,=1
+5013,464,104.768,38.6323,30,30,ROW,I(B),padding_ON,parallel_OFF,JoinMin,=1
+5035,457,104.772,38.6438,100,100,ROW,I(B),padding_ON,parallel_OFF,JoinMin,=1
+5047,473,104.768,38.6425,300,300,ROW,I(B),padding_ON,parallel_OFF,JoinMin,=1
+5167,475,104.769,38.6704,1000,1000,ROW,I(B),padding_ON,parallel_OFF,JoinMin,=1
+4992,494,104.766,38.7414,3000,3000,ROW,I(B),padding_ON,parallel_OFF,JoinMin,=1
+4762,502,104.768,39.0083,10000,10000,ROW,I(B),padding_ON,parallel_OFF,JoinMin,=1
+5005,561,104.766,39.7582,30000,30000,ROW,I(B),padding_ON,parallel_OFF,JoinMin,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);CREATE INDEX idx_tab_b ON tab(b);
+4763,237,104.77,19.4488,10,10,ROW,I(A);I(B),padding_ON,parallel_OFF,JoinMin,=1
+5112,239,104.768,19.5779,30,30,ROW,I(A);I(B),padding_ON,parallel_OFF,JoinMin,=1
+5055,237,104.772,20.0368,100,100,ROW,I(A);I(B),padding_ON,parallel_OFF,JoinMin,=1
+5250,245,104.768,21.2904,300,300,ROW,I(A);I(B),padding_ON,parallel_OFF,JoinMin,=1
+5233,261,104.769,25.2751,1000,1000,ROW,I(A);I(B),padding_ON,parallel_OFF,JoinMin,=1
+4945,274,104.766,34.1135,3000,3000,ROW,I(A);I(B),padding_ON,parallel_OFF,JoinMin,=1
+5103,514,104.768,39.0083,10000,10000,ROW,I(A);I(B),padding_ON,parallel_OFF,JoinMin,=1
+4879,556,104.766,39.7582,30000,30000,ROW,I(A);I(B),padding_ON,parallel_OFF,JoinMin,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a_b ON tab(a,b);
+5821,207,104.77,9.88515,10,10,ROW,I(AB),padding_ON,parallel_OFF,JoinMin,=1
+5107,211,104.768,10.0165,30,30,ROW,I(AB),padding_ON,parallel_OFF,JoinMin,=1
+5128,214,104.772,10.4735,100,100,ROW,I(AB),padding_ON,parallel_OFF,JoinMin,=1
+5021,221,104.768,11.7413,300,300,ROW,I(AB),padding_ON,parallel_OFF,JoinMin,=1
+5141,235,104.769,15.8089,1000,1000,ROW,I(AB),padding_ON,parallel_OFF,JoinMin,=1
+5231,251,104.766,25.0726,3000,3000,ROW,I(AB),padding_ON,parallel_OFF,JoinMin,=1
+4826,495,104.768,29.4338,10000,10000,ROW,I(AB),padding_ON,parallel_OFF,JoinMin,=1
+4999,536,104.766,30.178,30000,30000,ROW,I(AB),padding_ON,parallel_OFF,JoinMin,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b_a ON tab(b,a);
+5085,154,104.77,3.77681,10,10,ROW,I(BA),padding_ON,parallel_OFF,JoinMin,=1
+4788,153,104.768,3.91522,30,30,ROW,I(BA),padding_ON,parallel_OFF,JoinMin,=1
+5634,156,104.772,4.37699,100,100,ROW,I(BA),padding_ON,parallel_OFF,JoinMin,=1
+5074,157,104.768,5.64057,300,300,ROW,I(BA),padding_ON,parallel_OFF,JoinMin,=1
+5145,160,104.769,9.69716,1000,1000,ROW,I(BA),padding_ON,parallel_OFF,JoinMin,=1
+5291,173,104.766,18.9247,3000,3000,ROW,I(BA),padding_ON,parallel_OFF,JoinMin,=1
+4962,395,104.768,23.1799,10000,10000,ROW,I(BA),padding_ON,parallel_OFF,JoinMin,=1
+5055,440,104.766,23.5864,30000,30000,ROW,I(BA),padding_ON,parallel_OFF,JoinMin,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b_a;
+sql_window_query_time,sql_selfjoin_query_time,sql_window_query_cost,sql_selfjoin_query_cost,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b_a;
+----------------------------------------
+DDL:
+600,59,14.3649,6.05992,10,10,ROW, ,padding_OFF,parallel_ON,JoinMin,=1
+628,60,14.3679,6.06881,30,30,ROW, ,padding_OFF,parallel_ON,JoinMin,=1
+706,53,14.3679,6.51378,100,100,ROW, ,padding_OFF,parallel_ON,JoinMin,=1
+602,53,14.3694,6.52717,300,300,ROW, ,padding_OFF,parallel_ON,JoinMin,=1
+658,57,14.3701,6.57329,1000,1000,ROW, ,padding_OFF,parallel_ON,JoinMin,=1
+686,62,14.3694,6.65899,3000,3000,ROW, ,padding_OFF,parallel_ON,JoinMin,=1
+619,80,14.3686,6.96261,10000,10000,ROW, ,padding_OFF,parallel_ON,JoinMin,=1
+666,71,14.3679,7.12345,30000,30000,ROW, ,padding_OFF,parallel_ON,JoinMin,=1
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);
+623,31,14.3649,3.1705,10,10,ROW,I(A),padding_OFF,parallel_ON,JoinMin,=1
+541,32,14.3679,3.30472,30,30,ROW,I(A),padding_OFF,parallel_ON,JoinMin,=1
+654,33,14.3679,3.7563,100,100,ROW,I(A),padding_OFF,parallel_ON,JoinMin,=1
+613,34,14.3694,4.98279,300,300,ROW,I(A),padding_OFF,parallel_ON,JoinMin,=1
+718,57,14.3701,6.57329,1000,1000,ROW,I(A),padding_OFF,parallel_ON,JoinMin,=1
+607,62,14.3694,6.65899,3000,3000,ROW,I(A),padding_OFF,parallel_ON,JoinMin,=1
+610,80,14.3686,6.96261,10000,10000,ROW,I(A),padding_OFF,parallel_ON,JoinMin,=1
+599,72,14.3679,7.12345,30000,30000,ROW,I(A),padding_OFF,parallel_ON,JoinMin,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b ON tab(b);
+653,59,14.3649,6.05992,10,10,ROW,I(B),padding_OFF,parallel_ON,JoinMin,=1
+632,60,14.3679,6.06881,30,30,ROW,I(B),padding_OFF,parallel_ON,JoinMin,=1
+626,53,14.3679,6.51378,100,100,ROW,I(B),padding_OFF,parallel_ON,JoinMin,=1
+645,54,14.3694,6.52717,300,300,ROW,I(B),padding_OFF,parallel_ON,JoinMin,=1
+653,57,14.3701,6.57329,1000,1000,ROW,I(B),padding_OFF,parallel_ON,JoinMin,=1
+579,62,14.3694,6.65899,3000,3000,ROW,I(B),padding_OFF,parallel_ON,JoinMin,=1
+683,79,14.3686,6.96261,10000,10000,ROW,I(B),padding_OFF,parallel_ON,JoinMin,=1
+596,72,14.3679,7.12345,30000,30000,ROW,I(B),padding_OFF,parallel_ON,JoinMin,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);CREATE INDEX idx_tab_b ON tab(b);
+651,31,14.3649,3.1705,10,10,ROW,I(A);I(B),padding_OFF,parallel_ON,JoinMin,=1
+641,32,14.3679,3.30472,30,30,ROW,I(A);I(B),padding_OFF,parallel_ON,JoinMin,=1
+700,33,14.3679,3.7563,100,100,ROW,I(A);I(B),padding_OFF,parallel_ON,JoinMin,=1
+651,34,14.3694,4.98279,300,300,ROW,I(A);I(B),padding_OFF,parallel_ON,JoinMin,=1
+647,57,14.3701,6.57329,1000,1000,ROW,I(A);I(B),padding_OFF,parallel_ON,JoinMin,=1
+757,62,14.3694,6.65899,3000,3000,ROW,I(A);I(B),padding_OFF,parallel_ON,JoinMin,=1
+614,79,14.3686,6.96261,10000,10000,ROW,I(A);I(B),padding_OFF,parallel_ON,JoinMin,=1
+581,71,14.3679,7.12345,30000,30000,ROW,I(A);I(B),padding_OFF,parallel_ON,JoinMin,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a_b ON tab(a,b);
+675,31,14.3649,3.14084,10,10,ROW,I(AB),padding_OFF,parallel_ON,JoinMin,=1
+665,32,14.3679,3.20992,30,30,ROW,I(AB),padding_OFF,parallel_ON,JoinMin,=1
+643,32,14.3679,3.43796,100,100,ROW,I(AB),padding_OFF,parallel_ON,JoinMin,=1
+649,34,14.3694,4.06218,300,300,ROW,I(AB),padding_OFF,parallel_ON,JoinMin,=1
+721,37,14.3701,5.9474,1000,1000,ROW,I(AB),padding_OFF,parallel_ON,JoinMin,=1
+612,62,14.3694,6.65899,3000,3000,ROW,I(AB),padding_OFF,parallel_ON,JoinMin,=1
+667,79,14.3686,6.96261,10000,10000,ROW,I(AB),padding_OFF,parallel_ON,JoinMin,=1
+601,72,14.3679,7.12345,30000,30000,ROW,I(AB),padding_OFF,parallel_ON,JoinMin,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b_a ON tab(b,a);
+164,139,3.69736,3.69736,10,10,ROW,I(BA),padding_OFF,parallel_ON,JoinMin,=1
+163,140,3.70476,3.70477,30,30,ROW,I(BA),padding_OFF,parallel_ON,JoinMin,=1
+164,140,3.71217,3.71218,100,100,ROW,I(BA),padding_OFF,parallel_ON,JoinMin,=1
+164,140,3.71217,3.7122,300,300,ROW,I(BA),padding_OFF,parallel_ON,JoinMin,=1
+164,140,3.71587,3.71597,1000,1000,ROW,I(BA),padding_OFF,parallel_ON,JoinMin,=1
+164,141,3.71217,3.71247,3000,3000,ROW,I(BA),padding_OFF,parallel_ON,JoinMin,=1
+167,143,3.70921,3.71021,10000,10000,ROW,I(BA),padding_OFF,parallel_ON,JoinMin,=1
+172,148,3.71365,3.71665,30000,30000,ROW,I(BA),padding_OFF,parallel_ON,JoinMin,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b_a;
+sql_window_query_time,sql_selfjoin_query_time,sql_window_query_cost,sql_selfjoin_query_cost,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b_a;
+----------------------------------------
+DDL:
+4367,4087,25.0727,24.2675,10,10,ROW, ,padding_ON,parallel_ON,JoinMin,=1
+4241,4288,25.0705,24.2653,30,30,ROW, ,padding_ON,parallel_ON,JoinMin,=1
+4319,4253,25.0749,24.2698,100,100,ROW, ,padding_ON,parallel_ON,JoinMin,=1
+4881,3985,25.0705,24.2656,300,300,ROW, ,padding_ON,parallel_ON,JoinMin,=1
+4113,4385,25.0712,24.2669,1000,1000,ROW, ,padding_ON,parallel_ON,JoinMin,=1
+4470,4605,25.069,24.2664,3000,3000,ROW, ,padding_ON,parallel_ON,JoinMin,=1
+4360,4557,25.0705,24.2737,10000,10000,ROW, ,padding_ON,parallel_ON,JoinMin,=1
+4444,4292,25.0683,24.2886,30000,30000,ROW, ,padding_ON,parallel_ON,JoinMin,=1
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);
+4190,32,25.0727,12.8261,10,10,ROW,I(A),padding_ON,parallel_ON,JoinMin,=1
+4141,33,25.0705,12.9555,30,30,ROW,I(A),padding_ON,parallel_ON,JoinMin,=1
+4358,34,25.0749,13.4159,100,100,ROW,I(A),padding_ON,parallel_ON,JoinMin,=1
+4209,36,25.0705,14.6743,300,300,ROW,I(A),padding_ON,parallel_ON,JoinMin,=1
+3867,38,25.0712,18.6838,1000,1000,ROW,I(A),padding_ON,parallel_ON,JoinMin,=1
+4177,4292,25.069,24.2664,3000,3000,ROW,I(A),padding_ON,parallel_ON,JoinMin,=1
+4292,4274,25.0705,24.2737,10000,10000,ROW,I(A),padding_ON,parallel_ON,JoinMin,=1
+4580,4509,25.0683,24.2886,30000,30000,ROW,I(A),padding_ON,parallel_ON,JoinMin,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b ON tab(b);
+4403,4266,25.0727,24.2675,10,10,ROW,I(B),padding_ON,parallel_ON,JoinMin,=1
+4044,4330,25.0705,24.2653,30,30,ROW,I(B),padding_ON,parallel_ON,JoinMin,=1
+4708,4056,25.0749,24.2698,100,100,ROW,I(B),padding_ON,parallel_ON,JoinMin,=1
+4165,4328,25.0705,24.2656,300,300,ROW,I(B),padding_ON,parallel_ON,JoinMin,=1
+4317,4085,25.0712,24.2669,1000,1000,ROW,I(B),padding_ON,parallel_ON,JoinMin,=1
+4388,4226,25.069,24.2664,3000,3000,ROW,I(B),padding_ON,parallel_ON,JoinMin,=1
+4515,4250,25.0705,24.274,10000,10000,ROW,I(B),padding_ON,parallel_ON,JoinMin,=1
+4843,4410,25.0683,24.2891,30000,30000,ROW,I(B),padding_ON,parallel_ON,JoinMin,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);CREATE INDEX idx_tab_b ON tab(b);
+4332,33,25.0727,12.8261,10,10,ROW,I(A);I(B),padding_ON,parallel_ON,JoinMin,=1
+4282,33,25.0705,12.9555,30,30,ROW,I(A);I(B),padding_ON,parallel_ON,JoinMin,=1
+4269,34,25.0749,13.4159,100,100,ROW,I(A);I(B),padding_ON,parallel_ON,JoinMin,=1
+4615,35,25.0705,14.6743,300,300,ROW,I(A);I(B),padding_ON,parallel_ON,JoinMin,=1
+4106,38,25.0712,18.6838,1000,1000,ROW,I(A);I(B),padding_ON,parallel_ON,JoinMin,=1
+4395,4236,25.069,24.2664,3000,3000,ROW,I(A);I(B),padding_ON,parallel_ON,JoinMin,=1
+4740,4468,25.0705,24.274,10000,10000,ROW,I(A);I(B),padding_ON,parallel_ON,JoinMin,=1
+4417,4239,25.0683,24.2891,30000,30000,ROW,I(A);I(B),padding_ON,parallel_ON,JoinMin,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a_b ON tab(a,b);
+4253,29,25.0727,3.26234,10,10,ROW,I(AB),padding_ON,parallel_ON,JoinMin,=1
+3998,30,25.0705,3.39406,30,30,ROW,I(AB),padding_ON,parallel_ON,JoinMin,=1
+4541,33,25.0749,3.85259,100,100,ROW,I(AB),padding_ON,parallel_ON,JoinMin,=1
+4467,31,25.0705,5.12509,300,300,ROW,I(AB),padding_ON,parallel_ON,JoinMin,=1
+3988,36,25.0712,9.21745,1000,1000,ROW,I(AB),padding_ON,parallel_ON,JoinMin,=1
+4320,70,25.069,16.9207,3000,3000,ROW,I(AB),padding_ON,parallel_ON,JoinMin,=1
+4352,86,25.0705,17.2163,10000,10000,ROW,I(AB),padding_ON,parallel_ON,JoinMin,=1
+4405,85,25.0683,17.3985,30000,30000,ROW,I(AB),padding_ON,parallel_ON,JoinMin,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b_a ON tab(b,a);
+4655,153,25.0727,3.77681,10,10,ROW,I(BA),padding_ON,parallel_ON,JoinMin,=1
+3948,154,25.0705,3.91522,30,30,ROW,I(BA),padding_ON,parallel_ON,JoinMin,=1
+4437,154,25.0749,4.37699,100,100,ROW,I(BA),padding_ON,parallel_ON,JoinMin,=1
+4318,22,25.0705,4.21582,300,300,ROW,I(BA),padding_ON,parallel_ON,JoinMin,=1
+4187,24,25.0712,8.29182,1000,1000,ROW,I(BA),padding_ON,parallel_ON,JoinMin,=1
+4427,51,25.069,15.9435,3000,3000,ROW,I(BA),padding_ON,parallel_ON,JoinMin,=1
+4432,54,25.0705,16.0819,10000,10000,ROW,I(BA),padding_ON,parallel_ON,JoinMin,=1
+4527,63,25.0683,16.4591,30000,30000,ROW,I(BA),padding_ON,parallel_ON,JoinMin,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b_a;
+sql_window_query_time,sql_selfjoin_query_time,sql_window_query_cost,sql_selfjoin_query_cost,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b_a;
+----------------------------------------
+DDL:
+1178,951,95.1146,113.373,10,10,ROW, ,padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1368,2824,95.1176,122.567,30,30,ROW, ,padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1368,2841,95.1176,114.979,100,100,ROW, ,padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1385,2861,95.1191,75.6391,300,300,ROW, ,padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1352,2944,95.1198,82.341,1000,1000,ROW, ,padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1266,3205,95.1191,106.529,3000,3000,ROW, ,padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1226,3573,95.1183,188.501,10000,10000,ROW, ,padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1191,3758,95.1176,420.078,30000,30000,ROW, ,padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);
+1172,158,95.1146,9.95478,10,10,ROW,I(A),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1335,158,95.1176,11.8826,30,30,ROW,I(A),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1310,167,95.1176,15.4561,100,100,ROW,I(A),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1292,223,95.1191,28.663,300,300,ROW,I(A),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1489,2742,95.1198,73.0558,1000,1000,ROW,I(A),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1307,3029,95.1191,97.8541,3000,3000,ROW,I(A),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1216,3438,95.1183,181.958,10000,10000,ROW,I(A),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1132,3649,95.1176,419.627,30000,30000,ROW,I(A),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b ON tab(b);
+1137,900,95.1146,107.935,10,10,ROW,I(B),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1335,2787,95.1176,116.242,30,30,ROW,I(B),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1286,2782,95.1176,108.646,100,100,ROW,I(B),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1289,2793,95.1191,69.3087,300,300,ROW,I(B),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1362,2886,95.1198,75.9997,1000,1000,ROW,I(B),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1321,3193,95.1191,100.158,3000,3000,ROW,I(B),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1165,3498,95.1183,182.032,10000,10000,ROW,I(B),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1182,3586,95.1176,413.317,30000,30000,ROW,I(B),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);CREATE INDEX idx_tab_b ON tab(b);
+1164,104,95.1146,3.61821,10,10,ROW,I(A);I(B),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1300,105,95.1176,5.55759,30,30,ROW,I(A);I(B),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1275,112,95.1176,9.12264,100,100,ROW,I(A);I(B),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1365,158,95.1191,22.3326,300,300,ROW,I(A);I(B),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1318,2686,95.1198,66.7144,1000,1000,ROW,I(A);I(B),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1225,2952,95.1191,91.483,3000,3000,ROW,I(A);I(B),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1198,3310,95.1183,175.489,10000,10000,ROW,I(A);I(B),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1121,3482,95.1176,412.866,30000,30000,ROW,I(A);I(B),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a_b ON tab(a,b);
+1131,155,95.1146,9.60064,10,10,ROW,I(AB),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1307,155,95.1176,9.61169,30,30,ROW,I(AB),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1311,158,95.1176,9.64996,100,100,ROW,I(AB),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1224,179,95.1191,9.8461,300,300,ROW,I(AB),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1368,371,95.1198,11.5235,1000,1000,ROW,I(AB),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1229,1062,95.1191,24.8454,3000,3000,ROW,I(AB),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1153,5007,95.1183,171.014,10000,10000,ROW,I(AB),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+1101,3586,95.1176,414.755,30000,30000,ROW,I(AB),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b_a ON tab(b,a);
+162,104,3.69736,3.62688,10,10,ROW,I(BA),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+163,104,3.70476,3.64085,30,30,ROW,I(BA),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+163,104,3.71217,3.67123,100,100,ROW,I(BA),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+164,106,3.71217,3.737,300,300,ROW,I(BA),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+163,110,3.71587,3.97182,1000,1000,ROW,I(BA),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+164,122,3.71217,4.63302,3000,3000,ROW,I(BA),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+167,164,3.70921,6.97712,10000,10000,ROW,I(BA),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+171,273,3.71365,13.6721,30000,30000,ROW,I(BA),padding_OFF,parallel_OFF,LateralDistinctLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b_a;
+sql_window_query_time,sql_selfjoin_query_time,sql_window_query_cost,sql_selfjoin_query_cost,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b_a;
+----------------------------------------
+DDL:
+4656,1235,104.77,142.339,10,10,ROW, ,padding_ON,parallel_OFF,LateralDistinctLimit,=1
+4904,2922,104.768,151.518,30,30,ROW, ,padding_ON,parallel_OFF,LateralDistinctLimit,=1
+4788,2939,104.772,143.944,100,100,ROW, ,padding_ON,parallel_OFF,LateralDistinctLimit,=1
+4968,2935,104.768,104.586,300,300,ROW, ,padding_ON,parallel_OFF,LateralDistinctLimit,=1
+4858,3063,104.769,111.288,1000,1000,ROW, ,padding_ON,parallel_OFF,LateralDistinctLimit,=1
+4912,3424,104.766,135.472,3000,3000,ROW, ,padding_ON,parallel_OFF,LateralDistinctLimit,=1
+4459,3657,104.768,213.178,10000,10000,ROW, ,padding_ON,parallel_OFF,LateralDistinctLimit,=1
+4804,3779,104.766,442.358,30000,30000,ROW, ,padding_ON,parallel_OFF,LateralDistinctLimit,=1
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);
+4759,189,104.77,19.6204,10,10,ROW,I(A),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+4884,198,104.768,22.1687,30,30,ROW,I(A),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+4987,200,104.772,38.8247,100,100,ROW,I(A),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+4975,262,104.768,58.7665,300,300,ROW,I(A),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+5216,2809,104.769,92.3535,1000,1000,ROW,I(A),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+5078,3184,104.766,117.149,3000,3000,ROW,I(A),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+4941,3454,104.768,196.875,10000,10000,ROW,I(A),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+4795,3684,104.766,432.084,30000,30000,ROW,I(A),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b ON tab(b);
+4884,1153,104.77,127.247,10,10,ROW,I(B),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+4840,2827,104.768,135.543,30,30,ROW,I(B),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+5184,2877,104.772,127.955,100,100,ROW,I(B),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+5135,2860,104.768,88.6065,300,300,ROW,I(B),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+5156,2964,104.769,95.2952,1000,1000,ROW,I(B),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+5219,3310,104.766,119.453,3000,3000,ROW,I(B),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+4885,3526,104.768,201.329,10000,10000,ROW,I(B),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+4768,3663,104.766,432.611,30000,30000,ROW,I(B),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);CREATE INDEX idx_tab_b ON tab(b);
+4737,104,104.77,3.6283,10,10,ROW,I(A);I(B),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+4902,105,104.768,6.19333,30,30,ROW,I(A);I(B),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+4963,111,104.772,22.8364,100,100,ROW,I(A);I(B),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+5091,157,104.768,42.7872,300,300,ROW,I(A);I(B),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+5002,2787,104.769,76.3611,1000,1000,ROW,I(A);I(B),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+4887,3094,104.766,101.13,3000,3000,ROW,I(A);I(B),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+4895,3328,104.768,185.137,10000,10000,ROW,I(A);I(B),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+5001,3528,104.766,422.512,30000,30000,ROW,I(A);I(B),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a_b ON tab(a,b);
+5261,171,104.77,9.69724,10,10,ROW,I(AB),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+4779,171,104.768,9.70857,30,30,ROW,I(AB),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+5282,175,104.772,9.75968,100,100,ROW,I(AB),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+5123,193,104.768,9.98754,300,300,ROW,I(AB),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+5566,389,104.769,11.7764,1000,1000,ROW,I(AB),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+5261,1103,104.766,25.422,3000,3000,ROW,I(AB),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+5063,5015,104.768,161.192,10000,10000,ROW,I(AB),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+4912,3432,104.766,412.967,30000,30000,ROW,I(AB),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b_a ON tab(b,a);
+4612,103,104.77,3.63163,10,10,ROW,I(BA),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+4791,105,104.768,3.64884,30,30,ROW,I(BA),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+5104,106,104.772,3.69058,100,100,ROW,I(BA),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+4882,107,104.768,3.78881,300,300,ROW,I(BA),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+4914,113,104.769,4.13278,1000,1000,ROW,I(BA),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+5209,132,104.766,5.11927,3000,3000,ROW,I(BA),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+5083,180,104.768,8.60458,10000,10000,ROW,I(BA),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+4941,287,104.766,18.5386,30000,30000,ROW,I(BA),padding_ON,parallel_OFF,LateralDistinctLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b_a;
+sql_window_query_time,sql_selfjoin_query_time,sql_window_query_cost,sql_selfjoin_query_cost,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b_a;
+----------------------------------------
+DDL:
+619,173,14.3649,100.125,10,10,ROW, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+620,2305,14.3679,109.32,30,30,ROW, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+638,2294,14.3679,102.158,100,100,ROW, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+687,2299,14.3694,62.8199,300,300,ROW, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+569,2394,14.3701,69.5355,1000,1000,ROW, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+620,2623,14.3694,93.7232,3000,3000,ROW, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+569,2891,14.3686,175.658,10000,10000,ROW, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+636,2902,14.3679,406.595,30000,30000,ROW, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);
+619,24,14.3649,3.33197,10,10,ROW,I(A),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+590,25,14.3679,5.26005,30,30,ROW,I(A),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+728,28,14.3679,8.83459,100,100,ROW,I(A),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+681,42,14.3694,22.0451,300,300,ROW,I(A),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+653,2357,14.3701,66.4576,1000,1000,ROW,I(A),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+692,2597,14.3694,91.2728,3000,3000,ROW,I(A),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+631,2913,14.3686,175.402,10000,10000,ROW,I(A),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+652,2876,14.3679,406.595,30000,30000,ROW,I(A),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b ON tab(b);
+553,172,14.3649,99.9681,10,10,ROW,I(B),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+584,2303,14.3679,108.275,30,30,ROW,I(B),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+610,2288,14.3679,101.105,100,100,ROW,I(B),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+669,2304,14.3694,61.7684,300,300,ROW,I(B),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+705,2361,14.3701,68.4677,1000,1000,ROW,I(B),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+657,2602,14.3694,92.6103,3000,3000,ROW,I(B),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+599,2895,14.3686,174.428,10000,10000,ROW,I(B),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+672,2929,14.3679,405.549,30000,30000,ROW,I(B),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);CREATE INDEX idx_tab_b ON tab(b);
+633,103,14.3649,3.61821,10,10,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+618,16,14.3679,4.21511,30,30,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+726,19,14.3679,7.78157,100,100,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+647,32,14.3694,20.9936,300,300,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+699,2364,14.3701,65.3898,1000,1000,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+673,2574,14.3694,90.1599,3000,3000,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+726,2857,14.3686,174.171,10000,10000,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+644,2921,14.3679,405.549,30000,30000,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a_b ON tab(a,b);
+595,24,14.3649,2.97787,10,10,ROW,I(AB),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+548,24,14.3679,2.98924,30,30,ROW,I(AB),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+663,26,14.3679,3.02883,100,100,ROW,I(AB),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+704,29,14.3694,3.22925,300,300,ROW,I(AB),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+677,57,14.3701,4.929,1000,1000,ROW,I(AB),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+598,151,14.3694,18.2749,3000,3000,ROW,I(AB),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+755,674,14.3686,164.493,10000,10000,ROW,I(AB),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+632,2917,14.3679,406.595,30000,30000,ROW,I(AB),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b_a ON tab(b,a);
+162,103,3.69736,3.62688,10,10,ROW,I(BA),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+163,104,3.70476,3.64085,30,30,ROW,I(BA),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+162,104,3.71217,3.67123,100,100,ROW,I(BA),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+163,106,3.71217,3.737,300,300,ROW,I(BA),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+163,111,3.71587,3.97182,1000,1000,ROW,I(BA),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+164,123,3.71217,4.63302,3000,3000,ROW,I(BA),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+165,25,3.70921,5.69534,10000,10000,ROW,I(BA),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+171,55,3.71365,11.227,30000,30000,ROW,I(BA),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b_a;
+sql_window_query_time,sql_selfjoin_query_time,sql_window_query_cost,sql_selfjoin_query_cost,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b_a;
+----------------------------------------
+DDL:
+4208,219,25.0727,129.092,10,10,ROW, ,padding_ON,parallel_ON,LateralDistinctLimit,=1
+4144,2362,25.0705,138.271,30,30,ROW, ,padding_ON,parallel_ON,LateralDistinctLimit,=1
+4040,2365,25.0749,131.649,100,100,ROW, ,padding_ON,parallel_ON,LateralDistinctLimit,=1
+4058,2347,25.0705,92.2929,300,300,ROW, ,padding_ON,parallel_ON,LateralDistinctLimit,=1
+3913,2465,25.0712,99.0088,1000,1000,ROW, ,padding_ON,parallel_ON,LateralDistinctLimit,=1
+3926,2758,25.069,123.193,3000,3000,ROW, ,padding_ON,parallel_ON,LateralDistinctLimit,=1
+4074,3036,25.0705,200.878,10000,10000,ROW, ,padding_ON,parallel_ON,LateralDistinctLimit,=1
+4141,2954,25.0683,429.436,30000,30000,ROW, ,padding_ON,parallel_ON,LateralDistinctLimit,=1
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);
+4131,26,25.0727,12.9976,10,10,ROW,I(A),padding_ON,parallel_ON,LateralDistinctLimit,=1
+4188,27,25.0705,15.5462,30,30,ROW,I(A),padding_ON,parallel_ON,LateralDistinctLimit,=1
+4050,30,25.0749,32.2032,100,100,ROW,I(A),padding_ON,parallel_ON,LateralDistinctLimit,=1
+4128,46,25.0705,52.1487,300,300,ROW,I(A),padding_ON,parallel_ON,LateralDistinctLimit,=1
+3866,2413,25.0712,85.7559,1000,1000,ROW,I(A),padding_ON,parallel_ON,LateralDistinctLimit,=1
+4053,2736,25.069,110.569,3000,3000,ROW,I(A),padding_ON,parallel_ON,LateralDistinctLimit,=1
+4294,2884,25.0705,190.331,10000,10000,ROW,I(A),padding_ON,parallel_ON,LateralDistinctLimit,=1
+4141,2968,25.0683,425.092,30000,30000,ROW,I(A),padding_ON,parallel_ON,LateralDistinctLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b ON tab(b);
+3987,215,25.0727,119.279,10,10,ROW,I(B),padding_ON,parallel_ON,LateralDistinctLimit,=1
+4101,2326,25.0705,127.576,30,30,ROW,I(B),padding_ON,parallel_ON,LateralDistinctLimit,=1
+3848,2344,25.0749,120.941,100,100,ROW,I(B),padding_ON,parallel_ON,LateralDistinctLimit,=1
+4116,2342,25.0705,81.5925,300,300,ROW,I(B),padding_ON,parallel_ON,LateralDistinctLimit,=1
+4054,2416,25.0712,88.2899,1000,1000,ROW,I(B),padding_ON,parallel_ON,LateralDistinctLimit,=1
+4266,2727,25.069,112.433,3000,3000,ROW,I(B),padding_ON,parallel_ON,LateralDistinctLimit,=1
+4340,2932,25.0705,194.256,10000,10000,ROW,I(B),padding_ON,parallel_ON,LateralDistinctLimit,=1
+3920,2851,25.0683,425.385,30000,30000,ROW,I(B),padding_ON,parallel_ON,LateralDistinctLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);CREATE INDEX idx_tab_b ON tab(b);
+4030,103,25.0727,3.6283,10,10,ROW,I(A);I(B),padding_ON,parallel_ON,LateralDistinctLimit,=1
+4245,16,25.0705,4.85086,30,30,ROW,I(A);I(B),padding_ON,parallel_ON,LateralDistinctLimit,=1
+4253,20,25.0749,21.4954,100,100,ROW,I(A);I(B),padding_ON,parallel_ON,LateralDistinctLimit,=1
+4276,32,25.0705,41.4483,300,300,ROW,I(A);I(B),padding_ON,parallel_ON,LateralDistinctLimit,=1
+4287,2386,25.0712,75.037,1000,1000,ROW,I(A);I(B),padding_ON,parallel_ON,LateralDistinctLimit,=1
+4358,2720,25.069,99.8088,3000,3000,ROW,I(A);I(B),padding_ON,parallel_ON,LateralDistinctLimit,=1
+4379,2919,25.0705,183.824,10000,10000,ROW,I(A);I(B),padding_ON,parallel_ON,LateralDistinctLimit,=1
+4333,2867,25.0683,421.222,30000,30000,ROW,I(A);I(B),padding_ON,parallel_ON,LateralDistinctLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a_b ON tab(a,b);
+5490,24,25.0727,3.07437,10,10,ROW,I(AB),padding_ON,parallel_ON,LateralDistinctLimit,=1
+4231,24,25.0705,3.08596,30,30,ROW,I(AB),padding_ON,parallel_ON,LateralDistinctLimit,=1
+3920,26,25.0749,3.13817,100,100,ROW,I(AB),padding_ON,parallel_ON,LateralDistinctLimit,=1
+4142,28,25.0705,3.36968,300,300,ROW,I(AB),padding_ON,parallel_ON,LateralDistinctLimit,=1
+4054,57,25.0712,5.17861,1000,1000,ROW,I(AB),padding_ON,parallel_ON,LateralDistinctLimit,=1
+4352,155,25.069,18.842,3000,3000,ROW,I(AB),padding_ON,parallel_ON,LateralDistinctLimit,=1
+4644,677,25.0705,154.648,10000,10000,ROW,I(AB),padding_ON,parallel_ON,LateralDistinctLimit,=1
+5476,2632,25.0683,405.973,30000,30000,ROW,I(AB),padding_ON,parallel_ON,LateralDistinctLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b_a ON tab(b,a);
+4505,104,25.0727,3.63163,10,10,ROW,I(BA),padding_ON,parallel_ON,LateralDistinctLimit,=1
+4190,105,25.0705,3.64884,30,30,ROW,I(BA),padding_ON,parallel_ON,LateralDistinctLimit,=1
+4372,106,25.0749,3.69058,100,100,ROW,I(BA),padding_ON,parallel_ON,LateralDistinctLimit,=1
+4225,109,25.0705,3.78881,300,300,ROW,I(BA),padding_ON,parallel_ON,LateralDistinctLimit,=1
+4115,115,25.0712,4.13278,1000,1000,ROW,I(BA),padding_ON,parallel_ON,LateralDistinctLimit,=1
+4364,24,25.069,3.79757,3000,3000,ROW,I(BA),padding_ON,parallel_ON,LateralDistinctLimit,=1
+4385,43,25.0705,7.29149,10000,10000,ROW,I(BA),padding_ON,parallel_ON,LateralDistinctLimit,=1
+4454,87,25.0683,17.2468,30000,30000,ROW,I(BA),padding_ON,parallel_ON,LateralDistinctLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b_a;
+sql_window_query_time,sql_selfjoin_query_time,sql_window_query_cost,sql_selfjoin_query_cost,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b_a;
+----------------------------------------
+DDL:
+1153,1685,95.1146,294.065,10,10,ROW, ,padding_OFF,parallel_OFF,LateralLimit,=1
+1386,3749,95.1176,297.394,30,30,ROW, ,padding_OFF,parallel_OFF,LateralLimit,=1
+1444,3772,95.1176,290.218,100,100,ROW, ,padding_OFF,parallel_OFF,LateralLimit,=1
+1427,3681,95.1191,252.453,300,300,ROW, ,padding_OFF,parallel_OFF,LateralLimit,=1
+1299,3790,95.1198,264.872,1000,1000,ROW, ,padding_OFF,parallel_OFF,LateralLimit,=1
+1205,3985,95.1191,305.665,3000,3000,ROW, ,padding_OFF,parallel_OFF,LateralLimit,=1
+1192,6187,95.1183,429.693,10000,10000,ROW, ,padding_OFF,parallel_OFF,LateralLimit,=1
+1174,6511,95.1176,661.373,30000,30000,ROW, ,padding_OFF,parallel_OFF,LateralLimit,=1
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);
+1185,1067,95.1146,200.228,10,10,ROW,I(A),padding_OFF,parallel_OFF,LateralLimit,=1
+1345,1206,95.1176,202.328,30,30,ROW,I(A),padding_OFF,parallel_OFF,LateralLimit,=1
+1284,1207,95.1176,206.558,100,100,ROW,I(A),padding_OFF,parallel_OFF,LateralLimit,=1
+1354,1253,95.1191,218.366,300,300,ROW,I(A),padding_OFF,parallel_OFF,LateralLimit,=1
+1277,3978,95.1198,264.872,1000,1000,ROW,I(A),padding_OFF,parallel_OFF,LateralLimit,=1
+1305,4211,95.1191,305.665,3000,3000,ROW,I(A),padding_OFF,parallel_OFF,LateralLimit,=1
+1225,6216,95.1183,429.693,10000,10000,ROW,I(A),padding_OFF,parallel_OFF,LateralLimit,=1
+1113,6457,95.1176,661.373,30000,30000,ROW,I(A),padding_OFF,parallel_OFF,LateralLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b ON tab(b);
+1131,1658,95.1146,294.965,10,10,ROW,I(B),padding_OFF,parallel_OFF,LateralLimit,=1
+1264,3672,95.1176,297.394,30,30,ROW,I(B),padding_OFF,parallel_OFF,LateralLimit,=1
+1261,3695,95.1176,290.218,100,100,ROW,I(B),padding_OFF,parallel_OFF,LateralLimit,=1
+1275,3685,95.1191,252.453,300,300,ROW,I(B),padding_OFF,parallel_OFF,LateralLimit,=1
+1245,3716,95.1198,264.872,1000,1000,ROW,I(B),padding_OFF,parallel_OFF,LateralLimit,=1
+1220,4044,95.1191,305.665,3000,3000,ROW,I(B),padding_OFF,parallel_OFF,LateralLimit,=1
+1129,6222,95.1183,429.693,10000,10000,ROW,I(B),padding_OFF,parallel_OFF,LateralLimit,=1
+1143,6468,95.1176,661.374,30000,30000,ROW,I(B),padding_OFF,parallel_OFF,LateralLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);CREATE INDEX idx_tab_b ON tab(b);
+1090,1006,95.1146,200.228,10,10,ROW,I(A);I(B),padding_OFF,parallel_OFF,LateralLimit,=1
+1295,1120,95.1176,202.328,30,30,ROW,I(A);I(B),padding_OFF,parallel_OFF,LateralLimit,=1
+1288,1162,95.1176,206.558,100,100,ROW,I(A);I(B),padding_OFF,parallel_OFF,LateralLimit,=1
+1260,1216,95.1191,218.366,300,300,ROW,I(A);I(B),padding_OFF,parallel_OFF,LateralLimit,=1
+1309,3767,95.1198,264.872,1000,1000,ROW,I(A);I(B),padding_OFF,parallel_OFF,LateralLimit,=1
+1243,4021,95.1191,305.665,3000,3000,ROW,I(A);I(B),padding_OFF,parallel_OFF,LateralLimit,=1
+1164,6235,95.1183,429.693,10000,10000,ROW,I(A);I(B),padding_OFF,parallel_OFF,LateralLimit,=1
+1086,6478,95.1176,661.374,30000,30000,ROW,I(A);I(B),padding_OFF,parallel_OFF,LateralLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a_b ON tab(a,b);
+1153,2774,95.1146,181.2,10,10,ROW,I(AB),padding_OFF,parallel_OFF,LateralLimit,=1
+1321,1186,95.1176,200.087,30,30,ROW,I(AB),padding_OFF,parallel_OFF,LateralLimit,=1
+1311,1208,95.1176,200.812,100,100,ROW,I(AB),padding_OFF,parallel_OFF,LateralLimit,=1
+1291,1146,95.1191,202.972,300,300,ROW,I(AB),padding_OFF,parallel_OFF,LateralLimit,=1
+1297,1381,95.1198,211.522,1000,1000,ROW,I(AB),padding_OFF,parallel_OFF,LateralLimit,=1
+1272,2088,95.1191,244.481,3000,3000,ROW,I(AB),padding_OFF,parallel_OFF,LateralLimit,=1
+1154,7963,95.1183,425.93,10000,10000,ROW,I(AB),padding_OFF,parallel_OFF,LateralLimit,=1
+1178,6520,95.1176,661.373,30000,30000,ROW,I(AB),padding_OFF,parallel_OFF,LateralLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b_a ON tab(b,a);
+164,395,3.69736,108.462,10,10,ROW,I(BA),padding_OFF,parallel_OFF,LateralLimit,=1
+163,396,3.70476,108.673,30,30,ROW,I(BA),padding_OFF,parallel_OFF,LateralLimit,=1
+164,400,3.71217,109.391,100,100,ROW,I(BA),padding_OFF,parallel_OFF,LateralLimit,=1
+163,400,3.71217,111.423,300,300,ROW,I(BA),padding_OFF,parallel_OFF,LateralLimit,=1
+164,398,3.71587,118.538,1000,1000,ROW,I(BA),padding_OFF,parallel_OFF,LateralLimit,=1
+165,408,3.71217,138.851,3000,3000,ROW,I(BA),padding_OFF,parallel_OFF,LateralLimit,=1
+167,2638,3.70921,166.587,10000,10000,ROW,I(BA),padding_OFF,parallel_OFF,LateralLimit,=1
+172,2580,3.71365,166.76,30000,30000,ROW,I(BA),padding_OFF,parallel_OFF,LateralLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b_a;
+sql_window_query_time,sql_selfjoin_query_time,sql_window_query_cost,sql_selfjoin_query_cost,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b_a;
+----------------------------------------
+DDL:
+4727,5231,104.77,313.376,10,10,ROW, ,padding_ON,parallel_OFF,LateralLimit,=1
+4612,7068,104.768,316.695,30,30,ROW, ,padding_ON,parallel_OFF,LateralLimit,=1
+4988,7416,104.772,309.528,100,100,ROW, ,padding_ON,parallel_OFF,LateralLimit,=1
+5044,7605,104.768,271.751,300,300,ROW, ,padding_ON,parallel_OFF,LateralLimit,=1
+5073,7526,104.769,284.17,1000,1000,ROW, ,padding_ON,parallel_OFF,LateralLimit,=1
+4902,7653,104.766,324.959,3000,3000,ROW, ,padding_ON,parallel_OFF,LateralLimit,=1
+4836,6306,104.768,444.707,10000,10000,ROW, ,padding_ON,parallel_OFF,LateralLimit,=1
+4955,6557,104.766,674.018,30000,30000,ROW, ,padding_ON,parallel_OFF,LateralLimit,=1
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);
+5450,4944,104.77,209.894,10,10,ROW,I(A),padding_ON,parallel_OFF,LateralLimit,=1
+4580,5174,104.768,212.631,30,30,ROW,I(A),padding_ON,parallel_OFF,LateralLimit,=1
+5244,4936,104.772,229.877,100,100,ROW,I(A),padding_ON,parallel_OFF,LateralLimit,=1
+5351,5485,104.768,231.691,300,300,ROW,I(A),padding_ON,parallel_OFF,LateralLimit,=1
+5301,7455,104.769,284.17,1000,1000,ROW,I(A),padding_ON,parallel_OFF,LateralLimit,=1
+5142,8057,104.766,324.959,3000,3000,ROW,I(A),padding_ON,parallel_OFF,LateralLimit,=1
+5200,6215,104.768,444.707,10000,10000,ROW,I(A),padding_ON,parallel_OFF,LateralLimit,=1
+4941,6521,104.766,674.018,30000,30000,ROW,I(A),padding_ON,parallel_OFF,LateralLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b ON tab(b);
+4797,5997,104.77,314.276,10,10,ROW,I(B),padding_ON,parallel_OFF,LateralLimit,=1
+5224,7538,104.768,316.695,30,30,ROW,I(B),padding_ON,parallel_OFF,LateralLimit,=1
+4971,7590,104.772,309.528,100,100,ROW,I(B),padding_ON,parallel_OFF,LateralLimit,=1
+5331,7754,104.768,271.751,300,300,ROW,I(B),padding_ON,parallel_OFF,LateralLimit,=1
+5297,7463,104.769,284.17,1000,1000,ROW,I(B),padding_ON,parallel_OFF,LateralLimit,=1
+4886,8003,104.766,324.959,3000,3000,ROW,I(B),padding_ON,parallel_OFF,LateralLimit,=1
+5002,6215,104.768,448.992,10000,10000,ROW,I(B),padding_ON,parallel_OFF,LateralLimit,=1
+4928,6503,104.766,680.67,30000,30000,ROW,I(B),padding_ON,parallel_OFF,LateralLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);CREATE INDEX idx_tab_b ON tab(b);
+4579,4696,104.77,209.894,10,10,ROW,I(A);I(B),padding_ON,parallel_OFF,LateralLimit,=1
+4864,4764,104.768,212.631,30,30,ROW,I(A);I(B),padding_ON,parallel_OFF,LateralLimit,=1
+4887,4799,104.772,229.877,100,100,ROW,I(A);I(B),padding_ON,parallel_OFF,LateralLimit,=1
+5225,4843,104.768,231.691,300,300,ROW,I(A);I(B),padding_ON,parallel_OFF,LateralLimit,=1
+5138,7555,104.769,284.17,1000,1000,ROW,I(A);I(B),padding_ON,parallel_OFF,LateralLimit,=1
+4795,7832,104.766,324.959,3000,3000,ROW,I(A);I(B),padding_ON,parallel_OFF,LateralLimit,=1
+5968,6248,104.768,448.992,10000,10000,ROW,I(A);I(B),padding_ON,parallel_OFF,LateralLimit,=1
+5076,6539,104.766,680.67,30000,30000,ROW,I(A);I(B),padding_ON,parallel_OFF,LateralLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a_b ON tab(a,b);
+4910,2758,104.77,190.856,10,10,ROW,I(AB),padding_ON,parallel_OFF,LateralLimit,=1
+5157,4996,104.768,209.737,30,30,ROW,I(AB),padding_ON,parallel_OFF,LateralLimit,=1
+5215,5330,104.772,210.467,100,100,ROW,I(AB),padding_ON,parallel_OFF,LateralLimit,=1
+5446,5014,104.768,212.621,300,300,ROW,I(AB),padding_ON,parallel_OFF,LateralLimit,=1
+5304,5248,104.769,221.171,1000,1000,ROW,I(AB),padding_ON,parallel_OFF,LateralLimit,=1
+5098,5945,104.766,254.128,3000,3000,ROW,I(AB),padding_ON,parallel_OFF,LateralLimit,=1
+5353,7929,104.768,424.164,10000,10000,ROW,I(AB),padding_ON,parallel_OFF,LateralLimit,=1
+5073,6402,104.766,664.46,30000,30000,ROW,I(AB),padding_ON,parallel_OFF,LateralLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b_a ON tab(b,a);
+4885,2526,104.77,176.156,10,10,ROW,I(BA),padding_ON,parallel_OFF,LateralLimit,=1
+4913,2627,104.768,176.154,30,30,ROW,I(BA),padding_ON,parallel_OFF,LateralLimit,=1
+4835,2473,104.772,176.158,100,100,ROW,I(BA),padding_ON,parallel_OFF,LateralLimit,=1
+5265,2384,104.768,176.155,300,300,ROW,I(BA),padding_ON,parallel_OFF,LateralLimit,=1
+5024,2500,104.769,176.158,1000,1000,ROW,I(BA),padding_ON,parallel_OFF,LateralLimit,=1
+5050,2598,104.766,176.169,3000,3000,ROW,I(BA),padding_ON,parallel_OFF,LateralLimit,=1
+5234,2682,104.768,176.237,10000,10000,ROW,I(BA),padding_ON,parallel_OFF,LateralLimit,=1
+5011,2723,104.766,176.408,30000,30000,ROW,I(BA),padding_ON,parallel_OFF,LateralLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b_a;
+sql_window_query_time,sql_selfjoin_query_time,sql_window_query_cost,sql_selfjoin_query_cost,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b_a;
+----------------------------------------
+DDL:
+579,758,14.3649,209.099,10,10,ROW, ,padding_OFF,parallel_ON,LateralLimit,=1
+652,2881,14.3679,212.428,30,30,ROW, ,padding_OFF,parallel_ON,LateralLimit,=1
+604,2914,14.3679,205.252,100,100,ROW, ,padding_OFF,parallel_ON,LateralLimit,=1
+692,2800,14.3694,167.487,300,300,ROW, ,padding_OFF,parallel_ON,LateralLimit,=1
+648,2943,14.3701,179.906,1000,1000,ROW, ,padding_OFF,parallel_ON,LateralLimit,=1
+569,3188,14.3694,220.699,3000,3000,ROW, ,padding_OFF,parallel_ON,LateralLimit,=1
+690,3443,14.3686,369.591,10000,10000,ROW, ,padding_OFF,parallel_ON,LateralLimit,=1
+600,3169,14.3679,656.468,30000,30000,ROW, ,padding_OFF,parallel_ON,LateralLimit,=1
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);
+631,624,14.3649,115.262,10,10,ROW,I(A),padding_OFF,parallel_ON,LateralLimit,=1
+607,584,14.3679,117.363,30,30,ROW,I(A),padding_OFF,parallel_ON,LateralLimit,=1
+636,659,14.3679,121.592,100,100,ROW,I(A),padding_OFF,parallel_ON,LateralLimit,=1
+669,693,14.3694,133.4,300,300,ROW,I(A),padding_OFF,parallel_ON,LateralLimit,=1
+595,3015,14.3701,179.906,1000,1000,ROW,I(A),padding_OFF,parallel_ON,LateralLimit,=1
+582,3174,14.3694,220.699,3000,3000,ROW,I(A),padding_OFF,parallel_ON,LateralLimit,=1
+619,3452,14.3686,369.591,10000,10000,ROW,I(A),padding_OFF,parallel_ON,LateralLimit,=1
+654,3140,14.3679,656.468,30000,30000,ROW,I(A),padding_OFF,parallel_ON,LateralLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b ON tab(b);
+625,666,14.3649,209.999,10,10,ROW,I(B),padding_OFF,parallel_ON,LateralLimit,=1
+691,2909,14.3679,212.428,30,30,ROW,I(B),padding_OFF,parallel_ON,LateralLimit,=1
+684,2868,14.3679,205.252,100,100,ROW,I(B),padding_OFF,parallel_ON,LateralLimit,=1
+630,2918,14.3694,167.487,300,300,ROW,I(B),padding_OFF,parallel_ON,LateralLimit,=1
+644,2958,14.3701,179.906,1000,1000,ROW,I(B),padding_OFF,parallel_ON,LateralLimit,=1
+631,3271,14.3694,220.699,3000,3000,ROW,I(B),padding_OFF,parallel_ON,LateralLimit,=1
+675,3380,14.3686,369.591,10000,10000,ROW,I(B),padding_OFF,parallel_ON,LateralLimit,=1
+704,3117,14.3679,656.468,30000,30000,ROW,I(B),padding_OFF,parallel_ON,LateralLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);CREATE INDEX idx_tab_b ON tab(b);
+688,605,14.3649,115.262,10,10,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralLimit,=1
+613,763,14.3679,117.363,30,30,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralLimit,=1
+610,597,14.3679,121.592,100,100,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralLimit,=1
+684,598,14.3694,133.4,300,300,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralLimit,=1
+683,2962,14.3701,179.906,1000,1000,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralLimit,=1
+655,3292,14.3694,220.699,3000,3000,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralLimit,=1
+675,3353,14.3686,369.591,10000,10000,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralLimit,=1
+697,3121,14.3679,656.468,30000,30000,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a_b ON tab(a,b);
+650,518,14.3649,114.914,10,10,ROW,I(AB),padding_OFF,parallel_ON,LateralLimit,=1
+600,569,14.3679,115.121,30,30,ROW,I(AB),padding_OFF,parallel_ON,LateralLimit,=1
+603,604,14.3679,115.847,100,100,ROW,I(AB),padding_OFF,parallel_ON,LateralLimit,=1
+610,749,14.3694,118.006,300,300,ROW,I(AB),padding_OFF,parallel_ON,LateralLimit,=1
+748,649,14.3701,126.557,1000,1000,ROW,I(AB),padding_OFF,parallel_ON,LateralLimit,=1
+617,783,14.3694,159.515,3000,3000,ROW,I(AB),padding_OFF,parallel_ON,LateralLimit,=1
+617,3321,14.3686,369.591,10000,10000,ROW,I(AB),padding_OFF,parallel_ON,LateralLimit,=1
+618,3173,14.3679,656.468,30000,30000,ROW,I(AB),padding_OFF,parallel_ON,LateralLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b_a ON tab(b,a);
+163,452,3.69736,107.306,10,10,ROW,I(BA),padding_OFF,parallel_ON,LateralLimit,=1
+163,445,3.70476,107.517,30,30,ROW,I(BA),padding_OFF,parallel_ON,LateralLimit,=1
+162,367,3.71217,108.235,100,100,ROW,I(BA),padding_OFF,parallel_ON,LateralLimit,=1
+164,230,3.71217,110.267,300,300,ROW,I(BA),padding_OFF,parallel_ON,LateralLimit,=1
+164,156,3.71587,117.382,1000,1000,ROW,I(BA),padding_OFF,parallel_ON,LateralLimit,=1
+164,129,3.71217,137.695,3000,3000,ROW,I(BA),padding_OFF,parallel_ON,LateralLimit,=1
+165,446,3.70921,161.259,10000,10000,ROW,I(BA),padding_OFF,parallel_ON,LateralLimit,=1
+172,439,3.71365,161.432,30000,30000,ROW,I(BA),padding_OFF,parallel_ON,LateralLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b_a;
+sql_window_query_time,sql_selfjoin_query_time,sql_window_query_cost,sql_selfjoin_query_cost,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a_b;
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b_a;
+----------------------------------------
+DDL:
+3969,4151,25.0727,228.989,10,10,ROW, ,padding_ON,parallel_ON,LateralLimit,=1
+4063,6213,25.0705,232.308,30,30,ROW, ,padding_ON,parallel_ON,LateralLimit,=1
+4202,6492,25.0749,225.141,100,100,ROW, ,padding_ON,parallel_ON,LateralLimit,=1
+4030,6333,25.0705,187.364,300,300,ROW, ,padding_ON,parallel_ON,LateralLimit,=1
+4054,6565,25.0712,199.783,1000,1000,ROW, ,padding_ON,parallel_ON,LateralLimit,=1
+3949,7054,25.069,240.572,3000,3000,ROW, ,padding_ON,parallel_ON,LateralLimit,=1
+4373,6878,25.0705,381.62,10000,10000,ROW, ,padding_ON,parallel_ON,LateralLimit,=1
+4216,3199,25.0683,669.691,30000,30000,ROW, ,padding_ON,parallel_ON,LateralLimit,=1
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);
+4156,4111,25.0727,125.507,10,10,ROW,I(A),padding_ON,parallel_ON,LateralLimit,=1
+4094,4137,25.0705,128.244,30,30,ROW,I(A),padding_ON,parallel_ON,LateralLimit,=1
+4174,3931,25.0749,145.49,100,100,ROW,I(A),padding_ON,parallel_ON,LateralLimit,=1
+4151,4303,25.0705,147.304,300,300,ROW,I(A),padding_ON,parallel_ON,LateralLimit,=1
+4397,6485,25.0712,199.783,1000,1000,ROW,I(A),padding_ON,parallel_ON,LateralLimit,=1
+4030,7061,25.069,240.572,3000,3000,ROW,I(A),padding_ON,parallel_ON,LateralLimit,=1
+4187,7198,25.0705,381.62,10000,10000,ROW,I(A),padding_ON,parallel_ON,LateralLimit,=1
+4220,3166,25.0683,669.691,30000,30000,ROW,I(A),padding_ON,parallel_ON,LateralLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b ON tab(b);
+4067,4125,25.0727,229.889,10,10,ROW,I(B),padding_ON,parallel_ON,LateralLimit,=1
+4141,6466,25.0705,232.308,30,30,ROW,I(B),padding_ON,parallel_ON,LateralLimit,=1
+4145,6171,25.0749,225.141,100,100,ROW,I(B),padding_ON,parallel_ON,LateralLimit,=1
+4198,6476,25.0705,187.364,300,300,ROW,I(B),padding_ON,parallel_ON,LateralLimit,=1
+4150,6491,25.0712,199.783,1000,1000,ROW,I(B),padding_ON,parallel_ON,LateralLimit,=1
+4512,6668,25.069,240.572,3000,3000,ROW,I(B),padding_ON,parallel_ON,LateralLimit,=1
+4117,7070,25.0705,389.469,10000,10000,ROW,I(B),padding_ON,parallel_ON,LateralLimit,=1
+4240,3176,25.0683,676.343,30000,30000,ROW,I(B),padding_ON,parallel_ON,LateralLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);CREATE INDEX idx_tab_b ON tab(b);
+3913,4165,25.0727,125.507,10,10,ROW,I(A);I(B),padding_ON,parallel_ON,LateralLimit,=1
+4176,4446,25.0705,128.244,30,30,ROW,I(A);I(B),padding_ON,parallel_ON,LateralLimit,=1
+4523,3996,25.0749,145.49,100,100,ROW,I(A);I(B),padding_ON,parallel_ON,LateralLimit,=1
+4544,4115,25.0705,147.304,300,300,ROW,I(A);I(B),padding_ON,parallel_ON,LateralLimit,=1
+4212,6574,25.0712,199.783,1000,1000,ROW,I(A);I(B),padding_ON,parallel_ON,LateralLimit,=1
+4082,7165,25.069,240.572,3000,3000,ROW,I(A);I(B),padding_ON,parallel_ON,LateralLimit,=1
+4402,7065,25.0705,389.469,10000,10000,ROW,I(A);I(B),padding_ON,parallel_ON,LateralLimit,=1
+4560,3181,25.0683,676.343,30000,30000,ROW,I(A);I(B),padding_ON,parallel_ON,LateralLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a;DROP INDEX IF EXISTS tab.idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a_b ON tab(a,b);
+4767,4018,25.0727,125.148,10,10,ROW,I(AB),padding_ON,parallel_ON,LateralLimit,=1
+4392,4183,25.0705,125.35,30,30,ROW,I(AB),padding_ON,parallel_ON,LateralLimit,=1
+4345,4363,25.0749,126.08,100,100,ROW,I(AB),padding_ON,parallel_ON,LateralLimit,=1
+4172,4316,25.0705,128.234,300,300,ROW,I(AB),padding_ON,parallel_ON,LateralLimit,=1
+4533,4248,25.0712,136.784,1000,1000,ROW,I(AB),padding_ON,parallel_ON,LateralLimit,=1
+4284,4325,25.069,169.741,3000,3000,ROW,I(AB),padding_ON,parallel_ON,LateralLimit,=1
+4297,5030,25.0705,369.569,10000,10000,ROW,I(AB),padding_ON,parallel_ON,LateralLimit,=1
+4393,2968,25.0683,660.133,30000,30000,ROW,I(AB),padding_ON,parallel_ON,LateralLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_a_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b_a ON tab(b,a);
+4072,4302,25.0727,125.148,10,10,ROW,I(BA),padding_ON,parallel_ON,LateralLimit,=1
+4236,4258,25.0705,125.349,30,30,ROW,I(BA),padding_ON,parallel_ON,LateralLimit,=1
+4461,4435,25.0749,126.064,100,100,ROW,I(BA),padding_ON,parallel_ON,LateralLimit,=1
+4179,3979,25.0705,128.092,300,300,ROW,I(BA),padding_ON,parallel_ON,LateralLimit,=1
+4537,4300,25.0712,135.203,1000,1000,ROW,I(BA),padding_ON,parallel_ON,LateralLimit,=1
+4157,4445,25.069,155.518,3000,3000,ROW,I(BA),padding_ON,parallel_ON,LateralLimit,=1
+4493,408,25.0705,170.961,10000,10000,ROW,I(BA),padding_ON,parallel_ON,LateralLimit,=1
+4341,406,25.0683,171.132,30000,30000,ROW,I(BA),padding_ON,parallel_ON,LateralLimit,=1
+----------------------------------------
+DDL: DROP INDEX IF EXISTS tab.idx_tab_b_a;
+
+Process finished with exit code 0
