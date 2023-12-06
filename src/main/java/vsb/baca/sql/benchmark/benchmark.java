@@ -127,7 +127,12 @@ public abstract class benchmark {
 
 //        System.out.println("Groups,SQL1,SQL2");
         for (Pair<String, Integer> tableName : tableNames) {
-            String sql1 = sqlInit.a.replace("TAB", "\"" + tableName.a + "\"");
+            String sql1 = null;
+            if (bconfig instanceof bench_config_hyper) { // TODO - refactoring is needed
+                sql1 = sqlInit.a.replace("TAB", "\"" + tableName.a + "\"");
+            } else {
+                sql1 = sqlInit.a.replace("TAB", tableName.a);
+            }
             String sql2 = rewriteSQL(sql1);
             sql1 = setUpQuery(sql1);
             sql2 = setUpQuery(sql2);
