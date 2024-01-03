@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import static java.lang.Math.pow;
 
 public class benchmark_hyper extends benchmark {
     public benchmark_hyper(bench_config_hyper bench_config_hyper) {
@@ -92,6 +93,18 @@ public class benchmark_hyper extends benchmark {
     @Override protected String compileResultRowHeader() {
         return "sql_window_query_time,sql_selfjoin_query_time,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query";
     }
+
+    @Override
+    public ArrayList<Pair<String, Integer>> generateTableNames(String tab_prefix) {
+        ArrayList<Pair<String, Integer>> tableNames = new ArrayList<Pair<String, Integer>>();
+        for (int i = 2; i <= 5; i++) {
+            // convert pow result into integer
+            tableNames.add(new Pair(tab_prefix + (int) pow(10, i), (int) pow(10, i)));
+            tableNames.add(new Pair(tab_prefix + 3 * (int) pow(10, i), 3 * (int) pow(10, i)));
+        }
+        return tableNames;
+    }
+
 
     /**
      * Resolve the example file
