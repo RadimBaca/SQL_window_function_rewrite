@@ -1,15 +1,17 @@
+"C:\Program Files\Java\jdk-16\bin\java.exe" "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2021.3.1\lib\idea_rt.jar=62724:C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2021.3.1\bin" -Dfile.encoding=UTF-8 -classpath E:\users\bac027\git\SQL_window_function_rewrite\target\classes;C:\Users\bac027\.m2\repository\org\antlr\antlr4-runtime\4.5\antlr4-runtime-4.5.jar;C:\Users\bac027\.m2\repository\org\abego\treelayout\org.abego.treelayout.core\1.0.1\org.abego.treelayout.core-1.0.1.jar;C:\Users\bac027\.m2\repository\org\antlr\antlr4-maven-plugin\4.9.2\antlr4-maven-plugin-4.9.2.jar;C:\Users\bac027\.m2\repository\org\apache\maven\maven-plugin-api\3.0.5\maven-plugin-api-3.0.5.jar;C:\Users\bac027\.m2\repository\org\apache\maven\maven-model\3.0.5\maven-model-3.0.5.jar;C:\Users\bac027\.m2\repository\org\apache\maven\maven-artifact\3.0.5\maven-artifact-3.0.5.jar;C:\Users\bac027\.m2\repository\org\sonatype\sisu\sisu-inject-plexus\2.3.0\sisu-inject-plexus-2.3.0.jar;C:\Users\bac027\.m2\repository\org\codehaus\plexus\plexus-component-annotations\1.5.5\plexus-component-annotations-1.5.5.jar;C:\Users\bac027\.m2\repository\org\codehaus\plexus\plexus-classworlds\2.4\plexus-classworlds-2.4.jar;C:\Users\bac027\.m2\repository\org\sonatype\sisu\sisu-inject-bean\2.3.0\sisu-inject-bean-2.3.0.jar;C:\Users\bac027\.m2\repository\org\sonatype\sisu\sisu-guice\3.1.0\sisu-guice-3.1.0-no_aop.jar;C:\Users\bac027\.m2\repository\org\sonatype\sisu\sisu-guava\0.9.9\sisu-guava-0.9.9.jar;C:\Users\bac027\.m2\repository\org\codehaus\plexus\plexus-compiler-api\2.2\plexus-compiler-api-2.2.jar;C:\Users\bac027\.m2\repository\org\codehaus\plexus\plexus-utils\3.0.8\plexus-utils-3.0.8.jar;C:\Users\bac027\.m2\repository\org\sonatype\plexus\plexus-build-api\0.0.7\plexus-build-api-0.0.7.jar;C:\Users\bac027\.m2\repository\org\antlr\antlr4\4.9.2\antlr4-4.9.2.jar;C:\Users\bac027\.m2\repository\org\antlr\antlr-runtime\3.5.2\antlr-runtime-3.5.2.jar;C:\Users\bac027\.m2\repository\org\antlr\ST4\4.3\ST4-4.3.jar;C:\Users\bac027\.m2\repository\org\glassfish\javax.json\1.0.4\javax.json-1.0.4.jar;C:\Users\bac027\.m2\repository\com\ibm\icu\icu4j\61.1\icu4j-61.1.jar;C:\Users\bac027\.m2\repository\org\apache\maven\maven-project\2.2.1\maven-project-2.2.1.jar;C:\Users\bac027\.m2\repository\org\apache\maven\maven-settings\2.2.1\maven-settings-2.2.1.jar;C:\Users\bac027\.m2\repository\org\apache\maven\maven-profile\2.2.1\maven-profile-2.2.1.jar;C:\Users\bac027\.m2\repository\org\apache\maven\maven-artifact-manager\2.2.1\maven-artifact-manager-2.2.1.jar;C:\Users\bac027\.m2\repository\org\apache\maven\maven-repository-metadata\2.2.1\maven-repository-metadata-2.2.1.jar;C:\Users\bac027\.m2\repository\org\apache\maven\wagon\wagon-provider-api\1.0-beta-6\wagon-provider-api-1.0-beta-6.jar;C:\Users\bac027\.m2\repository\backport-util-concurrent\backport-util-concurrent\3.1\backport-util-concurrent-3.1.jar;C:\Users\bac027\.m2\repository\org\apache\maven\maven-plugin-registry\2.2.1\maven-plugin-registry-2.2.1.jar;C:\Users\bac027\.m2\repository\org\codehaus\plexus\plexus-interpolation\1.11\plexus-interpolation-1.11.jar;C:\Users\bac027\.m2\repository\org\codehaus\plexus\plexus-container-default\1.0-alpha-9-stable-1\plexus-container-default-1.0-alpha-9-stable-1.jar;C:\Users\bac027\.m2\repository\classworlds\classworlds\1.1-alpha-2\classworlds-1.1-alpha-2.jar;C:\Users\bac027\.m2\repository\com\microsoft\sqlserver\mssql-jdbc\9.4.0.jre8\mssql-jdbc-9.4.0.jre8.jar;C:\Users\bac027\.m2\repository\org\postgresql\postgresql\42.2.24\postgresql-42.2.24.jar;C:\Users\bac027\.m2\repository\org\checkerframework\checker-qual\3.5.0\checker-qual-3.5.0.jar;C:\Users\bac027\.m2\repository\org\dbunit\dbunit\2.7.0\dbunit-2.7.0.jar;C:\Users\bac027\.m2\repository\org\slf4j\slf4j-api\1.7.25\slf4j-api-1.7.25.jar;C:\Users\bac027\.m2\repository\commons-collections\commons-collections\3.2.2\commons-collections-3.2.2.jar;C:\Users\bac027\.m2\repository\org\apache\poi\poi-ooxml\3.17\poi-ooxml-3.17.jar;C:\Users\bac027\.m2\repository\org\apache\poi\poi\3.17\poi-3.17.jar;C:\Users\bac027\.m2\repository\commons-codec\commons-codec\1.10\commons-codec-1.10.jar;C:\Users\bac027\.m2\repository\org\apache\commons\commons-collections4\4.1\commons-collections4-4.1.jar;C:\Users\bac027\.m2\repository\org\apache\poi\poi-ooxml-schemas\3.17\poi-ooxml-schemas-3.17.jar;C:\Users\bac027\.m2\repository\org\apache\xmlbeans\xmlbeans\2.6.0\xmlbeans-2.6.0.jar;C:\Users\bac027\.m2\repository\stax\stax-api\1.0.1\stax-api-1.0.1.jar;C:\Users\bac027\.m2\repository\com\github\virtuald\curvesapi\1.04\curvesapi-1.04.jar;E:\users\bac027\git\SQL_window_function_rewrite\jar\ojdbc11.jar;C:\Users\bac027\.m2\repository\com\mysql\mysql-connector-j\8.0.33\mysql-connector-j-8.0.33.jar;C:\Users\bac027\.m2\repository\com\google\protobuf\protobuf-java\3.21.9\protobuf-java-3.21.9.jar;E:\users\bac027\git\SQL_window_function_rewrite\jar\tableauhyperapi.jar;E:\users\bac027\git\SQL_window_function_rewrite\jar\tableauhyperapi-windows.jar;C:\Users\bac027\.m2\repository\net\java\dev\jna\jna\5.6.0\jna-5.6.0.jar vsb.baca.sql.wf_microbenchmark -m -d Hyper -h bench10M.hyper -u user -p pass -t rank_alg -s column
+sql_window_query_time,sql_selfjoin_query_time,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
 ----------------------------------------
 DDL:  - statement ignored
 ----------------------------------------
 DDL:   - statement ignored
-200,53,10,10,COLUMN, ,padding_OFF,parallel_ON,JoinMin,=1
-187,60,30,30,COLUMN, ,padding_OFF,parallel_ON,JoinMin,=1
-207,52,100,100,COLUMN, ,padding_OFF,parallel_ON,JoinMin,=1
-206,60,300,300,COLUMN, ,padding_OFF,parallel_ON,JoinMin,=1
-212,65,1000,1000,COLUMN, ,padding_OFF,parallel_ON,JoinMin,=1
-149,62,3000,3000,COLUMN, ,padding_OFF,parallel_ON,JoinMin,=1
-137,73,10000,10000,COLUMN, ,padding_OFF,parallel_ON,JoinMin,=1
-141,142,30000,30000,COLUMN, ,padding_OFF,parallel_ON,JoinMin,=1
+200,59,100,100,COLUMN, ,padding_OFF,parallel_ON,JoinMin,=1
+203,77,300,300,COLUMN, ,padding_OFF,parallel_ON,JoinMin,=1
+195,74,1000,1000,COLUMN, ,padding_OFF,parallel_ON,JoinMin,=1
+145,54,3000,3000,COLUMN, ,padding_OFF,parallel_ON,JoinMin,=1
+156,73,10000,10000,COLUMN, ,padding_OFF,parallel_ON,JoinMin,=1
+134,146,30000,30000,COLUMN, ,padding_OFF,parallel_ON,JoinMin,=1
+142,161,100000,100000,COLUMN, ,padding_OFF,parallel_ON,JoinMin,=1
+163,187,300000,300000,COLUMN, ,padding_OFF,parallel_ON,JoinMin,=1
 ----------------------------------------
 DDL:  - statement ignored
 sql_window_query_time,sql_selfjoin_query_time,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
@@ -17,14 +19,14 @@ sql_window_query_time,sql_selfjoin_query_time,B_count,result_size,storage,index,
 DDL:  - statement ignored
 ----------------------------------------
 DDL:   - statement ignored
-1048,50,10,10,COLUMN, ,padding_ON,parallel_ON,JoinMin,=1
-1269,62,30,30,COLUMN, ,padding_ON,parallel_ON,JoinMin,=1
-1200,44,100,100,COLUMN, ,padding_ON,parallel_ON,JoinMin,=1
-1233,70,300,300,COLUMN, ,padding_ON,parallel_ON,JoinMin,=1
-1265,72,1000,1000,COLUMN, ,padding_ON,parallel_ON,JoinMin,=1
-1146,79,3000,3000,COLUMN, ,padding_ON,parallel_ON,JoinMin,=1
-1012,84,10000,10000,COLUMN, ,padding_ON,parallel_ON,JoinMin,=1
-866,167,30000,30000,COLUMN, ,padding_ON,parallel_ON,JoinMin,=1
+1189,77,100,100,COLUMN, ,padding_ON,parallel_ON,JoinMin,=1
+1075,66,300,300,COLUMN, ,padding_ON,parallel_ON,JoinMin,=1
+1042,66,1000,1000,COLUMN, ,padding_ON,parallel_ON,JoinMin,=1
+1005,77,3000,3000,COLUMN, ,padding_ON,parallel_ON,JoinMin,=1
+927,84,10000,10000,COLUMN, ,padding_ON,parallel_ON,JoinMin,=1
+818,161,30000,30000,COLUMN, ,padding_ON,parallel_ON,JoinMin,=1
+846,204,100000,100000,COLUMN, ,padding_ON,parallel_ON,JoinMin,=1
+1082,310,300000,300000,COLUMN, ,padding_ON,parallel_ON,JoinMin,=1
 ----------------------------------------
 DDL:  - statement ignored
 sql_window_query_time,sql_selfjoin_query_time,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
@@ -32,14 +34,14 @@ sql_window_query_time,sql_selfjoin_query_time,B_count,result_size,storage,index,
 DDL:  - statement ignored
 ----------------------------------------
 DDL:   - statement ignored
-199,744,10,10,COLUMN, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
-201,676,30,30,COLUMN, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
-205,614,100,100,COLUMN, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
-201,709,300,300,COLUMN, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
-214,690,1000,1000,COLUMN, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
-166,748,3000,3000,COLUMN, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
-132,798,10000,10000,COLUMN, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
-145,1245,30000,30000,COLUMN, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+190,531,100,100,COLUMN, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+193,755,300,300,COLUMN, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+203,688,1000,1000,COLUMN, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+139,710,3000,3000,COLUMN, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+142,807,10000,10000,COLUMN, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+140,1221,30000,30000,COLUMN, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+151,1262,100000,100000,COLUMN, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+175,1168,300000,300000,COLUMN, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
 ----------------------------------------
 DDL:  - statement ignored
 sql_window_query_time,sql_selfjoin_query_time,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
@@ -47,14 +49,14 @@ sql_window_query_time,sql_selfjoin_query_time,B_count,result_size,storage,index,
 DDL:  - statement ignored
 ----------------------------------------
 DDL:   - statement ignored
-1155,730,10,10,COLUMN, ,padding_ON,parallel_ON,LateralDistinctLimit,=1
-1243,677,30,30,COLUMN, ,padding_ON,parallel_ON,LateralDistinctLimit,=1
-1217,636,100,100,COLUMN, ,padding_ON,parallel_ON,LateralDistinctLimit,=1
-1112,746,300,300,COLUMN, ,padding_ON,parallel_ON,LateralDistinctLimit,=1
-1196,703,1000,1000,COLUMN, ,padding_ON,parallel_ON,LateralDistinctLimit,=1
-1082,759,3000,3000,COLUMN, ,padding_ON,parallel_ON,LateralDistinctLimit,=1
-1049,726,10000,10000,COLUMN, ,padding_ON,parallel_ON,LateralDistinctLimit,=1
-968,1262,30000,30000,COLUMN, ,padding_ON,parallel_ON,LateralDistinctLimit,=1
+1328,621,100,100,COLUMN, ,padding_ON,parallel_ON,LateralDistinctLimit,=1
+1210,748,300,300,COLUMN, ,padding_ON,parallel_ON,LateralDistinctLimit,=1
+1203,651,1000,1000,COLUMN, ,padding_ON,parallel_ON,LateralDistinctLimit,=1
+1033,668,3000,3000,COLUMN, ,padding_ON,parallel_ON,LateralDistinctLimit,=1
+919,769,10000,10000,COLUMN, ,padding_ON,parallel_ON,LateralDistinctLimit,=1
+867,1272,30000,30000,COLUMN, ,padding_ON,parallel_ON,LateralDistinctLimit,=1
+992,1337,100000,100000,COLUMN, ,padding_ON,parallel_ON,LateralDistinctLimit,=1
+1117,1209,300000,300000,COLUMN, ,padding_ON,parallel_ON,LateralDistinctLimit,=1
 ----------------------------------------
 DDL:  - statement ignored
 sql_window_query_time,sql_selfjoin_query_time,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
@@ -62,14 +64,14 @@ sql_window_query_time,sql_selfjoin_query_time,B_count,result_size,storage,index,
 DDL:  - statement ignored
 ----------------------------------------
 DDL:   - statement ignored
-220,395,10,10,COLUMN, ,padding_OFF,parallel_ON,LateralLimit,=1
-201,427,30,30,COLUMN, ,padding_OFF,parallel_ON,LateralLimit,=1
-215,458,100,100,COLUMN, ,padding_OFF,parallel_ON,LateralLimit,=1
-205,470,300,300,COLUMN, ,padding_OFF,parallel_ON,LateralLimit,=1
-203,459,1000,1000,COLUMN, ,padding_OFF,parallel_ON,LateralLimit,=1
-143,462,3000,3000,COLUMN, ,padding_OFF,parallel_ON,LateralLimit,=1
-153,496,10000,10000,COLUMN, ,padding_OFF,parallel_ON,LateralLimit,=1
-135,932,30000,30000,COLUMN, ,padding_OFF,parallel_ON,LateralLimit,=1
+211,459,100,100,COLUMN, ,padding_OFF,parallel_ON,LateralLimit,=1
+199,446,300,300,COLUMN, ,padding_OFF,parallel_ON,LateralLimit,=1
+212,437,1000,1000,COLUMN, ,padding_OFF,parallel_ON,LateralLimit,=1
+149,456,3000,3000,COLUMN, ,padding_OFF,parallel_ON,LateralLimit,=1
+150,533,10000,10000,COLUMN, ,padding_OFF,parallel_ON,LateralLimit,=1
+138,982,30000,30000,COLUMN, ,padding_OFF,parallel_ON,LateralLimit,=1
+150,955,100000,100000,COLUMN, ,padding_OFF,parallel_ON,LateralLimit,=1
+152,916,300000,300000,COLUMN, ,padding_OFF,parallel_ON,LateralLimit,=1
 ----------------------------------------
 DDL:  - statement ignored
 sql_window_query_time,sql_selfjoin_query_time,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
@@ -77,14 +79,14 @@ sql_window_query_time,sql_selfjoin_query_time,B_count,result_size,storage,index,
 DDL:  - statement ignored
 ----------------------------------------
 DDL:   - statement ignored
-1041,406,10,10,COLUMN, ,padding_ON,parallel_ON,LateralLimit,=1
-1136,437,30,30,COLUMN, ,padding_ON,parallel_ON,LateralLimit,=1
-1295,431,100,100,COLUMN, ,padding_ON,parallel_ON,LateralLimit,=1
-1289,468,300,300,COLUMN, ,padding_ON,parallel_ON,LateralLimit,=1
-1211,489,1000,1000,COLUMN, ,padding_ON,parallel_ON,LateralLimit,=1
-1074,407,3000,3000,COLUMN, ,padding_ON,parallel_ON,LateralLimit,=1
-935,494,10000,10000,COLUMN, ,padding_ON,parallel_ON,LateralLimit,=1
-889,859,30000,30000,COLUMN, ,padding_ON,parallel_ON,LateralLimit,=1
+1281,432,100,100,COLUMN, ,padding_ON,parallel_ON,LateralLimit,=1
+1132,446,300,300,COLUMN, ,padding_ON,parallel_ON,LateralLimit,=1
+1108,471,1000,1000,COLUMN, ,padding_ON,parallel_ON,LateralLimit,=1
+1097,482,3000,3000,COLUMN, ,padding_ON,parallel_ON,LateralLimit,=1
+945,516,10000,10000,COLUMN, ,padding_ON,parallel_ON,LateralLimit,=1
+849,950,30000,30000,COLUMN, ,padding_ON,parallel_ON,LateralLimit,=1
+980,917,100000,100000,COLUMN, ,padding_ON,parallel_ON,LateralLimit,=1
+1059,975,300000,300000,COLUMN, ,padding_ON,parallel_ON,LateralLimit,=1
 ----------------------------------------
 DDL:  - statement ignored
 sql_window_query_time,sql_selfjoin_query_time,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
@@ -92,14 +94,14 @@ sql_window_query_time,sql_selfjoin_query_time,B_count,result_size,storage,index,
 DDL:  - statement ignored
 ----------------------------------------
 DDL:   - statement ignored
-217,293204,10,10,COLUMN, ,padding_OFF,parallel_ON,LateralAgg,=1
-200,975847,30,30,COLUMN, ,padding_OFF,parallel_ON,LateralAgg,=1
-203,306369,100,100,COLUMN, ,padding_OFF,parallel_ON,LateralAgg,=1
-200,116161,300,300,COLUMN, ,padding_OFF,parallel_ON,LateralAgg,=1
-225,45688,1000,1000,COLUMN, ,padding_OFF,parallel_ON,LateralAgg,=1
-160,20715,3000,3000,COLUMN, ,padding_OFF,parallel_ON,LateralAgg,=1
-146,9350,10000,10000,COLUMN, ,padding_OFF,parallel_ON,LateralAgg,=1
-143,13763,30000,30000,COLUMN, ,padding_OFF,parallel_ON,LateralAgg,=1
+195,304709,100,100,COLUMN, ,padding_OFF,parallel_ON,LateralAgg,=1
+204,119578,300,300,COLUMN, ,padding_OFF,parallel_ON,LateralAgg,=1
+191,45508,1000,1000,COLUMN, ,padding_OFF,parallel_ON,LateralAgg,=1
+147,20868,3000,3000,COLUMN, ,padding_OFF,parallel_ON,LateralAgg,=1
+133,9352,10000,10000,COLUMN, ,padding_OFF,parallel_ON,LateralAgg,=1
+145,14093,30000,30000,COLUMN, ,padding_OFF,parallel_ON,LateralAgg,=1
+149,5254,100000,100000,COLUMN, ,padding_OFF,parallel_ON,LateralAgg,=1
+167,2884,300000,300000,COLUMN, ,padding_OFF,parallel_ON,LateralAgg,=1
 ----------------------------------------
 DDL:  - statement ignored
 sql_window_query_time,sql_selfjoin_query_time,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
@@ -107,14 +109,14 @@ sql_window_query_time,sql_selfjoin_query_time,B_count,result_size,storage,index,
 DDL:  - statement ignored
 ----------------------------------------
 DDL:   - statement ignored
-1147,293520,10,10,COLUMN, ,padding_ON,parallel_ON,LateralAgg,=1
-1275,950954,30,30,COLUMN, ,padding_ON,parallel_ON,LateralAgg,=1
-1329,300956,100,100,COLUMN, ,padding_ON,parallel_ON,LateralAgg,=1
-1225,115208,300,300,COLUMN, ,padding_ON,parallel_ON,LateralAgg,=1
-1225,45929,1000,1000,COLUMN, ,padding_ON,parallel_ON,LateralAgg,=1
-1094,21398,3000,3000,COLUMN, ,padding_ON,parallel_ON,LateralAgg,=1
-1021,9955,10000,10000,COLUMN, ,padding_ON,parallel_ON,LateralAgg,=1
-846,14594,30000,30000,COLUMN, ,padding_ON,parallel_ON,LateralAgg,=1
+1318,301953,100,100,COLUMN, ,padding_ON,parallel_ON,LateralAgg,=1
+1046,118866,300,300,COLUMN, ,padding_ON,parallel_ON,LateralAgg,=1
+1195,45943,1000,1000,COLUMN, ,padding_ON,parallel_ON,LateralAgg,=1
+1119,21442,3000,3000,COLUMN, ,padding_ON,parallel_ON,LateralAgg,=1
+1042,9989,10000,10000,COLUMN, ,padding_ON,parallel_ON,LateralAgg,=1
+796,14268,30000,30000,COLUMN, ,padding_ON,parallel_ON,LateralAgg,=1
+830,5651,100000,100000,COLUMN, ,padding_ON,parallel_ON,LateralAgg,=1
+987,3356,300000,300000,COLUMN, ,padding_ON,parallel_ON,LateralAgg,=1
 ----------------------------------------
 DDL:  - statement ignored
 
