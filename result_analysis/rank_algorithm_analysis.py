@@ -3,31 +3,22 @@
 ## It reads the results from the file rank_algorithms_DBMS.txt and creates a boxplots for each DBMS.
 ## The boxplots show the runtime ratio Tsj/Tln for each DBMS.
 
-import pandas as pd
+
 import re
 import scipy.stats as stats
 import matplotlib.pyplot as plt
 import numpy as np
+from result_analysis.manipulation import read_data, compute_means
 
 
-def dbms_results(dbms, print_caption, storage):
-    global file, lines, pattern, line, data, column_data, row_data, parallel_on, parallel_off, padding_on, padding_off, equal1_data, equalN_data, lessN_data, IB_data, Not_IB_data, IA_data, Not_IA_data, IBA_data, IAB_data, X
+def dbms_results(dbms, print_caption, has_cost, storage):
+    global file, lines, columns, pattern, line, data, column_data, row_data, parallel_on, parallel_off, padding_on, padding_off, equal1_data, equalN_data, lessN_data, IB_data, Not_IB_data, IA_data, Not_IA_data, IBA_data, IAB_data, X
     # Read the CSV file into a DataFrame, reading each row as a string
     with open('rank_algorithms_' + dbms + '.txt', 'r') as file:
         lines = file.readlines()
-    # Define the regular expression pattern for valid rows
-    pattern = r'^\d+,\d+,\d+,\d+,(?:ROW|COLUMN),.*$'
-    # Filter out rows that do not match the pattern
-    valid_lines = [line.strip().split(',') for line in lines if re.match(pattern, line.strip())]
-    wrong_lines = [line for line in valid_lines if not len(line) == 11]
-    # Create a DataFrame from the filtered lines
-    data = pd.DataFrame(valid_lines, columns=['T1', 'T2', 'PB', 'RS', 'Storage', 'IDX', 'Padding', 'Par', 'Alg', 'Cmp'])
-    # Convert numeric columns to the appropriate data types
-    numeric_cols = ['T1', 'T2', 'PB', 'RS']
-    data[numeric_cols] = data[numeric_cols].astype(int)
+    columns = ['Cmp']
+    data = read_data(has_cost, lines, columns)
 
-    # If column data['T2'] is larger than 300000, then set it to 300000
-    data.loc[data['T2'] > 300000, 'T2'] = 300000
 
     # Filter out results of column storage
     data = data[data['Storage'] == storage]
@@ -44,6 +35,9 @@ def dbms_results(dbms, print_caption, storage):
     laterallimit_data = data[data['Alg'] == 'LateralLimit']
     lateraldistinctlimit_data = data[data['Alg'] == 'LateralDistinctLimit']
     joinmin_data = data[data['Alg'] == 'JoinMin']
+    NoIndex_data = data[data['IDX'].str.startswith(' ')]
+    SomeIndex_data = data[~data['IDX'].str.startswith(' ')]
+
     IB_data = data[data['IDX'].str.contains('I\(B')]
     Not_IB_data = data[~data['IDX'].str.contains('I\(B')]
     IA_data = data[data['IDX'].str.contains('I\(A')]
@@ -52,19 +46,12 @@ def dbms_results(dbms, print_caption, storage):
     IAB_data = data[data['IDX'].str.contains('I\(AB\)')]
 
 
+    # compute_means(joinmin_data, print_caption, has_cost)
+    compute_means(data, dbms, has_cost, "Rank Algorithms, all data")
+    compute_means(data[data['T2'] < 300000], dbms, has_cost, "Rank Algorithms, less than 5 minutes data")
 
-    # compute average value of T1
-    print("----------------------------")
-    print("DBMS: " + dbms)
-    print("Average WF strategy time: ", data['T1'].mean() / 1000.0)
-    print("Average Self-join strategy time: ", data['T2'].mean() / 1000.0)
-
-    # Compute the geometric mean of T1/T2
-    geometric_mean = stats.gmean(data['T1'] / data['T2'].replace(0, 1))
-    print("Geometric Mean of T1/T2:", geometric_mean)
-
-    # find number of rows where T2 >= 300000 for LateralAgg
-    print("Number of rows reaching the 300s limit")
+    print("-------------------------------------")
+    print("Algorithms over 3000s for each algorithm:")
     print("LateralAgg: ", len(lateralagg_data[lateralagg_data['T2'] >= 300000])/len(lateralagg_data)*100 , "% (", len(lateralagg_data[lateralagg_data['T2'] >= 300000]), "/", len(lateralagg_data), ")")
     print("LateralLimit: ", len(laterallimit_data[laterallimit_data['T2'] >= 300000])/len(laterallimit_data)*100 , "%", "(", len(laterallimit_data[laterallimit_data['T2'] >= 300000]), "/", len(laterallimit_data), ")")
     print("LateralDistinctLimit: ", len(lateraldistinctlimit_data[lateraldistinctlimit_data['T2'] >= 300000])/len(lateraldistinctlimit_data)*100 , "%", "(", len(lateraldistinctlimit_data[lateraldistinctlimit_data['T2'] >= 300000]), "/", len(lateraldistinctlimit_data), ")" )
@@ -72,6 +59,7 @@ def dbms_results(dbms, print_caption, storage):
 
     plt.rcParams['font.size'] = 14
     def all_parameters():
+        attrcount = 11
         boxplot_dict = plt.boxplot([np.log10(data['T1'] / data['T2']),
                                     np.log10(lateralagg_data['T1'] / lateralagg_data['T2']),
                                     np.log10(laterallimit_data['T1'] / laterallimit_data['T2']),
@@ -81,19 +69,15 @@ def dbms_results(dbms, print_caption, storage):
                                     np.log10(parallel_off['T1'] / parallel_off['T2']),
                                     np.log10(padding_on['T1'] / padding_on['T2']),
                                     np.log10(padding_off['T1'] / padding_off['T2']),
-                                    np.log10(IBA_data['T1'] / IBA_data['T2']),
-                                    np.log10(IAB_data['T1'] / IAB_data['T2']),
-                                    np.log10(IB_data['T1'] / IB_data['T2']),
-                                    np.log10(Not_IB_data['T1'] / Not_IB_data['T2']),
-                                    np.log10(IA_data['T1'] / IA_data['T2']),
-                                    np.log10(Not_IA_data['T1'] / Not_IA_data['T2'])
+                                    np.log10(NoIndex_data['T1'] / NoIndex_data['T2']),
+                                    np.log10(SomeIndex_data['T1'] / SomeIndex_data['T2'])
                                     ],
 
                                    showfliers=True,
-                                   positions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+                                   positions=[i for i in range(attrcount)],
                                    labels=['ALL', 'LateralAgg', 'LateralLimit', 'LateralDistinctLimit', 'JoinMin',
                                            'PARALLELIZED', 'SINGLE THREAD', 'PADDING', 'NO PADDING',
-                                           'I(BA)', 'I(AB)', 'I(B)', '~I(B)', 'I(A)', '~I(A)']
+                                           'NO INDEX', 'SOME INDEX']
                                    )
 
         # Modify the fliers marker style
@@ -102,11 +86,10 @@ def dbms_results(dbms, print_caption, storage):
             flier.set(**flier_marker_style)
 
         # Define the colors for the desired boxes
-        colors = ['orange', 'orange', 'orange', 'orange', 'blue', 'blue', 'green', 'green', 'brown', 'brown', 'cyan', 'cyan',
-                  'magenta', 'magenta']
+        colors = ['orange', 'orange', 'orange', 'orange', 'blue', 'blue', 'green', 'green', 'brown', 'brown', 'magenta', 'magenta']
 
         # Loop through the desired boxes and modify their color
-        for i in range(1, 15):
+        for i in range(1, attrcount):
             box = boxplot_dict['boxes'][i]
             box.set(color=colors[i - 1])
 
@@ -210,12 +193,18 @@ def dbms_results(dbms, print_caption, storage):
     all_parameters()
     ###################################################################
     # Create the next box plot for T1/T2 based on PB value
-    bvalues(joinmin_data, print_caption + ' JoinMin')
-    bvalues(lateraldistinctlimit_data, print_caption + ' LateralDistinctLimit')
+    # bvalues(joinmin_data, print_caption + ' JoinMin')
+    # bvalues(lateraldistinctlimit_data, print_caption + ' LateralDistinctLimit')
 
     ###################################################################
-    times(data, print_caption + ' Query Processing Times')
+    # times(data, print_caption + ' Query Processing Times')
 
-dbms_results('MSSql', 'DBMS1', "ROW")
-dbms_results('Postgres', 'PostgreSql', "ROW")
-dbms_results('Oracle', 'DBMS2', "ROW")
+
+
+dbms_results('MSSql2', 'DBMS1', True, "ROW")
+dbms_results('Postgres2', 'PostgreSql', True, "ROW")
+
+# dbms_results('MSSql', 'DBMS1', False, "ROW")
+# dbms_results('Postgres', 'PostgreSql', False, "ROW")
+dbms_results('Oracle', 'DBMS2', False, "ROW")
+dbms_results('Hyper', 'Hyper', False, "COLUMN")

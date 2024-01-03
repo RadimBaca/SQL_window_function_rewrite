@@ -53,6 +53,8 @@ public class mssql_rewrite_probe {
         sql1 = sql1.toUpperCase();
         sql2 = rewriteSQL(sql1);
 
+
+
         try {
             // Load the SQL Server JDBC driver
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");

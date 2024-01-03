@@ -51,6 +51,7 @@ public class hyper_rewrite_probe {
     }
 
     private static boolean testRewriteSqlInFile(String fileName) {
+
         try (FileReader fileReader = new FileReader(fileName);
              BufferedReader bufferedReader = new BufferedReader(fileReader)) {
             String line;
@@ -70,6 +71,7 @@ public class hyper_rewrite_probe {
 //            int columnCount1 = rsmd1.getColumnCount();
 
         Path pathToDatabase = resolveExampleFile(connection_string);
+
 
         try (HyperProcess process = new HyperProcess(Telemetry.DO_NOT_SEND_USAGE_DATA_TO_TABLEAU);
              com.tableau.hyperapi.Connection connection = new com.tableau.hyperapi.Connection(

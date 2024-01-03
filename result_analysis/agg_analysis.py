@@ -4,35 +4,25 @@
 ## The boxplots show the runtime ratio Tsj/Tln for each DBMS.
 
 
-
-import pandas as pd
-import re
 import scipy.stats as stats
 import matplotlib.pyplot as plt
 import numpy as np
 
-def dbms_results(dbms, has_column, print_caption):
-    global file, lines, pattern, line, data, column_data, row_data, parallel_on, parallel_off, padding_on, padding_off, count_data, min_data, PB_data, PB_OB_data, IC_data, Not_IC_data, IB_data, Not_IB_data, IA_data, Not_IA_data, IBA_data, IAB_data, X
+from result_analysis.manipulation import read_data, compute_means
+
+
+def dbms_results(dbms, filter_column_results, has_cost, print_caption):
+    global data, column_data, row_data, parallel_on, parallel_off, padding_on, padding_off, count_data, min_data, PB_data, PB_OB_data, IC_data, Not_IC_data, IB_data, Not_IB_data, IA_data, Not_IA_data, IBA_data, IAB_data, X
     # Read the CSV file into a DataFrame, reading each row as a string
     with open('agg_' + dbms + '.txt', 'r') as file:
         lines = file.readlines()
-    # Define the regular expression pattern for valid rows
-    pattern = r'^\d+,\d+,\d+,\d+,(?:ROW|COLUMN),.*$'
-    # Filter out rows that do not match the pattern
-    valid_lines = [line.strip().split(',') for line in lines if re.match(pattern, line.strip())]
-    wrong_lines = [line for line in valid_lines if not len(line) == 11]
-    # Create a DataFrame from the filtered lines
-    data = pd.DataFrame(valid_lines,
-                        columns=['T1', 'T2', 'PB', 'RS', 'Storage', 'IDX', 'Padding', 'Par', 'Alg', 'Fun', 'Constructs',
-                                 'Sel'])
-    # Convert numeric columns to the appropriate data types
-    numeric_cols = ['T1', 'T2', 'PB', 'RS']
-    data[numeric_cols] = data[numeric_cols].astype(int)
+    columns = ['Fun', 'Constructs', 'Sel']
+    data = read_data(has_cost, lines, columns)
 
     # Filter out results of column storage
-    if has_column:
+    if filter_column_results:
         data = data[data['Storage'] == 'ROW']
-        has_column = False
+        filter_column_results = False
 
     ###########################################################################
     # Filter rows based on conditions and compute statistics
@@ -46,6 +36,8 @@ def dbms_results(dbms, has_column, print_caption):
     min_data = data[data['Fun'] == 'min']
     PB_data = data[data['Constructs'] == 'PB']
     PB_OB_data = data[data['Constructs'] == 'PB_OB']
+    NoIndex_data = data[data['IDX'].str.startswith(' ')]
+    SomeIndex_data = data[~data['IDX'].str.startswith(' ')]
     IC_data = data[data['IDX'].str.startswith('I(C)')]
     Not_IC_data = data[~data['IDX'].str.startswith('I(C)')]
     IB_data = data[data['IDX'].str.contains('I\(B\)')]
@@ -55,22 +47,13 @@ def dbms_results(dbms, has_column, print_caption):
     IBA_data = data[data['IDX'].str.contains('I\(BA\)')]
     IAB_data = data[data['IDX'].str.contains('I\(AB\)')]
 
-    # compute average value of T1
-    print("----------------------------")
-    print("DBMS: " + dbms)
-    print("Average WF strategy time: ", data['T1'].mean() / 1000.0)
-    print("Average Self-join strategy time: ", data['T2'].mean() / 1000.0)
-    print("Number of tests: ", len(data))
-
-    # Compute the geometric mean of T1/T2
-    geometric_mean = stats.gmean(data['T1'] / data['T2'].replace(0, 1))
-    print("Geometric Mean of T1/T2:", geometric_mean)
-    print("Number of rows reaching the 300s limit:", len(data[data['T2'] >= 300000]) / len(data) * 100, "% (", len(data[data['T2'] >= 300000]), "/", len(data), ")")
-
+    compute_means(data, dbms, has_cost, "Agg Microbenchmark, all data")
 
     plt.rcParams['font.size'] = 14
+
+
     def all_parameters():
-        if has_column:
+        if filter_column_results:
             boxplot_dict = plt.boxplot([np.log10(data['T1'] / data['T2']),
                                         np.log10(column_data['T1'] / column_data['T2']),
                                         np.log10(row_data['T1'] / row_data['T2']),
@@ -82,6 +65,7 @@ def dbms_results(dbms, has_column, print_caption):
                                         np.log10(min_data['T1'] / min_data['T2']),
                                         np.log10(PB_data['T1'] / PB_data['T2']),
                                         np.log10(PB_OB_data['T1'] / PB_OB_data['T2']),
+                                        np.log10(NoIndex_data['T1'] / NoIndex_data['T2']),
                                         np.log10(IBA_data['T1'] / IBA_data['T2']),
                                         np.log10(IAB_data['T1'] / IAB_data['T2']),
                                         np.log10(IB_data['T1'] / IB_data['T2']),
@@ -93,10 +77,10 @@ def dbms_results(dbms, has_column, print_caption):
                                         ],
 
                                        showfliers=True,
-                                       positions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19],
+                                       positions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
                                        labels=['ALL', 'COLUMN', 'ROW', 'PARALLELIZED', 'SINGLE THREAD', 'PADDING',
                                                'NO PADDING', 'COUNT',
-                                               'MIN', 'PB', 'PB_OB', 'I(BA)', 'I(AB)', 'I(B)', '~I(B)', 'I(C)', '~I(C)',
+                                               'MIN', 'PB', 'PB_OB', ' ', 'I(BA)', 'I(AB)', 'I(B)', '~I(B)', 'I(C)', '~I(C)',
                                                'I(A)', '~I(A)']
                                        )
 
@@ -106,7 +90,7 @@ def dbms_results(dbms, has_column, print_caption):
                 flier.set(**flier_marker_style)
 
             # Define the colors for the desired boxes
-            colors = ['red', 'red', 'blue', 'blue', 'green', 'green', 'orange', 'orange', 'cyan', 'cyan', 'magenta',
+            colors = ['red', 'red', 'blue', 'blue', 'green', 'green', 'orange', 'orange', 'cyan', 'cyan', 'black' , 'magenta',
                       'magenta', 'brown', 'brown', 'purple', 'purple']
 
             # Loop through the desired boxes and modify their color
@@ -114,6 +98,7 @@ def dbms_results(dbms, has_column, print_caption):
                 box = boxplot_dict['boxes'][i]
                 box.set(color=colors[i - 1])
         else:
+            attrcount = 11
             boxplot_dict = plt.boxplot([np.log10(data['T1'] / data['T2']),
                                         np.log10(parallel_on['T1'] / parallel_on['T2']),
                                         np.log10(parallel_off['T1'] / parallel_off['T2']),
@@ -123,22 +108,14 @@ def dbms_results(dbms, has_column, print_caption):
                                         np.log10(min_data['T1'] / min_data['T2']),
                                         np.log10(PB_data['T1'] / PB_data['T2']),
                                         np.log10(PB_OB_data['T1'] / PB_OB_data['T2']),
-                                        np.log10(IBA_data['T1'] / IBA_data['T2']),
-                                        np.log10(IAB_data['T1'] / IAB_data['T2']),
-                                        np.log10(IB_data['T1'] / IB_data['T2']),
-                                        np.log10(Not_IB_data['T1'] / Not_IB_data['T2']),
-                                        np.log10(IA_data['T1'] / IA_data['T2']),
-                                        np.log10(Not_IA_data['T1'] / Not_IA_data['T2']),
-                                        np.log10(IC_data['T1'] / IC_data['T2']),
-                                        np.log10(Not_IC_data['T1'] / Not_IC_data['T2'])
+                                        np.log10(NoIndex_data['T1'] / NoIndex_data['T2']),
+                                        np.log10(SomeIndex_data['T1'] / SomeIndex_data['T2'])
                                         ],
 
                                        showfliers=True,
-                                       positions=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
+                                       positions=[i for i in range(attrcount)],
                                        labels=['ALL', 'PARALLELIZED', 'SINGLE THREAD', 'PADDING', 'NO PADDING', 'COUNT',
-                                               'MIN', 'PB',
-                                               'PB_OB',
-                                               'I(BA)', 'I(AB)', 'I(B)', '~I(B)', 'I(A)', '~I(A)', 'I(C)', '~I(C)']
+                                               'MIN', 'PB', 'PB_OB', 'NO INDEX', 'SOME INDEX']
                                        )
 
             # Modify the fliers marker style
@@ -147,11 +124,10 @@ def dbms_results(dbms, has_column, print_caption):
                 flier.set(**flier_marker_style)
 
             # Define the colors for the desired boxes
-            colors = ['red', 'red', 'green', 'green', 'orange', 'orange', 'cyan', 'cyan', 'magenta', 'magenta',
-                      'brown', 'brown', 'purple', 'purple', 'blue', 'blue']
+            colors = ['red', 'red', 'green', 'green', 'orange', 'orange', 'cyan', 'cyan', 'magenta', 'magenta']
 
             # Loop through the desired boxes and modify their color
-            for i in range(1, 17):
+            for i in range(1, attrcount):
                 box = boxplot_dict['boxes'][i]
                 box.set(color=colors[i - 1])
 
@@ -168,7 +144,6 @@ def dbms_results(dbms, has_column, print_caption):
         plt.show()
 
     def bvalues():
-        global i
         pb_data = []
         pb_values = [10, 30, 100, 300, 1000, 3000, 10000, 30000]
         for i in range(len(pb_values)):
@@ -199,7 +174,6 @@ def dbms_results(dbms, has_column, print_caption):
         plt.show()
 
     def bvalues_Bindex():
-        global i
         pb_data = []
         pb_values = [10, 30, 100, 300, 1000, 3000, 10000, 30000]
         for i in range(len(pb_values)):
@@ -231,7 +205,6 @@ def dbms_results(dbms, has_column, print_caption):
         plt.show()
 
     def sel():
-        global i
         sel_data = []
         sel_values = ['1', '2', '4', '8', '16', '32']
         for i in range(len(sel_values)):
@@ -261,7 +234,6 @@ def dbms_results(dbms, has_column, print_caption):
         plt.show()
 
     def sel_Ib():
-        global i
         sel_data = []
         sel_values = ['<1', '<2', '<4', '<8', '<16', '<32']
         for i in range(len(sel_values)):
@@ -363,8 +335,8 @@ def dbms_results(dbms, has_column, print_caption):
         print('Data size: ' + str(len(data)))
         print('data_IB_ROW data size: ' + str(len(data_IB_ROW)))
         # Compute the geometric mean of T1/T2
-        geometric_mean = stats.gmean(data_IB_ROW['T1'] / data_IB_ROW['T2'].replace(0, 1))
-        print("Geometric Mean of T1/T2:", geometric_mean)
+        geometric_mean_ib_row = stats.gmean(data_IB_ROW['T1'] / data_IB_ROW['T2'].replace(0, 1))
+        print("Geometric Mean of T1/T2:", geometric_mean_ib_row)
         data_IB_ROW_count = data_IB_ROW[data_IB_ROW['Fun'] == 'count']
         data_IB_ROW_min = data_IB_ROW[data_IB_ROW['Fun'] == 'min']
         data_IB_ROW_parallelon = data_IB_ROW[data_IB_ROW['Par'] == 'parallel_ON']
@@ -413,7 +385,7 @@ def dbms_results(dbms, has_column, print_caption):
     # bvalues_Bindex()
     ###################################################################
     # Create the next box plot for T1/T2 based on Sel value
-    sel()
+    # sel()
     ###################################################################
     # Create the next box plot for T1/T2 based on Sel value with I(B) index
     # sel_Ib()
@@ -439,7 +411,9 @@ def dbms_results(dbms, has_column, print_caption):
     ###################################################################
     # X()
 
+dbms_results('MSSql2', True, True, 'DBMS1')
 
-dbms_results('MSSql', True, 'DBMS1')
-dbms_results('Postgres', False, 'PostgreSql')
-dbms_results('Oracle', False, 'DBMS2')
+# dbms_results('MSSql', True, False, 'DBMS1')
+dbms_results('Postgres', False, False, 'PostgreSql')
+dbms_results('Oracle', False, False, 'DBMS2')
+dbms_results('Hyper', False, False, 'DBMS2')

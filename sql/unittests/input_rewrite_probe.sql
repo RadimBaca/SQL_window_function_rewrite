@@ -1,9 +1,8 @@
 
-
-SELECT A, B
+SELECT A, B, C, minA
 FROM (
-         SELECT A, B,
-                ROW_NUMBER() OVER (PARTITION BY B ORDER BY A) RN
-         FROM "R_COLUMN_300"
+         SELECT A, B, C,
+                min(A) OVER (PARTITION BY B ORDER BY A) minA
+         FROM R_ROW_1000
      ) T1
-WHERE RN = 10
+WHERE C < 1
