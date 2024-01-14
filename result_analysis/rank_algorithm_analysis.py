@@ -1,5 +1,4 @@
 ## This script is used to analyze the results of the greatest per group microbenchmark.
-## Script is used just for ROW storage format.
 ## It reads the results from the file rank_algorithms_DBMS.txt and creates a boxplots for each DBMS.
 ## The boxplots show the runtime ratio Tsj/Tln for each DBMS.
 
@@ -11,7 +10,7 @@ import numpy as np
 from result_analysis.manipulation import read_data, compute_means
 
 
-def dbms_results(dbms, print_caption, has_cost, storage):
+def dbms_results(dbms, print_caption, has_cost, storage, plt):
     global file, lines, columns, pattern, line, data, column_data, row_data, parallel_on, parallel_off, padding_on, padding_off, equal1_data, equalN_data, lessN_data, IB_data, Not_IB_data, IA_data, Not_IA_data, IBA_data, IAB_data, X
     # Read the CSV file into a DataFrame, reading each row as a string
     with open('rank_algorithms_' + dbms + '.txt', 'r') as file:
@@ -19,8 +18,7 @@ def dbms_results(dbms, print_caption, has_cost, storage):
     columns = ['Cmp']
     data = read_data(has_cost, lines, columns)
 
-
-    # Filter out results of column storage
+    # Select results of specified storage
     data = data[data['Storage'] == storage]
 
     ###########################################################################
@@ -38,26 +36,26 @@ def dbms_results(dbms, print_caption, has_cost, storage):
     NoIndex_data = data[data['IDX'].str.startswith(' ')]
     SomeIndex_data = data[~data['IDX'].str.startswith(' ')]
 
-    IB_data = data[data['IDX'].str.contains('I\(B')]
-    Not_IB_data = data[~data['IDX'].str.contains('I\(B')]
-    IA_data = data[data['IDX'].str.contains('I\(A')]
-    Not_IA_data = data[~data['IDX'].str.contains('I\(A')]
-    IBA_data = data[data['IDX'].str.contains('I\(BA\)')]
-    IAB_data = data[data['IDX'].str.contains('I\(AB\)')]
+    # IB_data = data[data['IDX'].str.contains('I\(B')]
+    # Not_IB_data = data[~data['IDX'].str.contains('I\(B')]
+    # IA_data = data[data['IDX'].str.contains('I\(A')]
+    # Not_IA_data = data[~data['IDX'].str.contains('I\(A')]
+    # IBA_data = data[data['IDX'].str.contains('I\(BA\)')]
+    # IAB_data = data[data['IDX'].str.contains('I\(AB\)')]
 
 
     # compute_means(joinmin_data, print_caption, has_cost)
-    compute_means(data, dbms, has_cost, "Rank Algorithms, all data")
-    compute_means(data[data['T2'] < 300000], dbms, has_cost, "Rank Algorithms, less than 5 minutes data")
+    compute_means(data, dbms, has_cost, "Greatest Per Group Microbenchmark, all data")
+    compute_means(data[data['T2'] < 300000], dbms, has_cost, "Greatest Per Group Microbenchmark, less than 5 minutes data")
 
     print("-------------------------------------")
     print("Algorithms over 3000s for each algorithm:")
     print("LateralAgg: ", len(lateralagg_data[lateralagg_data['T2'] >= 300000])/len(lateralagg_data)*100 , "% (", len(lateralagg_data[lateralagg_data['T2'] >= 300000]), "/", len(lateralagg_data), ")")
-    print("LateralLimit: ", len(laterallimit_data[laterallimit_data['T2'] >= 300000])/len(laterallimit_data)*100 , "%", "(", len(laterallimit_data[laterallimit_data['T2'] >= 300000]), "/", len(laterallimit_data), ")")
-    print("LateralDistinctLimit: ", len(lateraldistinctlimit_data[lateraldistinctlimit_data['T2'] >= 300000])/len(lateraldistinctlimit_data)*100 , "%", "(", len(lateraldistinctlimit_data[lateraldistinctlimit_data['T2'] >= 300000]), "/", len(lateraldistinctlimit_data), ")" )
+    print("LateralLimitTies: ", len(laterallimit_data[laterallimit_data['T2'] >= 300000])/len(laterallimit_data)*100 , "%", "(", len(laterallimit_data[laterallimit_data['T2'] >= 300000]), "/", len(laterallimit_data), ")")
+    print("LateralDistinctLimitTies: ", len(lateraldistinctlimit_data[lateraldistinctlimit_data['T2'] >= 300000])/len(lateraldistinctlimit_data)*100 , "%", "(", len(lateraldistinctlimit_data[lateraldistinctlimit_data['T2'] >= 300000]), "/", len(lateraldistinctlimit_data), ")" )
     print("JoinMin: ", len(joinmin_data[joinmin_data['T2'] >= 300000])/len(joinmin_data)*100 , "%", "(", len(joinmin_data[joinmin_data['T2'] >= 300000]), "/", len(joinmin_data), ")" )
 
-    plt.rcParams['font.size'] = 14
+    # plt.rcParams['font.size'] = 14
     def all_parameters():
         attrcount = 11
         boxplot_dict = plt.boxplot([np.log10(data['T1'] / data['T2']),
@@ -75,7 +73,7 @@ def dbms_results(dbms, print_caption, has_cost, storage):
 
                                    showfliers=True,
                                    positions=[i for i in range(attrcount)],
-                                   labels=['ALL', 'LateralAgg', 'LateralLimit', 'LateralDistinctLimit', 'JoinMin',
+                                   labels=['ALL', 'LateralAgg', 'LateralLimitTies', 'LateralDistinctLimitTies', 'JoinMin',
                                            'PARALLELIZED', 'SINGLE THREAD', 'PADDING', 'NO PADDING',
                                            'NO INDEX', 'SOME INDEX']
                                    )
@@ -93,22 +91,9 @@ def dbms_results(dbms, print_caption, has_cost, storage):
             box = boxplot_dict['boxes'][i]
             box.set(color=colors[i - 1])
 
-        plt.xticks(rotation=80)
-        plt.ylabel(r'$T_{lin}\,/\,T_{sj}$')
-        plt.title(print_caption)
-
-        # plt.yscale('log')  # show the y-axis in log scale
-        # plt.axhline(y=1, color='r', linestyle='-')  # add horizontal line at value 1
-        # if we use np.log10, we need to use the following lines
-        plt.yticks(np.arange(-4, 3), 10.0 ** np.arange(-4, 3))
         plt.axhline(y=0, color='r', linestyle='-')  # add horizontal line at value 1
 
-        plt.subplots_adjust(left=0.18, right=0.97, top=0.94, bottom=0.43)  # Adjust the values as per your requirements
-
-        plt.savefig(print_caption + '_rank_algorithms.pdf', format='pdf')
-
-        # Show the plot
-        plt.show()
+        return boxplot_dict
 
     def bvalues(input_data, print_caption):
         global i
@@ -190,7 +175,7 @@ def dbms_results(dbms, print_caption, has_cost, storage):
 
     ###################################################################
     # Create the box plot
-    all_parameters()
+    return all_parameters()
     ###################################################################
     # Create the next box plot for T1/T2 based on PB value
     # bvalues(joinmin_data, print_caption + ' JoinMin')
@@ -200,11 +185,49 @@ def dbms_results(dbms, print_caption, has_cost, storage):
     # times(data, print_caption + ' Query Processing Times')
 
 
+    fig, axs = plt.subplots(1, 4, figsize=(22, 7), sharex=True)
 
-dbms_results('MSSql2', 'DBMS1', True, "ROW")
-dbms_results('Postgres2', 'PostgreSql', True, "ROW")
+titlesize = 25
+xlabelsize = 17
 
-# dbms_results('MSSql', 'DBMS1', False, "ROW")
-# dbms_results('Postgres', 'PostgreSql', False, "ROW")
-dbms_results('Oracle', 'DBMS2', False, "ROW")
-dbms_results('Hyper', 'Hyper', False, "COLUMN")
+# First subplot
+boxplot_dict1 = dbms_results('MSSql2', 'DBMS1', True, "ROW", axs[0])
+axs[0].set_title('DBMS1', fontsize=titlesize)
+axs[0].tick_params(axis='x', rotation=80)
+axs[0].tick_params(axis='x', labelsize=xlabelsize)
+axs[0].set_ylabel(r'$T_{lin}\,/\,T_{sj}$', fontsize=20)
+axs[0].set_yticks(np.arange(-4, 4), [r'$10^{' + str(i) +  r'}$' for i in range(-4, 4)], fontsize=15)
+
+
+# Second subplot
+boxplot_dict2 = dbms_results('Postgres2', 'PostgreSql', True, "ROW", axs[1])
+axs[1].set_title('PostgreSQL', fontsize=titlesize)
+axs[1].tick_params(axis='x', rotation=80)
+axs[1].tick_params(axis='x', labelsize=xlabelsize)
+axs[1].set_yticks(np.arange(-4, 4) , [])
+
+# Third subplot
+boxplot_dict3 = dbms_results('Oracle', 'DBMS2', False, "ROW", axs[2])
+axs[2].set_title('DBMS2', fontsize=titlesize)
+axs[2].tick_params(axis='x', rotation=80)
+axs[2].tick_params(axis='x', labelsize=xlabelsize)
+axs[2].set_yticks(np.arange(-4, 4), [])
+
+# Fourth subplot
+boxplot_dict4 = dbms_results('Hyper', 'Hyper', False, "COLUMN", axs[3])
+axs[3].set_title('Hyper', fontsize=titlesize)
+axs[3].tick_params(axis='x', rotation=80)
+axs[3].tick_params(axis='x', labelsize=xlabelsize)
+axs[3].set_yticks(np.arange(-4, 4), [])
+
+plt.tight_layout()
+plt.savefig('rank_algorithms.pdf', format='pdf')
+plt.show()
+
+# dbms_results('MSSql2', 'DBMS1', True, "ROW")
+# dbms_results('Postgres2', 'PostgreSql', True, "ROW")
+#
+# # dbms_results('MSSql', 'DBMS1', False, "ROW")
+# # dbms_results('Postgres', 'PostgreSql', False, "ROW")
+# dbms_results('Oracle', 'DBMS2', False, "ROW")
+# dbms_results('Hyper', 'Hyper', False, "COLUMN")

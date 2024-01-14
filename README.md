@@ -47,7 +47,7 @@ java -jar target/sqlrewriting-1.0-SNAPSHOT.jar -m -d MSSql -h hostname.com;insta
 Rewrite mode is run with `-r` option.
 
 The necessary options are 
-- `-d` - database system (MSSql, PostgreSql, Oracle)
+- `-d` - database system (MSSql, PostgreSql, Oracle, Hyper)
 - `-l` - type of logical tree (LateralAgg, LateralLimitTies, LateralDistinctLimitTies, JoinMin, BestFit)
 - `-f` - file name with input SQL query
 

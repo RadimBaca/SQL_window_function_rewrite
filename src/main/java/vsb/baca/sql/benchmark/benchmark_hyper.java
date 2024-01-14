@@ -95,10 +95,9 @@ public class benchmark_hyper extends benchmark {
     }
 
     @Override
-    public ArrayList<Pair<String, Integer>> generateTableNames(String tab_prefix) {
+    public ArrayList<Pair<String, Integer>> generateBDistinctTableNames(String tab_prefix) {
         ArrayList<Pair<String, Integer>> tableNames = new ArrayList<Pair<String, Integer>>();
         for (int i = 2; i <= 5; i++) {
-            // convert pow result into integer
             tableNames.add(new Pair(tab_prefix + (int) pow(10, i), (int) pow(10, i)));
             tableNames.add(new Pair(tab_prefix + 3 * (int) pow(10, i), 3 * (int) pow(10, i)));
         }

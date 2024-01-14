@@ -10,13 +10,24 @@ import matplotlib.pyplot as plt
 import numpy as np
 from result_analysis.manipulation import read_data, compute_means
 
+counter = 0
+display_dbms_text = {
+    'Hyper': 'Hyper',
+    'Postgres': 'PostgreSQL',
+    'MSSql': 'DBMS1',
+    'Oracle': 'DBMS2'
+}
+display_bdistinct = {
+    10: '0.001',
+    30000: '3'
+}
 
-def agg_analysis(dbms_list, has_cost, index):
-    global file, lines, columns, pattern, line, data, column_data, row_data, parallel_on, parallel_off, padding_on, padding_off, equal1_data, equalN_data, lessN_data, IB_data, Not_IB_data, IA_data, Not_IA_data, IBA_data, IAB_data, X
+def agg_analysis(dbms_list, has_cost, index, print_legend):
+    global counter, file, lines, columns, pattern, line, data, column_data, row_data, parallel_on, parallel_off, padding_on, padding_off, equal1_data, equalN_data, lessN_data, IB_data, Not_IB_data, IA_data, Not_IA_data, IBA_data, IAB_data, X
 
     data = {}
 
-    for (dbms, alg) in dbms_list:
+    for (dbms, alg, color) in dbms_list:
         # Read the CSV file into a DataFrame, reading each row as a string
         with open('agg_' + dbms + '.txt', 'r') as file:
             lines = file.readlines()
@@ -29,7 +40,7 @@ def agg_analysis(dbms_list, has_cost, index):
     plt.rcParams['font.size'] = 14
 
 
-    for (dbms,bd) in dbms_list:
+    for (dbms,bd, color) in dbms_list:
         selected_data = data[dbms]
         filtered_selected_data = selected_data[
             (selected_data['Par'] == 'parallel_ON') &
@@ -43,36 +54,46 @@ def agg_analysis(dbms_list, has_cost, index):
         # pb_values = [10, 30, 100, 300, 1000, 3000, 10000, 30000]
         sel_values = [1, 2, 4, 8, 16, 32]
         division_result_list = (filtered_selected_data['T1'] / filtered_selected_data['T2']).tolist()
-        plt.plot(sel_values, division_result_list, marker='o', label=dbms + ', bd: ' + str(bd))
+        plt.plot(sel_values, division_result_list, marker='o', label=display_dbms_text[dbms] + ', bdistinct: ' + display_bdistinct[bd], color=color)
 
     plt.axhline(y=1, color='red', linestyle='--')
     plt.ylim(0.001, 1000)
     plt.xscale('log')
     plt.yscale('log')
-    plt.legend(handlelength=0, fontsize='small')
+    if print_legend:
+        plt.legend(handlelength=0, fontsize='x-small')
 
     # Label axes and add title
-    plt.xlabel('PB Values')
+    plt.xlabel('Selectivity')
     plt.ylabel('T1/T2')
-    plt.title('Line Plot for T1/T2 with Logarithmic Axes')
+    if index == " ":
+        plt.title('No index')
+    else:
+        plt.title(index + ' index')
 
-    # Show the plot
+    plt.subplots_adjust(left=0.15, right=0.97, top=0.93, bottom=0.12)
+    plt.savefig('agg_sel_' + str(counter) + '.pdf', format='pdf')
+    counter += 1
     plt.show()
 
 def without_index():
     global dbms_list, alg, result
+    colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f']
     dbms_list = ['MSSql', 'Postgres', 'Oracle', 'Hyper']
     bdistinct = [10, 30000]
     result = [(d, bd) for bd in bdistinct for d in dbms_list]
-    agg_analysis(result, False, " ")
+    result = [(val1, val2, color) for color, (val1, val2) in zip(colors, result)]
+    agg_analysis(result, False, " ", True)
 
 def with_index():
     global dbms_list, alg, result
+    colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#9467bd', '#8c564b', '#e377c2']
     dbms_list = ['MSSql', 'Postgres', 'Oracle']
     bdistinct = [10, 30000]
     result = [(d, bd) for bd in bdistinct for d in dbms_list]
-    agg_analysis(result, False, "I(B)")
-    agg_analysis(result, False, "I(A)")
+    result = [(val1, val2, color) for color, (val1, val2) in zip(colors, result)]
+    agg_analysis(result, False, "I(A);I(B)", False)
+    agg_analysis(result, False, "I(BA)", False)
 
 without_index()
 with_index()

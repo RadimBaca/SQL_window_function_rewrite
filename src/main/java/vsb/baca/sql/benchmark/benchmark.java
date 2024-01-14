@@ -20,6 +20,10 @@ import java.util.ArrayList;
 import static java.lang.Math.pow;
 
 public abstract class benchmark {
+    public static final int BEGIN_ORDER_ORDER_OF_MAGNITUDE_FOR_BDISTINCT = 1;
+    public static final int END_ORDER_OF_MAGNITUDE_FOR_BDISTINCT = 4;
+    public static final int REPEAT_QUERY_N_TIMES = 3;
+
     bench_config bconfig;
     ArrayList<Pair<String, Integer>> tableNames;
     ArrayList<String> createindexes = new ArrayList<String>();
@@ -55,8 +59,7 @@ public abstract class benchmark {
     abstract protected String compileResultRowHeader();
 
     public void run() throws Exception {
-        // create querytime list of table names "R100", "R300", "R1000", "R3000" ...
-        tableNames = generateTableNames(bconfig.tab_prefix);
+        tableNames = generateBDistinctTableNames(bconfig.tab_prefix);
 
         readCreateCommands(createindexes, createindexes_legends, bconfig.CREATEINDEXES_FILENAME);
         readDropCommands(dropindexes,  bconfig.DROPINDEXES_FILENAME);
@@ -93,7 +96,11 @@ public abstract class benchmark {
         }
     }
 
-
+    /**
+     * Run DDL commands. This method is used for creating and dropping indexes on all bdistinct tables
+     * @param sql_index
+     * @param tableNames - list of bdistinct tables
+     */
     protected void runCommand(String sql_index, ArrayList<Pair<String, Integer>> tableNames) {
         System.out.println("----------------------------------------");
         System.out.println("DDL: " + sql_index);
@@ -122,10 +129,14 @@ public abstract class benchmark {
         }
     }
 
-
+    /**
+     * Run SQL SELECT tests N times. Method calls the SQL SELECT rewrite method and measures the time of each query.
+     * @param sqlInit - (a,b) pair. a contains initial SQL query. b contains query parameters.
+     * @param index_legend - index used in the query
+     * @param tableNames - list of bdistinct tables
+     */
     private boolean benchmarkSQLrewrite(Pair<String,String> sqlInit, String index_legend, ArrayList<Pair<String, Integer>> tableNames) {
 
-//        System.out.println("Groups,SQL1,SQL2");
         for (Pair<String, Integer> tableName : tableNames) {
             String sql1 = null;
             if (bconfig instanceof bench_config_hyper) { // TODO - refactoring is needed
@@ -139,9 +150,8 @@ public abstract class benchmark {
             bconfig.logger.info("SQL1:\n" + sql1);
             bconfig.logger.info("SQL2:\n" + sql2);
 
-            // execute the queries three times and get the lowest time
-            measured_result sql1_time = processQueryNTimes(sql1, 3);
-            measured_result sql2_time = processQueryNTimes(sql2, 3 );
+            measured_result sql1_time = processQueryNTimes(sql1, REPEAT_QUERY_N_TIMES);
+            measured_result sql2_time = processQueryNTimes(sql2, REPEAT_QUERY_N_TIMES );
 
             // check if the result sizes are the same
             if (sql1_time.resultsize != sql2_time.resultsize &&
@@ -163,7 +173,7 @@ public abstract class benchmark {
      * Execute the sql query n times and return the lowest time and result size
      * @param sql sql query
      * @param n number of times to execute the query
-     * @return measured_result
+     * @return measured_result with lowest time
      */
     private measured_result processQueryNTimes(String sql, int n) {
         long lowest_time;
@@ -173,11 +183,11 @@ public abstract class benchmark {
             measured_result result = getQueryProcessingTime(sql);
             sql_times.add(result);
             if (result.querytime >= (long)60000) {
-                // if the query took more than 1 minute, return the result
+                // if the query took more than 1 minute, return the result immediately and do not repeat n times
                 return result;
             }
         }
-        // find lowest value in sql_times
+
         lowest_time = Long.MAX_VALUE;
         for (int i = 0; i < n; i++) {
             if (sql_times.get(i).querytime < lowest_time) {
@@ -233,28 +243,6 @@ public abstract class benchmark {
         }
     }
 
-//    public Pair<String, String> readQueryFromFile(String fileName) {
-//        String sqlInit = "";
-//        String sqlLegend = "";
-//        boolean firstLine = true;
-//        try (FileReader fileReader = new FileReader(fileName);
-//             BufferedReader bufferedReader = new BufferedReader(fileReader)) {
-//            String line;
-//            while ((line = bufferedReader.readLine()) != null) {
-//                if (firstLine) {
-//                    firstLine = false;
-//                    sqlLegend = line;
-//                    continue;
-//                }
-//                sqlInit += "\n" + line;
-//            }
-//        } catch (IOException e) {
-//            System.out.println("Error reading file: " + e.getMessage());
-//        }
-//        return new Pair(sqlInit, sqlLegend);
-//    }
-
-
     public static ArrayList<Pair<String, String>> generateQueriesWithSelectivity(ArrayList<Integer> selectivity, String fileName) {
         ArrayList<Pair<String, String>> queries = new ArrayList<Pair<String, String>>();
         for (Integer sel : selectivity) {
@@ -287,10 +275,14 @@ public abstract class benchmark {
         return new Pair(sqlInit, sqlLegend);
     }
 
-    public ArrayList<Pair<String, Integer>> generateTableNames(String tab_prefix) {
+    /**
+     * Generate list of table names according to the BDistinct values ("R100", "R300", "R1000", "R3000", "R10000", "R30000", "R100000", "R300000")
+     * @param tab_prefix
+     * @return List of table names
+     */
+    public ArrayList<Pair<String, Integer>> generateBDistinctTableNames(String tab_prefix) {
         ArrayList<Pair<String, Integer>> tableNames = new ArrayList<Pair<String, Integer>>();
-        for (int i = 1; i <= 4; i++) {
-            // convert pow result into integer
+        for (int i = BEGIN_ORDER_ORDER_OF_MAGNITUDE_FOR_BDISTINCT; i <= END_ORDER_OF_MAGNITUDE_FOR_BDISTINCT; i++) {
             tableNames.add(new Pair(tab_prefix + (int) pow(10, i), (int) pow(10, i)));
             tableNames.add(new Pair(tab_prefix + 3 * (int) pow(10, i), 3 * (int) pow(10, i)));
         }

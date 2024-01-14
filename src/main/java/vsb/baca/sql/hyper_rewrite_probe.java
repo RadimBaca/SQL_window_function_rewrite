@@ -72,32 +72,44 @@ public class hyper_rewrite_probe {
 
         Path pathToDatabase = resolveExampleFile(connection_string);
 
+        if (process_query(pathToDatabase, sql1)) return false;
+        if (process_query(pathToDatabase, sql1)) return false;
+        if (process_query(pathToDatabase, sql1)) return false;
 
+        System.out.println("--------------------------------------------------");
+        if (process_query(pathToDatabase, sql2)) return false;
+        if (process_query(pathToDatabase, sql2)) return false;
+        if (process_query(pathToDatabase, sql2)) return false;
+
+        return true;
+    }
+
+    private static boolean process_query(Path pathToDatabase, String sql) {
         try (HyperProcess process = new HyperProcess(Telemetry.DO_NOT_SEND_USAGE_DATA_TO_TABLEAU);
              com.tableau.hyperapi.Connection connection = new com.tableau.hyperapi.Connection(
                      process.getEndpoint(),
                      pathToDatabase.toString())) {
 
             long startTime = System.currentTimeMillis();
-            Result result = connection.executeQuery("EXPLAIN (ANALYZE) " + sql2);
+            Result result = connection.executeQuery(sql);
+//            Result result = connection.executeQuery("EXPLAIN (VERBOSE, OPTIMIZERSTEPS) " + sql);
 
-            // print out all rows
+            // read all rows from the result set
+            int counter = 0;
             while (result.nextRow()) {
-                System.out.println(result.getString(0));
+                counter++;
+                //System.out.println(result.getString(0));
             }
+            System.out.println("Rows: " + counter);
 
-//            int count = 0;
-//            while (result.nextRow()) {
-//                count++;
-//            }
             long endTime = System.currentTimeMillis();
+            System.out.println("Time: " + (endTime - startTime) + " ms");
         }
         catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return true;
         }
-
-        return true;
+        return false;
     }
 
     private static String rewriteSQL(String sql) {

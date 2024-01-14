@@ -1,7 +1,7 @@
-SELECT A, B, C, countA
+SELECT A, B
 FROM (
-         SELECT A, B, C,
-                count(A) OVER (PARTITION BY B ORDER BY A) countA
-         FROM P_row_100
+         SELECT A, B,
+                ROW_NUMBER() OVER (PARTITION BY B ORDER BY A) RN
+         FROM R_row_100
      ) T1
-WHERE C < 32
+WHERE RN = 1
