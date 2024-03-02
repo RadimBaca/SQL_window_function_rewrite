@@ -21,16 +21,22 @@ display_bdistinct = {
     10: '0.001',
     30000: '3'
 }
+display_point = {
+    10: 'o',
+    30000: 'x'
+}
 
-def agg_analysis(dbms_list, has_cost, index, print_legend):
+def agg_analysis(dbms_list, index, print_legend):
     global counter, file, lines, columns, pattern, line, data, column_data, row_data, parallel_on, parallel_off, padding_on, padding_off, equal1_data, equalN_data, lessN_data, IB_data, Not_IB_data, IA_data, Not_IA_data, IBA_data, IAB_data, X
 
     data = {}
 
     for (dbms, alg, color) in dbms_list:
         # Read the CSV file into a DataFrame, reading each row as a string
-        with open('agg_' + dbms + '.txt', 'r') as file:
+        with open('agg_' + dbms + '_largesel.txt', 'r') as file:
             lines = file.readlines()
+
+        has_cost = ('query_cost' in lines[0]) # check if the first line contains 'query_cost' substring
         columns = ['Fun', 'Constructs', 'Sel']
         data[dbms] = read_data(has_cost, lines, columns)
         if dbms != 'Hyper':
@@ -52,9 +58,9 @@ def agg_analysis(dbms_list, has_cost, index, print_legend):
             ]
 
         # pb_values = [10, 30, 100, 300, 1000, 3000, 10000, 30000]
-        sel_values = [1, 2, 4, 8, 16, 32]
+        sel_values = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048]
         division_result_list = (filtered_selected_data['T1'] / filtered_selected_data['T2']).tolist()
-        plt.plot(sel_values, division_result_list, marker='o', label=display_dbms_text[dbms] + ', bdistinct: ' + display_bdistinct[bd], color=color)
+        plt.plot(sel_values, division_result_list, marker=display_point[bd], label=display_dbms_text[dbms] + ', bdistinct: ' + display_bdistinct[bd], color=color)
 
     plt.axhline(y=1, color='red', linestyle='--')
     plt.ylim(0.001, 1000)
@@ -62,16 +68,17 @@ def agg_analysis(dbms_list, has_cost, index, print_legend):
     plt.yscale('log')
     if print_legend:
         plt.legend(handlelength=0, fontsize='x-small')
+        plt.ylabel(r'$T_{lin}\,/\,T_{sj}$', fontsize=20)
 
     # Label axes and add title
-    plt.xlabel('Selectivity')
-    plt.ylabel('T1/T2')
+    plt.xlabel('Selectivity', fontsize=18)
     if index == " ":
-        plt.title('No index')
+        plt.title('No index', fontsize=24)
     else:
-        plt.title(index + ' index')
+        plt.title(index + ' index', fontsize=24)
 
-    plt.subplots_adjust(left=0.15, right=0.97, top=0.93, bottom=0.12)
+    # plt.subplots_adjust(left=0.15, right=0.97, top=0.93, bottom=0.12)
+    plt.tight_layout()
     plt.savefig('agg_sel_' + str(counter) + '.pdf', format='pdf')
     counter += 1
     plt.show()
@@ -83,18 +90,18 @@ def without_index():
     bdistinct = [10, 30000]
     result = [(d, bd) for bd in bdistinct for d in dbms_list]
     result = [(val1, val2, color) for color, (val1, val2) in zip(colors, result)]
-    agg_analysis(result, False, " ", True)
+    agg_analysis(result, " ", True)
 
 def with_index():
     global dbms_list, alg, result
-    colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#9467bd', '#8c564b', '#e377c2']
+    colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#1f77b4', '#ff7f0e', '#2ca02c',]
     dbms_list = ['MSSql', 'Postgres', 'Oracle']
     bdistinct = [10, 30000]
     result = [(d, bd) for bd in bdistinct for d in dbms_list]
     result = [(val1, val2, color) for color, (val1, val2) in zip(colors, result)]
-    agg_analysis(result, False, "I(A);I(B)", False)
-    agg_analysis(result, False, "I(BA)", False)
+    agg_analysis(result, "I(A);I(B)", False)
+    agg_analysis(result, "I(BA)", False)
 
-without_index()
+# without_index()
 with_index()
 

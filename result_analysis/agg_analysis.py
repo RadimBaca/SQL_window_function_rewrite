@@ -105,7 +105,7 @@ axs[0].set_title('DBMS1', fontsize=titlesize)
 axs[0].tick_params(axis='x', rotation=80)
 axs[0].tick_params(axis='x', labelsize=xlabelsize)
 axs[0].set_ylabel(r'$T_{lin}\,/\,T_{sj}$', fontsize=20)
-axs[0].set_yticks(np.arange(-4, 4), [r'$10^{' + str(i) +  r'}$' for i in range(-4, 4)], fontsize=15)
+axs[0].set_yticks(np.arange(-4, 5), [r'$10^{' + str(i) +  r'}$' for i in range(-4, 5)], fontsize=15)
 
 
 # Second subplot
@@ -113,21 +113,21 @@ boxplot_dict2 = dbms_results('Postgres2', True, "ROW", axs[1])
 axs[1].set_title('PostgreSQL', fontsize=titlesize)
 axs[1].tick_params(axis='x', rotation=80)
 axs[1].tick_params(axis='x', labelsize=xlabelsize)
-axs[1].set_yticks(np.arange(-4, 4) , [])
+axs[1].set_yticks(np.arange(-4, 5) , [])
 
 # Third subplot
 boxplot_dict3 = dbms_results('Oracle', False, "ROW", axs[2])
 axs[2].set_title('DBMS2', fontsize=titlesize)
 axs[2].tick_params(axis='x', rotation=80)
 axs[2].tick_params(axis='x', labelsize=xlabelsize)
-axs[2].set_yticks(np.arange(-4, 4), [])
+axs[2].set_yticks(np.arange(-4, 5), [])
 
 # Fourth subplot
 boxplot_dict4 = dbms_results('Hyper', False, "COLUMN", axs[3])
 axs[3].set_title('Hyper', fontsize=titlesize)
 axs[3].tick_params(axis='x', rotation=80)
 axs[3].tick_params(axis='x', labelsize=xlabelsize)
-axs[3].set_yticks(np.arange(-4, 4), [])
+axs[3].set_yticks(np.arange(-4, 5), [])
 
 plt.tight_layout()
 plt.savefig('agg_analysis.pdf', format='pdf')
