@@ -1,0 +1,93 @@
+sql_window_query_time,sql_selfjoin_query_time,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
+----------------------------------------
+DDL: 
+----------------------------------------
+DDL: DROP INDEX idx_tab_a;DROP INDEX idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX idx_tab_b_a;
+----------------------------------------
+DDL:  
+150,543,10,119,ROW, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<1
+114,472,30000,119,ROW, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<1
+139,986,10,221,ROW, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<2
+115,917,30000,221,ROW, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<2
+150,1928,10,420,ROW, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<4
+118,1850,30000,420,ROW, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<4
+150,3511,10,834,ROW, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<8
+114,3327,30000,834,ROW, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<8
+150,6598,10,1623,ROW, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<16
+114,6247,30000,1623,ROW, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<16
+152,13032,10,3207,ROW, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<32
+126,12077,30000,3207,ROW, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<32
+152,25969,10,6452,ROW, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<64
+113,24206,30000,6452,ROW, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<64
+151,51595,10,12821,ROW, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<128
+116,47707,30000,12821,ROW, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<128
+152,103416,10,25615,ROW, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<256
+116,95673,30000,25615,ROW, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<256
+147,207210,10,51196,ROW, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<512
+119,190591,30000,51196,ROW, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<512
+150,417482,10,102402,ROW, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<1024
+116,391493,30000,102402,ROW, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<1024
+201,854123,10,204823,ROW, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<2048
+171,782827,30000,204823,ROW, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<2048
+----------------------------------------
+DDL: 
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);CREATE INDEX idx_tab_b ON tab(b);
+151,559,10,119,ROW,I(A);I(B),padding_OFF,parallel_ON,BestFit,min,PB_OB,<1
+115,6,30000,119,ROW,I(A);I(B),padding_OFF,parallel_ON,BestFit,min,PB_OB,<1
+154,1014,10,221,ROW,I(A);I(B),padding_OFF,parallel_ON,BestFit,min,PB_OB,<2
+113,6,30000,221,ROW,I(A);I(B),padding_OFF,parallel_ON,BestFit,min,PB_OB,<2
+151,1947,10,420,ROW,I(A);I(B),padding_OFF,parallel_ON,BestFit,min,PB_OB,<4
+117,1895,30000,420,ROW,I(A);I(B),padding_OFF,parallel_ON,BestFit,min,PB_OB,<4
+151,3551,10,834,ROW,I(A);I(B),padding_OFF,parallel_ON,BestFit,min,PB_OB,<8
+115,3399,30000,834,ROW,I(A);I(B),padding_OFF,parallel_ON,BestFit,min,PB_OB,<8
+152,6757,10,1623,ROW,I(A);I(B),padding_OFF,parallel_ON,BestFit,min,PB_OB,<16
+119,6431,30000,1623,ROW,I(A);I(B),padding_OFF,parallel_ON,BestFit,min,PB_OB,<16
+153,13449,10,3207,ROW,I(A);I(B),padding_OFF,parallel_ON,BestFit,min,PB_OB,<32
+116,12370,30000,3207,ROW,I(A);I(B),padding_OFF,parallel_ON,BestFit,min,PB_OB,<32
+153,26527,10,6452,ROW,I(A);I(B),padding_OFF,parallel_ON,BestFit,min,PB_OB,<64
+160,37,30000,6452,ROW,I(A);I(B),padding_OFF,parallel_ON,BestFit,min,PB_OB,<64
+225,64023,10,12821,ROW,I(A);I(B),padding_OFF,parallel_ON,BestFit,min,PB_OB,<128
+120,66,30000,12821,ROW,I(A);I(B),padding_OFF,parallel_ON,BestFit,min,PB_OB,<128
+153,107863,10,25615,ROW,I(A);I(B),padding_OFF,parallel_ON,BestFit,min,PB_OB,<256
+116,121,30000,25615,ROW,I(A);I(B),padding_OFF,parallel_ON,BestFit,min,PB_OB,<256
+153,232704,10,51196,ROW,I(A);I(B),padding_OFF,parallel_ON,BestFit,min,PB_OB,<512
+116,212513,30000,51196,ROW,I(A);I(B),padding_OFF,parallel_ON,BestFit,min,PB_OB,<512
+153,451254,10,102402,ROW,I(A);I(B),padding_OFF,parallel_ON,BestFit,min,PB_OB,<1024
+174,554,30000,102402,ROW,I(A);I(B),padding_OFF,parallel_ON,BestFit,min,PB_OB,<1024
+244,839951,10,204823,ROW,I(A);I(B),padding_OFF,parallel_ON,BestFit,min,PB_OB,<2048
+168,854,30000,204823,ROW,I(A);I(B),padding_OFF,parallel_ON,BestFit,min,PB_OB,<2048
+----------------------------------------
+DDL: DROP INDEX idx_tab_a;DROP INDEX idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b_a ON tab(b,a);
+151,543,10,119,ROW,I(BA),padding_OFF,parallel_ON,BestFit,min,PB_OB,<1
+116,0,30000,119,ROW,I(BA),padding_OFF,parallel_ON,BestFit,min,PB_OB,<1
+149,981,10,221,ROW,I(BA),padding_OFF,parallel_ON,BestFit,min,PB_OB,<2
+113,5,30000,221,ROW,I(BA),padding_OFF,parallel_ON,BestFit,min,PB_OB,<2
+147,1908,10,420,ROW,I(BA),padding_OFF,parallel_ON,BestFit,min,PB_OB,<4
+114,1847,30000,420,ROW,I(BA),padding_OFF,parallel_ON,BestFit,min,PB_OB,<4
+151,3501,10,834,ROW,I(BA),padding_OFF,parallel_ON,BestFit,min,PB_OB,<8
+113,3314,30000,834,ROW,I(BA),padding_OFF,parallel_ON,BestFit,min,PB_OB,<8
+149,6618,10,1623,ROW,I(BA),padding_OFF,parallel_ON,BestFit,min,PB_OB,<16
+113,6246,30000,1623,ROW,I(BA),padding_OFF,parallel_ON,BestFit,min,PB_OB,<16
+150,13017,10,3207,ROW,I(BA),padding_OFF,parallel_ON,BestFit,min,PB_OB,<32
+120,12095,30000,3207,ROW,I(BA),padding_OFF,parallel_ON,BestFit,min,PB_OB,<32
+150,25981,10,6452,ROW,I(BA),padding_OFF,parallel_ON,BestFit,min,PB_OB,<64
+116,11,30000,6452,ROW,I(BA),padding_OFF,parallel_ON,BestFit,min,PB_OB,<64
+153,51638,10,12821,ROW,I(BA),padding_OFF,parallel_ON,BestFit,min,PB_OB,<128
+118,16,30000,12821,ROW,I(BA),padding_OFF,parallel_ON,BestFit,min,PB_OB,<128
+151,103364,10,25615,ROW,I(BA),padding_OFF,parallel_ON,BestFit,min,PB_OB,<256
+113,27,30000,25615,ROW,I(BA),padding_OFF,parallel_ON,BestFit,min,PB_OB,<256
+151,207667,10,51196,ROW,I(BA),padding_OFF,parallel_ON,BestFit,min,PB_OB,<512
+114,190889,30000,51196,ROW,I(BA),padding_OFF,parallel_ON,BestFit,min,PB_OB,<512
+150,416308,10,102402,ROW,I(BA),padding_OFF,parallel_ON,BestFit,min,PB_OB,<1024
+119,71,30000,102402,ROW,I(BA),padding_OFF,parallel_ON,BestFit,min,PB_OB,<1024
+199,830780,10,204823,ROW,I(BA),padding_OFF,parallel_ON,BestFit,min,PB_OB,<2048
+168,134,30000,204823,ROW,I(BA),padding_OFF,parallel_ON,BestFit,min,PB_OB,<2048
+----------------------------------------
+DDL: DROP INDEX idx_tab_b_a;
+
+Process finished with exit code 0

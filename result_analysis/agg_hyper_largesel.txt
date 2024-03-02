@@ -1,0 +1,105 @@
+sql_window_query_time,sql_selfjoin_query_time,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
+----------------------------------------
+DDL:  - statement ignored
+----------------------------------------
+DDL:   - statement ignored
+326,1228,100,1121,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<1
+329,518,300,1121,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<1
+316,301,1000,1121,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<1
+273,242,3000,1121,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<1
+187,201,10000,1121,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<1
+188,265,30000,1121,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<1
+201,250,100000,1121,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<1
+212,246,300000,1121,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<1
+328,1100,100,2118,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<2
+311,872,300,2118,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<2
+311,418,1000,2118,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<2
+243,314,3000,2118,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<2
+216,271,10000,2118,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<2
+190,329,30000,2118,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<2
+206,230,100000,2118,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<2
+190,235,300000,2118,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<2
+342,1927,100,4060,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<4
+313,1530,300,4060,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<4
+309,661,1000,4060,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<4
+259,453,3000,4060,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<4
+214,317,10000,4060,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<4
+187,404,30000,4060,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<4
+197,290,100000,4060,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<4
+198,242,300000,4060,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<4
+330,2283,100,7954,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<8
+319,1877,300,7954,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<8
+329,773,1000,7954,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<8
+249,476,3000,7954,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<8
+203,337,10000,7954,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<8
+198,463,30000,7954,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<8
+205,304,100000,7954,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<8
+214,259,300000,7954,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<8
+334,2392,100,15848,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<16
+325,1025,300,15848,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<16
+306,758,1000,15848,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<16
+223,486,3000,15848,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<16
+200,331,10000,15848,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<16
+198,442,30000,15848,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<16
+216,288,100000,15848,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<16
+225,260,300000,15848,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<16
+336,2431,100,31707,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<32
+358,1089,300,31707,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<32
+329,549,1000,31707,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<32
+264,501,3000,31707,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<32
+201,325,10000,31707,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<32
+209,445,30000,31707,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<32
+180,318,100000,31707,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<32
+209,284,300000,31707,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<32
+315,3004,100,63691,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<64
+324,1272,300,63691,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<64
+295,604,1000,63691,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<64
+248,469,3000,63691,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<64
+245,351,10000,63691,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<64
+210,472,30000,63691,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<64
+210,316,100000,63691,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<64
+208,272,300000,63691,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<64
+341,4176,100,127617,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<128
+321,1707,300,127617,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<128
+341,775,1000,127617,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<128
+217,593,3000,127617,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<128
+239,401,10000,127617,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<128
+202,600,30000,127617,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<128
+208,361,100000,127617,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<128
+217,280,300000,127617,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<128
+357,8178,100,255708,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<256
+311,3312,300,255708,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<256
+325,1520,1000,255708,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<256
+236,868,3000,255708,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<256
+248,540,10000,255708,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<256
+219,787,30000,255708,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<256
+216,468,100000,255708,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<256
+216,368,300000,255708,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<256
+390,14720,100,511800,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<512
+343,6209,300,511800,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<512
+341,2544,1000,511800,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<512
+283,1286,3000,511800,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<512
+265,734,10000,511800,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<512
+252,1072,30000,511800,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<512
+241,579,100000,511800,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<512
+239,410,300000,511800,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<512
+410,29108,100,1024012,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<1024
+398,11532,300,1024012,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<1024
+422,4759,1000,1024012,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<1024
+336,2348,3000,1024012,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<1024
+333,1177,10000,1024012,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<1024
+309,1745,30000,1024012,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<1024
+326,819,100000,1024012,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<1024
+318,553,300000,1024012,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<1024
+559,60313,100,2048316,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<2048
+504,23709,300,2048316,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<2048
+531,9317,1000,2048316,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<2048
+477,4319,3000,2048316,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<2048
+465,2108,10000,2048316,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<2048
+421,3077,30000,2048316,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<2048
+448,1360,100000,2048316,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<2048
+420,866,300000,2048316,COLUMN, ,padding_OFF,parallel_ON,BestFit,min,PB_OB,<2048
+----------------------------------------
+DDL:  - statement ignored
+
+Process finished with exit code 0
