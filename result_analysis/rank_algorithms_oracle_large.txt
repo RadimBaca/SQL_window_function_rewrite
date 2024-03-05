@@ -1,0 +1,100 @@
+sql_window_query_time,sql_selfjoin_query_time,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: DROP INDEX idx_tab_a;DROP INDEX idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX idx_tab_b_a;
+----------------------------------------
+DDL:
+132,22,10,10,ROW, ,padding_OFF,parallel_ON,JoinMin,=1
+121,31,30,30,ROW, ,padding_OFF,parallel_ON,JoinMin,=1
+115,21,100,100,ROW, ,padding_OFF,parallel_ON,JoinMin,=1
+118,22,300,300,ROW, ,padding_OFF,parallel_ON,JoinMin,=1
+111,22,1000,1000,ROW, ,padding_OFF,parallel_ON,JoinMin,=1
+98,24,3000,3000,ROW, ,padding_OFF,parallel_ON,JoinMin,=1
+106,30,10000,10000,ROW, ,padding_OFF,parallel_ON,JoinMin,=1
+125,40,30000,30000,ROW, ,padding_OFF,parallel_ON,JoinMin,=1
+176,87,100000,100000,ROW, ,padding_OFF,parallel_ON,JoinMin,=1
+272,171,300000,300000,ROW, ,padding_OFF,parallel_ON,JoinMin,=1
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);CREATE INDEX idx_tab_b ON tab(b);
+131,22,10,10,ROW,I(A);I(B),padding_OFF,parallel_ON,JoinMin,=1
+129,20,30,30,ROW,I(A);I(B),padding_OFF,parallel_ON,JoinMin,=1
+121,21,100,100,ROW,I(A);I(B),padding_OFF,parallel_ON,JoinMin,=1
+119,21,300,300,ROW,I(A);I(B),padding_OFF,parallel_ON,JoinMin,=1
+110,16,1000,1000,ROW,I(A);I(B),padding_OFF,parallel_ON,JoinMin,=1
+116,15,3000,3000,ROW,I(A);I(B),padding_OFF,parallel_ON,JoinMin,=1
+104,28,10000,10000,ROW,I(A);I(B),padding_OFF,parallel_ON,JoinMin,=1
+120,39,30000,30000,ROW,I(A);I(B),padding_OFF,parallel_ON,JoinMin,=1
+180,84,100000,100000,ROW,I(A);I(B),padding_OFF,parallel_ON,JoinMin,=1
+278,176,300000,300000,ROW,I(A);I(B),padding_OFF,parallel_ON,JoinMin,=1
+----------------------------------------
+DDL: DROP INDEX idx_tab_a;DROP INDEX idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b_a ON tab(b,a);
+131,21,10,10,ROW,I(BA),padding_OFF,parallel_ON,JoinMin,=1
+115,16,30,30,ROW,I(BA),padding_OFF,parallel_ON,JoinMin,=1
+116,22,100,100,ROW,I(BA),padding_OFF,parallel_ON,JoinMin,=1
+118,22,300,300,ROW,I(BA),padding_OFF,parallel_ON,JoinMin,=1
+109,31,1000,1000,ROW,I(BA),padding_OFF,parallel_ON,JoinMin,=1
+101,24,3000,3000,ROW,I(BA),padding_OFF,parallel_ON,JoinMin,=1
+105,27,10000,10000,ROW,I(BA),padding_OFF,parallel_ON,JoinMin,=1
+122,38,30000,30000,ROW,I(BA),padding_OFF,parallel_ON,JoinMin,=1
+179,84,100000,100000,ROW,I(BA),padding_OFF,parallel_ON,JoinMin,=1
+267,169,300000,300000,ROW,I(BA),padding_OFF,parallel_ON,JoinMin,=1
+----------------------------------------
+DDL: DROP INDEX idx_tab_b_a;
+sql_window_query_time,sql_selfjoin_query_time,B_count,result_size,storage,index,padding,parallel,rank_algorithm,query
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: DROP INDEX idx_tab_a;DROP INDEX idx_tab_b;
+----------------------------------------
+DDL: DROP INDEX idx_tab_b_a;
+----------------------------------------
+DDL:
+130,194,10,10,ROW, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+129,237,30,30,ROW, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+121,431,100,100,ROW, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+119,1427,300,300,ROW, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+116,3722,1000,1000,ROW, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+108,10358,3000,3000,ROW, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+108,33520,10000,10000,ROW, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+122,101374,30000,30000,ROW, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+172,300000,100000,100000,ROW, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+266,300000,300000,300000,ROW, ,padding_OFF,parallel_ON,LateralDistinctLimit,=1
+----------------------------------------
+DDL:
+----------------------------------------
+DDL: CREATE INDEX idx_tab_a ON tab(a);CREATE INDEX idx_tab_b ON tab(b);
+132,178,10,10,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+128,240,30,30,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+121,420,100,100,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+118,1408,300,300,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+100,3687,1000,1000,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+107,10222,3000,3000,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+107,33795,10000,10000,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+121,203,30000,30000,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+171,322,100000,100000,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+263,645,300000,300000,ROW,I(A);I(B),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+----------------------------------------
+DDL: DROP INDEX idx_tab_a;DROP INDEX idx_tab_b;
+----------------------------------------
+DDL: CREATE INDEX idx_tab_b_a ON tab(b,a);
+131,181,10,10,ROW,I(BA),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+128,60,30,30,ROW,I(BA),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+120,34,100,100,ROW,I(BA),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+118,39,300,300,ROW,I(BA),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+109,37,1000,1000,ROW,I(BA),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+103,38,3000,3000,ROW,I(BA),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+107,45,10000,10000,ROW,I(BA),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+121,67,30000,30000,ROW,I(BA),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+174,161,100000,100000,ROW,I(BA),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+265,341,300000,300000,ROW,I(BA),padding_OFF,parallel_ON,LateralDistinctLimit,=1
+----------------------------------------
+DDL: DROP INDEX idx_tab_b_a;
+
+Process finished with exit code 0
