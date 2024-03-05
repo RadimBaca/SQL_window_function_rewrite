@@ -64,7 +64,7 @@ DDL: DROP INDEX idx_tab_a;DROP INDEX idx_tab_b;
 ----------------------------------------
 DDL: CREATE INDEX idx_tab_b_a ON tab(b,a);
 151,543,10,119,ROW,I(BA),padding_OFF,parallel_ON,BestFit,min,PB_OB,<1
-116,0,30000,119,ROW,I(BA),padding_OFF,parallel_ON,BestFit,min,PB_OB,<1
+116,4,30000,119,ROW,I(BA),padding_OFF,parallel_ON,BestFit,min,PB_OB,<1
 149,981,10,221,ROW,I(BA),padding_OFF,parallel_ON,BestFit,min,PB_OB,<2
 113,5,30000,221,ROW,I(BA),padding_OFF,parallel_ON,BestFit,min,PB_OB,<2
 147,1908,10,420,ROW,I(BA),padding_OFF,parallel_ON,BestFit,min,PB_OB,<4
