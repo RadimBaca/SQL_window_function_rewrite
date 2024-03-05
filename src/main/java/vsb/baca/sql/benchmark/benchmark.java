@@ -21,7 +21,7 @@ import static java.lang.Math.pow;
 
 public abstract class benchmark {
     public static final int BEGIN_ORDER_ORDER_OF_MAGNITUDE_FOR_BDISTINCT = 1;
-    public static final int END_ORDER_OF_MAGNITUDE_FOR_BDISTINCT = 4;
+    public static final int END_ORDER_OF_MAGNITUDE_FOR_BDISTINCT = 5;
     public static final int REPEAT_QUERY_N_TIMES = 3;
 
     bench_config bconfig;
@@ -286,6 +286,9 @@ public abstract class benchmark {
             tableNames.add(new Pair(tab_prefix + (int) pow(10, i), (int) pow(10, i)));
             tableNames.add(new Pair(tab_prefix + 3 * (int) pow(10, i), 3 * (int) pow(10, i)));
         }
+
+//        tableNames.add(new Pair(tab_prefix + (int) pow(10, BEGIN_ORDER_ORDER_OF_MAGNITUDE_FOR_BDISTINCT), (int) pow(10, BEGIN_ORDER_ORDER_OF_MAGNITUDE_FOR_BDISTINCT)));
+//        tableNames.add(new Pair(tab_prefix + 3 * (int) pow(10, END_ORDER_OF_MAGNITUDE_FOR_BDISTINCT), 3 * (int) pow(10, END_ORDER_OF_MAGNITUDE_FOR_BDISTINCT)));
         return tableNames;
     }
 }
