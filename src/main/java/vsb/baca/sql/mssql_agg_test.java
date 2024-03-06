@@ -60,7 +60,8 @@ public class mssql_agg_test {
         ////////////////////////////////////////////
         ArrayList<Integer> selectivity = new ArrayList<Integer>();
         int init_sel = 1;
-        for (int i = 0; i < 10; i++) {
+//        for (int i = 0; i < 12; i++) {
+        for (int i = 0; i < 6; i++) {
             selectivity.add(init_sel);
             init_sel *= 2;
         }
@@ -103,6 +104,9 @@ public class mssql_agg_test {
 
     private static ArrayList<run_setup> generate_run_setups(ArrayList<Pair<String, String>> queriesNoPadding, ArrayList<Pair<String, String>> queriesPadding) {
         ArrayList<run_setup> run_setups = new ArrayList<run_setup>();
+
+//        run_setups.add(new run_setup("R_row_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON, config, mssql_agg_test.connection_string, mssql_agg_test.username, mssql_agg_test.password));
+
         if (mssql_agg_test.storage.contains("row")) {
             run_setups.add(new run_setup("R_row_", queriesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config, mssql_agg_test.connection_string, mssql_agg_test.username, mssql_agg_test.password));
             run_setups.add(new run_setup("P_row_", queriesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config, mssql_agg_test.connection_string, mssql_agg_test.username, mssql_agg_test.password));

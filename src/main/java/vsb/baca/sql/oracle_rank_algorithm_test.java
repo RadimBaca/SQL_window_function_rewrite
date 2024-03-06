@@ -60,6 +60,8 @@ public class oracle_rank_algorithm_test {
                 run_setups.add(new run_setup("R_column_", queryFileNamesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.COLUMN, bench_config.Parallelism.ON, config, oracle_rank_algorithm_test.connection_string, oracle_rank_algorithm_test.username, oracle_rank_algorithm_test.password));
                 run_setups.add(new run_setup("P_column_", queryFileNamesPadding, "", bench_config.Padding.ON, bench_config.Storage.COLUMN, bench_config.Parallelism.ON, config, oracle_rank_algorithm_test.connection_string, oracle_rank_algorithm_test.username, oracle_rank_algorithm_test.password));
             }
+
+//            run_setups.add(new run_setup("R_row_", queryFileNamesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON, config, oracle_rank_algorithm_test.connection_string, oracle_rank_algorithm_test.username, oracle_rank_algorithm_test.password));
         }
 
         oracle_runner.prepare_run(run_setups, DROPINDEXES_FILENAME, CREATEINDEXES_FILENAME);
