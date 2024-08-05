@@ -37,6 +37,7 @@ public class hyper_agg_test {
         ////////////////////////////////////////////
         ArrayList<Integer> selectivity = new ArrayList<Integer>();
         int init_sel = 1;
+//        for (int i = 0; i < 12; i++) {
         for (int i = 0; i < 6; i++) {
             selectivity.add(init_sel);
             init_sel *= 2;

@@ -43,6 +43,7 @@ public class postgre_rank_algorithm_test {
             run_setups.add(new run_setup("P_ROW_", queryFileNamesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.OFF, config, postgre_rank_algorithm_test.connection_string, postgre_rank_algorithm_test.username, postgre_rank_algorithm_test.password));
             run_setups.add(new run_setup("R_ROW_", queryFileNamesNoPadding, "", bench_config.Padding.OFF, bench_config.Storage.ROW, bench_config.Parallelism.ON, config, postgre_rank_algorithm_test.connection_string, postgre_rank_algorithm_test.username, postgre_rank_algorithm_test.password));
             run_setups.add(new run_setup("P_ROW_", queryFileNamesPadding, "", bench_config.Padding.ON, bench_config.Storage.ROW, bench_config.Parallelism.ON, config, postgre_rank_algorithm_test.connection_string, postgre_rank_algorithm_test.username, postgre_rank_algorithm_test.password));
+
         }
 
         postgre_runner.prepare_run(run_setups, DROPINDEXES_FILENAME, CREATEINDEXES_FILENAME);
