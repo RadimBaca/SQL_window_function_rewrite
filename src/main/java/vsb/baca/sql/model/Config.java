@@ -80,7 +80,7 @@ public class Config {
             selectedRankAlgorithm = Config.rank_algorithm.LateralLimit;
         } else if (logicalTree.equals("lateraldistinctlimitties") || logicalTree.equals("lateraldistinctlimit")) {
             selectedRankAlgorithm = Config.rank_algorithm.LateralDistinctLimit;
-        } else if (logicalTree.equals("joinMin")) {
+        } else if (logicalTree.equals("joinmin")) {
             selectedRankAlgorithm = Config.rank_algorithm.JoinMin;
         }
         return selectedRankAlgorithm;
